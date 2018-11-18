@@ -1,6 +1,6 @@
 import React, {Component} from "react";
 import PropTypes from "prop-types";
-import {Button, Container, Grid, Header,} from "semantic-ui-react";
+import {Button, Container, Grid, Header, TextArea,} from "semantic-ui-react";
 import Result from "./Result";
 
 class Problem extends Component {
@@ -19,7 +19,7 @@ class Problem extends Component {
                 ? <Grid>
                     <Grid.Row>
                         <Grid.Column width={10}>
-                            <textarea style={{width: "100%", height: "300px"}} value={(solution && solution.input) || ""}
+                            <TextArea style={{width: "100%", height: "300px"}} value={(solution && solution.input) || ""}
                                       onChange={e => updateInput(e.target.value)} placeholder="Copy and paste your input here..."/>
                             <Button.Group floated="right">
                                 <Button color="green" onClick={doSolve}>Solve!</Button>
