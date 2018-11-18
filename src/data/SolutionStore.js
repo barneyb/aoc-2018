@@ -13,6 +13,8 @@ const timedRun = input => work => {
     };
 };
 
+const getKey = (event, day) => `${event}/${day}`;
+
 class SolutionStore extends ReduceStore {
     constructor() {
         super(Dispatcher);
@@ -24,12 +26,23 @@ class SolutionStore extends ReduceStore {
 
     reduce(state, action) {
         switch (action.type) {
+            case Actions.UPDATE_INPUT:
+                return {
+                    ...state,
+                    [getKey(action.event, action.day)]: {
+                        one: { working: false, },
+                        two: { working: false, },
+                        ...state[getKey(action.event, action.day)],
+                        input: action.input,
+                    },
+                };
             case Actions.SOLVE:
                 Dispatcher.waitFor([
                     ProblemStore.getDispatchToken(),
                 ]);
                 const p = ProblemStore.getProblem(action.event, action.day);
-                const runner = timedRun(action.input);
+                const input = state[getKey(action.event, action.day)].input;
+                const runner = timedRun(input);
                 setTimeout(() => {
                     Dispatcher.dispatch({
                         type: Actions.SOLVED_PART,
@@ -52,27 +65,25 @@ class SolutionStore extends ReduceStore {
                 }, 0);
                 return {
                     ...state,
-                    [action.event]: {
-                        ...state[action.event],
-                        [action.day]: {
-                            input: action.input,
-                            one: {working: true},
-                            two: {working: !!p.partTwo},
-                        }
+                    [getKey(action.event, action.day)]: {
+                        ...state[getKey(action.event, action.day)],
+                        one: {
+                            working: true,
+                        },
+                        two: {
+                            working: !!p.partTwo,
+                        },
                     },
                 };
             case Actions.SOLVED_PART:
                 return {
                     ...state,
-                    [action.event]: {
-                        ...state[action.event],
-                        [action.day]: {
-                            ...state[action.event][action.day],
-                            [action.part]: {
-                                working: false,
-                                value: action.value,
-                                elapsed: action.elapsed,
-                            }
+                    [getKey(action.event, action.day)]: {
+                        ...state[getKey(action.event, action.day)],
+                        [action.part]: {
+                            working: false,
+                            value: action.value,
+                            elapsed: action.elapsed,
                         }
                     },
                 };
@@ -82,8 +93,7 @@ class SolutionStore extends ReduceStore {
     }
 
     getSolution(event, day) {
-        let s = this.getState();
-        return s.hasOwnProperty(event) ? s[event][day] : null;
+        return this.getState()[getKey(event, day)];
     }
 
 }

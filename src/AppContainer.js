@@ -29,11 +29,16 @@ const AppContainer = Container.createFunctional(
                 event,
                 day,
             }),
-            doSolve: (event, day, input) => Dispatcher.dispatch({
-                type: Actions.SOLVE,
+            updateInput: (event, day, input) => Dispatcher.dispatch({
+                type: Actions.UPDATE_INPUT,
                 event,
                 day,
                 input,
+            }),
+            doSolve: (event, day) => Dispatcher.dispatch({
+                type: Actions.SOLVE,
+                event,
+                day,
             }),
         };
     },

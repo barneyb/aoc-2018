@@ -4,30 +4,13 @@ import {Button, Container, Grid, Header,} from "semantic-ui-react";
 import Result from "./Result";
 
 class Problem extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            input: "",
-        };
-        this.onInputChange = this.onInputChange.bind(this);
-    }
-
-    onInputChange(e) {
-        this.setState({
-            input: e.target.value,
-        });
-    }
-
     render() {
         const {
             problem: p,
             solution,
+            updateInput,
             doSolve,
         } = this.props;
-        const {
-            input,
-        } = this.state;
-        const stale = solution && input !== solution.input;
         return <Container style={{marginTop: "7em"}}>
             <Header as="h1">Day {p.day}: {p.title}</Header>
             {p.intro && <p>{p.intro}
@@ -36,16 +19,16 @@ class Problem extends Component {
                 ? <Grid>
                     <Grid.Row>
                         <Grid.Column width={10}>
-                            <textarea style={{width: "100%", height: "300px"}} value={input}
-                                      onChange={this.onInputChange} placeholder="Copy and paste your input here..."/>
+                            <textarea style={{width: "100%", height: "300px"}} value={(solution && solution.input) || ""}
+                                      onChange={e => updateInput(e.target.value)} placeholder="Copy and paste your input here..."/>
                             <Button.Group floated="right">
-                                <Button color="green" onClick={() => doSolve(this.state.input)}>Solve!</Button>
+                                <Button color="green" onClick={doSolve}>Solve!</Button>
                             </Button.Group>
                         </Grid.Column>
                         {solution && <Grid.Column width={6}>
-                            {solution.one && <Result stale={stale} label="Part One" {...solution.one} />}
+                            {solution.one && <Result label="Part One" {...solution.one} />}
                             {p.partTwo
-                                ? <Result stale={stale} label="Part Two" {...solution.two} />
+                                ? <Result label="Part Two" {...solution.two} />
                                 : <p>Part two hasn't been implemented yet.</p>
                             }
                         </Grid.Column>
@@ -86,6 +69,7 @@ Problem.propTypes = {
             elapsed: PropTypes.number,
         }),
     }),
+    updateInput: PropTypes.func.isRequired,
     doSolve: PropTypes.func.isRequired,
 };
 

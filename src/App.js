@@ -14,6 +14,7 @@ class App extends Component {
             solution,
             doHome,
             doProblem,
+            updateInput,
             doSolve,
         } = this.props;
         const {
@@ -44,7 +45,11 @@ class App extends Component {
                     </Container>
                 </Menu>
                 {currentProblem
-                    ? <Problem problem={currentProblem} solution={solution} doSolve={input => doSolve(currentProblem.event, currentProblem.day, input)}/>
+                    ? <Problem problem={currentProblem}
+                               solution={solution}
+                               doSolve={() => doSolve(currentProblem.event, currentProblem.day)}
+                               updateInput={input => updateInput(currentProblem.event, currentProblem.day, input)}
+                    />
                     : <Home/>
                 }
             </div>
@@ -87,6 +92,7 @@ App.propTypes = {
     }),
     doHome: PropTypes.func.isRequired,
     doProblem: PropTypes.func.isRequired,
+    updateInput: PropTypes.func.isRequired,
     doSolve: PropTypes.func.isRequired,
 };
 

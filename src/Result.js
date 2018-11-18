@@ -8,12 +8,11 @@ class Result extends Component {
             label,
             value,
             elapsed,
-            stale,
             working,
         } = this.props;
 
         return <Segment>
-            <Header>{label} {value != null && stale && "(stale)"}</Header>
+            <Header>{label}</Header>
             {working && <Dimmer active>
                 <Loader size='small'>Working</Loader>
             </Dimmer>}
@@ -31,7 +30,6 @@ Result.propTypes = {
         PropTypes.number,
     ]),
     elapsed: PropTypes.number,
-    stale: PropTypes.bool.isRequired,
     working: PropTypes.bool.isRequired,
 };
 
