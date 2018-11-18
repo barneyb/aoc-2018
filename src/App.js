@@ -11,8 +11,10 @@ class App extends Component {
         const {
             events,
             currentProblem,
+            solution,
             doHome,
             doProblem,
+            doSolve,
         } = this.props;
         const {
             event: currEvent,
@@ -42,7 +44,7 @@ class App extends Component {
                     </Container>
                 </Menu>
                 {currentProblem
-                    ? <Problem problem={currentProblem}/>
+                    ? <Problem problem={currentProblem} solution={solution} doSolve={input => doSolve(currentProblem.event, currentProblem.day, input)}/>
                     : <Home/>
                 }
             </div>
@@ -64,8 +66,28 @@ App.propTypes = {
         event: PropTypes.string.isRequired,
         day: PropTypes.number.isRequired,
     }),
+    solution: PropTypes.shape({
+        input: PropTypes.string.isRequired,
+        one: PropTypes.shape({
+            working: PropTypes.bool.isRequired,
+            value: PropTypes.oneOfType([
+                PropTypes.string,
+                PropTypes.number,
+            ]),
+            elapsed: PropTypes.number,
+        }),
+        two: PropTypes.shape({
+            working: PropTypes.bool.isRequired,
+            value: PropTypes.oneOfType([
+                PropTypes.string,
+                PropTypes.number,
+            ]),
+            elapsed: PropTypes.number,
+        }),
+    }),
     doHome: PropTypes.func.isRequired,
     doProblem: PropTypes.func.isRequired,
+    doSolve: PropTypes.func.isRequired,
 };
 
 export default App;
