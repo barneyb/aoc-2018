@@ -1,6 +1,6 @@
 {
-  "short_name": "AoC 2018",
-  "name": "Barney's AoC 2018 Solver",
+  "short_name": "AoC",
+  "name": "Barney's AoC Solver",
   "icons": [
     {
       "src": "favicon.ico",
