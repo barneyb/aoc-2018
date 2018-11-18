@@ -1,6 +1,6 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "AoC 2018",
+  "name": "Barney's AoC 2018 Solver",
   "icons": [
     {
       "src": "favicon.ico",
