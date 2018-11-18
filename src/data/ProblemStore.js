@@ -14,7 +14,6 @@ const loadProblem = p => {
 };
 
 loadProblem(require("../problems/2015/Day01").default);
-loadProblem(require("../problems/2015/Day02").default);
 loadProblem(require("../problems/2018/Day00").default);
 
 /*
