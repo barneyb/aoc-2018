@@ -9,10 +9,7 @@ class NavStore extends ReduceStore {
 
     getInitialState() {
         return {
-            currentProblem: {
-                event: "2018",
-                day: 0,
-            },
+            currentProblem: null,
         };
     }
 
