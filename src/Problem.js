@@ -11,8 +11,12 @@ class Problem extends Component {
             updateInput,
             doSolve,
         } = this.props;
+        const url = `https://adventofcode.com/${p.event}/day/${p.day}`;
         return <Container style={{marginTop: "7em"}}>
-            <Header as="h1">Day {p.day}: {p.title}</Header>
+            <Header as="h1">
+                Day {p.day}: {p.title}
+                {p.day >=1 && p.day <= 25 && <Header.Subheader><a href={url}>{url}</a></Header.Subheader>}
+            </Header>
             {p.intro && <p>{p.intro}
             </p>}
             {p.partOne
