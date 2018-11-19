@@ -3,12 +3,10 @@ const Day = {
     day: 0,
     title: "",
     // intro: "",
-    partOne: input => {
-        return input.length;
-    },
-    partTwo: input => {
-        return input.trim().length;
-    },
+    partOne: input =>
+        input.length,
+    partTwo: input =>
+        input.trim().length,
 };
 
 export default Day;
