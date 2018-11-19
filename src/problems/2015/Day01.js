@@ -1,4 +1,4 @@
-const Day00 = {
+const Day01 = {
     event: "2015",
     day: 1,
     title: "Not Quite Lisp",
@@ -23,4 +23,4 @@ const Day00 = {
     },
 };
 
-export default Day00;
+export default Day01;
