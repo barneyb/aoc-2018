@@ -1,22 +1,47 @@
 # Barney's AoC 2018
 
-In addition to the sources, you'll need NVM  `0.33.8` and Chrome 70. Similar
-versions (or not-so-similar versions) should also work, but weren't tested. From
-the project root:
+This project contains solutions to [Advent of Code](https://adventofcode.com),
+along with a simple web UI to exercise the solutions with your own input. Both
+parts are written in ES6, built via a `create-react-app` toolchain, which
+requires Node `10.13.0` and NPM `6.4.1`.
 
-    nvm install    // that's a 'v'
-    npm install    // that's a 'p'
+Solutions can be found in the `src/problems/2018` folder, along with their
+corresponding tests, and are headless.
+
+The web UI is built with React and Flux, and requires Chrome `70` to use.
+
+Similar versions of the various packages will probably work just fine, but none
+have been tested.
+
+## Using NVM (Optional)
+
+NVM is a simple package that helps with using multiple versions of Node/NPM on
+the same machine for different projects. From the project root, run `nvm
+install`. It'll ensure the right versions of Node and NPM are installed and set
+up in your shell. Each time you launch a new shell, you'll need to run `nvm
+use` (or `nvm install`).
+
+## Running The Solver UI
+
+Once Node, NPM, and Chrome are available:
+
+    npm install
     npm start
 
-Chrome will probably open automatically, but if not, type in one of the
-addresses that get printed out. Select a problem, give it some input, and hit
-"Solve!".
+Chrome should open automatically, but if not, type in one of the addresses that
+get printed out. Select a problem, give it some input, and hit "Solve!".
 
-Tests (using Jest) can be executed two ways:
+## Developing Solutions
 
-    npm test            // watch mode
-    CI=true npm test    // run once and exit
+Once Node and NPM are available:
 
-In watch mode, Jest will check Git and watch the filesystem to only run tests
-which are "live" based on your changes. In run once mode, it will run all tests
-and exit with an appropriate status code.
+    npm install
+    npm test
+
+Copy the `problems/template.js` file to the appropriate location, fill in the
+problem's details, write some tests next to it, and then implement the
+`partOne` and `partTwo` functions.
+
+For a one-shot test-everything run (instead of watching w/ auto rerun), use:
+
+    CI=true npm test
