@@ -11,12 +11,15 @@
     "semantic-ui-react": "0.83.0"
   },
   "devDependencies": {
+    "babel-preset-flow": "6.23.0",
+    "flow-bin": "0.86.0",
     "react-scripts": "2.1.1"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
+    "flow": "flow",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {

@@ -1,4 +1,7 @@
-const Day00 = {
+// @flow strict
+import type {Problem} from "../utils/flow";
+
+const Day00 : Problem = {
     event: "2018",
     day: 0,
     title: "Length Finder",

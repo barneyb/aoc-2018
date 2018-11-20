@@ -1,4 +1,7 @@
-const Day = {
+// @flow strict
+import type {Problem} from "./utils/flow";
+
+const Day : Problem = {
     event: "",
     day: 0,
     title: "",
