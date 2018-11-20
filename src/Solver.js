@@ -2,20 +2,15 @@
 import React, {Component} from "react";
 import {Button, Container, Grid, Header, TextArea,} from "semantic-ui-react";
 import Result from "./Result";
-import type {Problem, Answer} from "./problems/utils/flow";
-
-type TSolution = {
-    working: boolean,
-    value: Answer,
-    elapsed: number,
-}
+import type {Problem} from "./problems/utils/flow";
+import type {Solution} from "./data/SolutionStore";
 
 type Props = {
     problem: Problem,
     solution: {
         input: string,
-        one: TSolution,
-        two: TSolution,
+        one: Solution,
+        two: Solution,
     },
     updateInput: (string) => void,
     doSolve: () => void,

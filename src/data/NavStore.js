@@ -1,17 +1,25 @@
-import {ReduceStore} from 'flux/utils';
-import Actions from "./Actions";
+// @flow local-strict
+import ReduceStore from 'flux/lib/FluxReduceStore';
 import Dispatcher from "./Dispatcher";
+import type {Action} from "./Actions";
 
 const ACTIVE_PROBLEM_LOCAL_STORAGE_KEY = "aoc-active-problem";
 
-class NavStore extends ReduceStore {
+export type State = {
+    currentProblem?: {
+        event: string,
+        day: number,
+    }
+};
+
+class NavStore extends ReduceStore<State> {
     constructor() {
         super(Dispatcher);
     }
 
     getInitialState() {
         const v = window.localStorage.getItem(ACTIVE_PROBLEM_LOCAL_STORAGE_KEY);
-        let currProb = null;
+        let currProb;
         if (v != null && v.indexOf("/") > 0) {
             const parts = v.split("/");
             currProb = {
@@ -24,15 +32,16 @@ class NavStore extends ReduceStore {
         };
     }
 
-    reduce(state, action) {
+    reduce(state: State, action: Action) {
         switch (action.type) {
-            case Actions.GO_HOME:
+            case "go-home":
                 window.localStorage.removeItem(ACTIVE_PROBLEM_LOCAL_STORAGE_KEY);
-                return {
+                state = {
                     ...state,
-                    currentProblem: null,
                 };
-            case Actions.SELECT_PROBLEM:
+                delete state.currentProblem;
+                return state;
+            case "select-problem":
                 window.localStorage.setItem(ACTIVE_PROBLEM_LOCAL_STORAGE_KEY, action.event + "/" + action.day);
                 return {
                     ...state,

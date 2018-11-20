@@ -1,9 +1,32 @@
-import {ReduceStore} from 'flux/utils';
-import Actions from "./Actions";
+// @flow
+import ReduceStore from 'flux/lib/FluxReduceStore';
 import Dispatcher from "./Dispatcher";
 import ProblemStore from "./ProblemStore";
+import type {Answer} from "../problems/utils/flow";
+import type {Action} from "./Actions";
 
-const timedRun = input => work => {
+type Result = {
+    value: Answer,
+    elapsed: number,
+};
+
+export type Solution = {
+    working: boolean,
+    value?: Answer,
+    elapsed?: number,
+};
+
+export type Solutions = {
+    input: string,
+    one: Solution,
+    two: Solution,
+};
+
+export type State = {
+    [string]: Solutions
+};
+
+const timedRun: string => (string => Answer) => Result = input => work => {
     const start = Date.now();
     const value = work(input);
     const elapsed = Date.now() - start;
@@ -15,7 +38,7 @@ const timedRun = input => work => {
 
 const getKey = (event, day) => `${event}/${day}`;
 
-class SolutionStore extends ReduceStore {
+class SolutionStore extends ReduceStore<State> {
     constructor() {
         super(Dispatcher);
     }
@@ -24,9 +47,9 @@ class SolutionStore extends ReduceStore {
         return {};
     }
 
-    reduce(state, action) {
+    reduce(state: State, action: Action) {
         switch (action.type) {
-            case Actions.UPDATE_INPUT:
+            case "update-input":
                 return {
                     ...state,
                     [getKey(action.event, action.day)]: {
@@ -36,32 +59,34 @@ class SolutionStore extends ReduceStore {
                         input: action.input,
                     },
                 };
-            case Actions.SOLVE:
+            case "solve":
                 Dispatcher.waitFor([
                     ProblemStore.getDispatchToken(),
                 ]);
-                const p = ProblemStore.getProblem(action.event, action.day);
-                const input = state[getKey(action.event, action.day)].input;
+                const event = action.event;
+                const day = action.day;
+                const p = ProblemStore.getProblem(event, action.day);
+                const input = state[getKey(event, action.day)].input;
                 const runner = timedRun(input);
                 setTimeout(() => {
                     Dispatcher.dispatch({
-                        type: Actions.SOLVED_PART,
-                        event: action.event,
-                        day: action.day,
+                        type: "solved-part",
+                        event: event,
+                        day: day,
                         part: "one",
                         ...runner(p.partOne)
                     });
-                    if (p.partTwo) {
-                        setTimeout(() => {
+                    setTimeout(() => {
+                        if (p.partTwo) {
                             Dispatcher.dispatch({
-                                type: Actions.SOLVED_PART,
-                                event: action.event,
-                                day: action.day,
+                                type: "solved-part",
+                                event: event,
+                                day: day,
                                 part: "two",
                                 ...runner(p.partTwo)
                             });
-                        }, 0);
-                    }
+                        }
+                    }, 0);
                 }, 0);
                 return {
                     ...state,
@@ -75,7 +100,7 @@ class SolutionStore extends ReduceStore {
                         },
                     },
                 };
-            case Actions.SOLVED_PART:
+            case "solved-part":
                 return {
                     ...state,
                     [getKey(action.event, action.day)]: {
@@ -92,7 +117,7 @@ class SolutionStore extends ReduceStore {
         }
     }
 
-    getSolution(event, day) {
+    getSolution(event: string, day: number) {
         return this.getState()[getKey(event, day)];
     }
 

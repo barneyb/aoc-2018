@@ -1,9 +1,9 @@
+// @flow local-strict
 import React from "react";
 import {Container} from 'flux/utils';
 import App from "./App";
 import ProblemStore from "./data/ProblemStore";
 import Dispatcher from "./data/Dispatcher";
-import Actions from "./data/Actions";
 import listProblemsByEvent from "./data/listProblemsByEvent";
 import NavStore from "./data/NavStore";
 import SolutionStore from "./data/SolutionStore";
@@ -22,21 +22,21 @@ const AppContainer = Container.createFunctional(
             currentProblem: curr && ProblemStore.getProblem(curr.event, curr.day),
             solution: curr && SolutionStore.getSolution(curr.event, curr.day),
             doHome: () => Dispatcher.dispatch({
-                type: Actions.GO_HOME,
+                type: "go-home",
             }),
             doProblem: (event, day) => Dispatcher.dispatch({
-                type: Actions.SELECT_PROBLEM,
+                type: "select-problem",
                 event,
                 day,
             }),
             updateInput: (event, day, input) => Dispatcher.dispatch({
-                type: Actions.UPDATE_INPUT,
+                type: "update-input",
                 event,
                 day,
                 input,
             }),
             doSolve: (event, day) => Dispatcher.dispatch({
-                type: Actions.SOLVE,
+                type: "solve",
                 event,
                 day,
             }),
