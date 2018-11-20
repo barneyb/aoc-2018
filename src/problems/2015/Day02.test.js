@@ -17,9 +17,11 @@ const {
     partTwo,
 } = p;
 
+const pkg = (w, h, d) => ({w, h, d});
+
 test("surfaceArea", () => {
-    expect(surfaceArea(2, 3, 4)).toBe(52);
-    expect(surfaceArea(1, 1, 10)).toBe(42);
+    expect(surfaceArea(pkg(2, 3, 4))).toBe(52);
+    expect(surfaceArea(pkg(1, 1, 10))).toBe(42);
 });
 
 test("smallestPair", () => {
@@ -32,24 +34,24 @@ test("smallestPair", () => {
 });
 
 test("wrappingArea", () => {
-    expect(wrappingArea(2, 3, 4)).toBe(58);
-    expect(wrappingArea(1, 1, 10)).toBe(43);
+    expect(wrappingArea(pkg(2, 3, 4))).toBe(58);
+    expect(wrappingArea(pkg(1, 1, 10))).toBe(43);
 });
 
 test("parseLine", () => {
-    expect(parseLine("1x2x3")).toEqual([1, 2, 3]);
-    expect(parseLine(" 1 x 2 x 3 ")).toEqual([1, 2, 3]);
+    expect(parseLine("1x2x3")).toEqual({w: 1, h: 2, d: 3});
+    expect(parseLine(" 1 x 2 x 3 ")).toEqual({w: 1, h: 2, d: 3});
 });
 
 test("parse", () => {
     expect(parse("")).toEqual([
     ]);
     expect(parse("1x2x3\n")).toEqual([
-        [1, 2, 3],
+        {w: 1, h: 2, d: 3},
     ]);
     expect(parse("1x2x3\n4x5x6")).toEqual([
-        [1, 2, 3],
-        [4, 5, 6],
+        {w: 1, h: 2, d: 3},
+        {w: 4, h: 5, d: 6},
     ]);
 });
 
@@ -63,18 +65,18 @@ test("partOne", () =>  {
 });
 
 test("wrapLength", () => {
-    expect(wrapLength(2, 3 ,4)).toBe(10);
-    expect(wrapLength(1, 1, 10)).toBe(4);
+    expect(wrapLength(pkg(2, 3, 4))).toBe(10);
+    expect(wrapLength(pkg(1, 1, 10))).toBe(4);
 });
 
 test("bowLength", () => {
-    expect(bowLength(2, 3 ,4)).toBe(24);
-    expect(bowLength(1, 1, 10)).toBe(10);
+    expect(bowLength(pkg(2, 3, 4))).toBe(24);
+    expect(bowLength(pkg(1, 1, 10))).toBe(10);
 });
 
 test("ribbonLength", () => {
-    expect(ribbonLength(2, 3 ,4)).toBe(34);
-    expect(ribbonLength(1, 1, 10)).toBe(14);
+    expect(ribbonLength(pkg(2, 3, 4))).toBe(34);
+    expect(ribbonLength(pkg(1, 1, 10))).toBe(14);
 });
 
 partTwo && test("partTwo", () => {

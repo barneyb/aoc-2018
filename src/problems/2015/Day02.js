@@ -1,14 +1,6 @@
 // @flow strict
 import type {Problem} from "../utils/flow";
 
-type Package = [number, number, number];
-
-type PackageFunc<T> = (number, number, number) => T;
-
-type PackageStat = PackageFunc<number>;
-
-type Pair<T> = [T, T];
-
 const Day02 : Problem = {
     event: "2015",
     day: 2,
@@ -16,11 +8,23 @@ const Day02 : Problem = {
     // intro: "",
     partOne: input =>
         sum(parse(input)
-            .map(([w, h, d]) => wrappingArea(w, h, d))),
+            .map(p => wrappingArea(p))),
     partTwo: input =>
         sum(parse(input)
-            .map(([w, h, d]) => ribbonLength(w, h, d))),
+            .map(p => ribbonLength(p))),
 };
+
+export default Day02;
+
+type Package = {
+    w: number,
+    h: number,
+    d: number,
+};
+
+type PackageStat = Package => number;
+
+type Pair<T> = [T, T];
 
 export const sum = (ns : number[]) =>
     ns.reduce((t, n) => t + n, 0);
@@ -37,18 +41,22 @@ export const parseLine : (string) => Package = line => {
         .split("x")
         .map(it => it.trim())
         .map(it => parseInt(it));
-    return [ds[0], ds[1], ds[2]]
+    return {
+        w: ds[0],
+        h: ds[1],
+        d: ds[2],
+    };
 };
 
-export const surfaceArea : PackageStat = (w, h, d) =>
-    2 * w * h + 2 * w * d + 2 * h * d;
+export const surfaceArea : PackageStat = p =>
+    2 * p.w * p.h + 2 * p.w * p.d + 2 * p.h * p.d;
 
-export const extraArea : PackageStat = (w, h, d) => {
-    const p = smallestPair(w, h, d);
-    return p[0] * p[1];
+export const extraArea : PackageStat = p => {
+    const ds = smallestPair(p.w, p.h, p.d);
+    return ds[0] * ds[1];
 };
 
-export const smallestPair : PackageFunc<Pair<number>> = (w, h, d) => {
+export const smallestPair : (number, number, number) => Pair<number> = (w, h, d) => {
     let a, b;
     if (w < h) {
         a = w;
@@ -60,18 +68,16 @@ export const smallestPair : PackageFunc<Pair<number>> = (w, h, d) => {
     return a < b ? [a, b] : [b, a];
 };
 
-export const wrappingArea : PackageStat = (w, h, d) =>
-    surfaceArea(w, h, d) + extraArea(w, h, d);
+export const wrappingArea : PackageStat = p =>
+    surfaceArea(p) + extraArea(p);
 
-export const wrapLength : PackageStat = (w, h, d) => {
-    const p = smallestPair(w, h, d);
-    return 2 * (p[0] + p[1]);
+export const wrapLength : PackageStat = p => {
+    const ds = smallestPair(p.w, p.h, p.d);
+    return 2 * (ds[0] + ds[1]);
 };
 
-export const bowLength : PackageStat = (w, h, d) =>
-    w * h * d;
+export const bowLength : PackageStat = p =>
+    p.w * p.h * p.d;
 
-export const ribbonLength : PackageStat = (w, h, d) =>
-    wrapLength(w, h, d) + bowLength(w, h, d);
-
-export default Day02;
+export const ribbonLength : PackageStat = p =>
+    wrapLength(p) + bowLength(p);
