@@ -1,3 +1,5 @@
+// @flow strict
+
 import p, {
     bowLength,
     parse,
@@ -9,6 +11,7 @@ import p, {
     wrappingArea,
     wrapLength,
 } from "./Day02";
+
 const {
     partOne,
     partTwo,
@@ -74,6 +77,6 @@ test("ribbonLength", () => {
     expect(ribbonLength(1, 1, 10)).toBe(14);
 });
 
-test("partTwo", () => {
+partTwo && test("partTwo", () => {
     expect(partTwo("1x1x10\n2x3x4")).toBe(34 + 14)
 });
