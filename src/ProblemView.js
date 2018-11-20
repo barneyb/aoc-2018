@@ -1,9 +1,27 @@
+// @flow
 import React, {Component} from "react";
-import PropTypes from "prop-types";
 import {Button, Container, Grid, Header, TextArea,} from "semantic-ui-react";
 import Result from "./Result";
+import type {Problem, Answer} from "./problems/utils/flow";
 
-class Problem extends Component {
+type TSolution = {
+    working: boolean,
+    value: Answer,
+    elapsed: number,
+}
+
+type Props = {
+    problem: Problem,
+    solution: {
+        input: string,
+        one: TSolution,
+        two: TSolution,
+    },
+    updateInput: (string) => void,
+    doSolve: () => void,
+}
+
+class ProblemView extends Component<Props> {
     render() {
         const {
             problem: p,
@@ -45,36 +63,4 @@ class Problem extends Component {
     }
 }
 
-Problem.propTypes = {
-    problem: PropTypes.shape({
-        event: PropTypes.string.isRequired,
-        day: PropTypes.number.isRequired,
-        title: PropTypes.string.isRequired,
-        intro: PropTypes.string,
-        partOne: PropTypes.func,
-        partTwo: PropTypes.func,
-    }).isRequired,
-    solution: PropTypes.shape({
-        input: PropTypes.string.isRequired,
-        one: PropTypes.shape({
-            working: PropTypes.bool.isRequired,
-            value: PropTypes.oneOfType([
-                PropTypes.string,
-                PropTypes.number,
-            ]),
-            elapsed: PropTypes.number,
-        }),
-        two: PropTypes.shape({
-            working: PropTypes.bool.isRequired,
-            value: PropTypes.oneOfType([
-                PropTypes.string,
-                PropTypes.number,
-            ]),
-            elapsed: PropTypes.number,
-        }),
-    }),
-    updateInput: PropTypes.func.isRequired,
-    doSolve: PropTypes.func.isRequired,
-};
-
-export default Problem;
+export default ProblemView;
