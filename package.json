@@ -13,13 +13,24 @@
   "devDependencies": {
     "babel-preset-flow": "6.23.0",
     "flow-bin": "0.86.0",
-    "react-scripts": "2.1.1"
+    "flow-typed": "2.5.1",
+    "react-scripts": "2.1.1",
+    "rimraf": "2.6.2"
+  },
+  "peerDependencies": {
+    "jest": "23.6.0"
   },
   "scripts": {
     "start": "react-scripts start",
+    "prebuild": "npm run flow",
     "build": "react-scripts build",
     "test": "react-scripts test",
+    "posttest": "npm run lint",
+    "lint": "eslint --no-color --max-warnings 0 src/",
+    "clean": "rimraf flow-typed node_modules build npm-debug.log",
     "flow": "flow",
+    "postflow": "npm run lint",
+    "flow-typed": "flow-typed",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {

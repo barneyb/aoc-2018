@@ -38,10 +38,31 @@ Once Node and NPM are available:
     npm install
     npm test
 
-Copy the `problems/template.js` file to the appropriate location, fill in the
-problem's details, write some tests next to it, and then implement the
+Copy the `src/problems/template.js` file to the appropriate location, fill in
+the problem's details, write some tests next to it, and then implement the
 `partOne` and `partTwo` functions.
 
 For a one-shot test-everything run (instead of watching w/ auto rerun), use:
 
     CI=true npm test
+
+### Flow
+
+Flow is used for typechecking. Testing does _not_ enforce Flow's checks, but
+builds do. So you don't have to run it during development, but you will before
+you can create a production bundle. Because of how Facebook publishes Jest, you
+must install its libdef before running Flow:
+
+    npm run flow-typed install jest
+    npm run flow
+
+If you've already got Flow running, you may need to issue `npm run flow stop`
+after installing the libdef.
+
+## Linting
+
+ESLint is used for linting, and runs automatically after running tests or Flow.
+It can also be invoked manually:
+
+    npm run lint
+
