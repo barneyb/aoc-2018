@@ -21,7 +21,7 @@ type Props = {
     doSolve: () => void,
 }
 
-class ProblemView extends Component<Props> {
+class Solver extends Component<Props> {
     render() {
         const {
             problem: p,
@@ -63,4 +63,4 @@ class ProblemView extends Component<Props> {
     }
 }
 
-export default ProblemView;
+export default Solver;

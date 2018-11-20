@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import {Container, Dropdown, Image, Menu,} from "semantic-ui-react";
 import logo from "./logo.svg";
 import Home from "./Home";
-import ProblemView from "./ProblemView";
+import Solver from "./Solver";
 
 class App extends Component {
 
@@ -45,10 +45,10 @@ class App extends Component {
                     </Container>
                 </Menu>
                 {currentProblem
-                    ? <ProblemView problem={currentProblem}
-                                   solution={solution}
-                                   doSolve={() => doSolve(currentProblem.event, currentProblem.day)}
-                                   updateInput={input => updateInput(currentProblem.event, currentProblem.day, input)}
+                    ? <Solver problem={currentProblem}
+                              solution={solution}
+                              doSolve={() => doSolve(currentProblem.event, currentProblem.day)}
+                              updateInput={input => updateInput(currentProblem.event, currentProblem.day, input)}
                     />
                     : <Home/>
                 }
