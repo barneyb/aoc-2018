@@ -1,12 +1,12 @@
 // @flow local-strict
 import type {Problem} from "../problems/utils/flow";
-import ReduceStore from 'flux/lib/FluxReduceStore';
+import {ReduceStore} from 'flux/utils';
 import Dispatcher from "./Dispatcher";
 import type {Action} from "./Actions";
 
 export type State = {
     [string]: {
-        [number]: Problem
+        [string]: Problem
     }
 };
 
@@ -19,7 +19,7 @@ const loadProblem : Problem => void = p => {
     if (e.hasOwnProperty(p.day)) {
         throw new Error(`Problem ${p.event}.${p.day} was registered twice`);
     }
-    e[p.day] = p;
+    e[p.day.toString()] = p;
 };
 
 loadProblem(require("../problems/2015/Day01").default);
@@ -44,7 +44,7 @@ class ProblemStore extends ReduceStore<State> {
     }
 
     getProblem(event: string, day: number) {
-        return this.getState()[event][day];
+        return this.getState()[event][day.toString()];
     }
 
     getProblemsForEvent(event: string) {

@@ -1,7 +1,10 @@
+// @flow local-strict
 import React, {Component} from "react";
 import {Container, Header,} from "semantic-ui-react";
 
-class Home extends Component {
+export type Props = {};
+
+class Home extends Component<Props> {
     render() {
         return <Container style={{marginTop: "7em"}}>
             <Header as="h1">Barney's AoC Solver</Header>

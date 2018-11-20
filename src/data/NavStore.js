@@ -1,5 +1,5 @@
 // @flow local-strict
-import ReduceStore from 'flux/lib/FluxReduceStore';
+import {ReduceStore} from 'flux/utils';
 import Dispatcher from "./Dispatcher";
 import type {Action} from "./Actions";
 

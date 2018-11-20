@@ -1,4 +1,14 @@
-const listProblemsByEvent = state => {
+// @flow local-strict
+
+import type {State} from "./ProblemStore";
+import type {Problem} from "../problems/utils/flow";
+
+export type Event = {
+    event: string,
+    problems: Problem[],
+};
+
+const listProblemsByEvent: State => Event[] = state => {
     const problems = [];
     for (const e in state) {
         if (state.hasOwnProperty(e)) {

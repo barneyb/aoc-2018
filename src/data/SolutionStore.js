@@ -1,5 +1,5 @@
-// @flow
-import ReduceStore from 'flux/lib/FluxReduceStore';
+// @flow local-strict
+import {ReduceStore} from 'flux/utils';
 import Dispatcher from "./Dispatcher";
 import ProblemStore from "./ProblemStore";
 import type {Answer} from "../problems/utils/flow";

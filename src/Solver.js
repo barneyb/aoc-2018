@@ -1,4 +1,4 @@
-// @flow
+// @flow local-strict
 import React, {Component} from "react";
 import {Button, Container, Grid, Header, TextArea,} from "semantic-ui-react";
 import Result from "./Result";

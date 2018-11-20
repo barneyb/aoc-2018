@@ -1,11 +1,24 @@
+// @flow local-strict
 import React, {Component} from "react";
-import PropTypes from "prop-types";
 import {Container, Dropdown, Image, Menu,} from "semantic-ui-react";
 import logo from "./logo.svg";
 import Home from "./Home";
 import Solver from "./Solver";
+import type {Problem} from "./problems/utils/flow";
+import type {Solutions} from "./data/SolutionStore";
+import type {Event} from "./data/listProblemsByEvent";
 
-class App extends Component {
+export type Props = {
+    events: Event[],
+    currentProblem: Problem,
+    solution: Solutions,
+    doHome: () => void,
+    doProblem: (string, number) => void,
+    doSolve: (string, number) => void,
+    updateInput: (string, number, string) => void,
+};
+
+class App extends Component<Props> {
 
     render() {
         const {
@@ -56,44 +69,5 @@ class App extends Component {
         );
     }
 }
-
-App.propTypes = {
-    events: PropTypes.arrayOf(PropTypes.shape({
-        event: PropTypes.string.isRequired,
-        problems: PropTypes.arrayOf(
-            PropTypes.shape({
-                day: PropTypes.number.isRequired,
-                title: PropTypes.string.isRequired,
-            })
-        )
-    })).isRequired,
-    currentProblem: PropTypes.shape({
-        event: PropTypes.string.isRequired,
-        day: PropTypes.number.isRequired,
-    }),
-    solution: PropTypes.shape({
-        input: PropTypes.string.isRequired,
-        one: PropTypes.shape({
-            working: PropTypes.bool.isRequired,
-            value: PropTypes.oneOfType([
-                PropTypes.string,
-                PropTypes.number,
-            ]),
-            elapsed: PropTypes.number,
-        }),
-        two: PropTypes.shape({
-            working: PropTypes.bool.isRequired,
-            value: PropTypes.oneOfType([
-                PropTypes.string,
-                PropTypes.number,
-            ]),
-            elapsed: PropTypes.number,
-        }),
-    }),
-    doHome: PropTypes.func.isRequired,
-    doProblem: PropTypes.func.isRequired,
-    updateInput: PropTypes.func.isRequired,
-    doSolve: PropTypes.func.isRequired,
-};
 
 export default App;

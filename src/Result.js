@@ -1,8 +1,17 @@
+// @flow local-strict
 import React, {Component} from "react";
 import PropTypes from "prop-types";
 import {Dimmer, Header, Loader, Segment,} from "semantic-ui-react";
+import type {Answer} from "./problems/utils/flow";
 
-class Result extends Component {
+export type Props = {
+    label: string,
+    working: boolean,
+    value?: Answer,
+    elapsed?: number,
+};
+
+class Result extends Component<Props> {
     render() {
         const {
             label,
