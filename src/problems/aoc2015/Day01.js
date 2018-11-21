@@ -1,4 +1,4 @@
-const solver = {
+export default {
     partOne: input => {
         input = input.trim();
         let floor = 0;
@@ -19,5 +19,3 @@ const solver = {
         return -1;
     },
 };
-
-export default solver;

@@ -1,11 +1,9 @@
 // @flow strict
 import type {Solver} from "./flow";
 
-const solver : Solver = {
+export default ({
     partOne: input =>
         input.length,
     partTwo: input =>
         input.trim().length,
-};
-
-export default solver;
+} : Solver);

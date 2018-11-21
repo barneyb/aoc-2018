@@ -1,16 +1,14 @@
 // @flow strict
 import type {Solver} from "../utils/flow";
 
-const solver : Solver = {
+export default ({
     partOne: input =>
         sum(parse(input)
             .map(p => wrappingArea(p))),
     partTwo: input =>
         sum(parse(input)
             .map(p => ribbonLength(p))),
-};
-
-export default solver;
+} : Solver);
 
 type Package = {
     w: number,
