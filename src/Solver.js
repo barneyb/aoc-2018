@@ -25,6 +25,7 @@ class Solver extends Component<Props> {
             doSolve,
         } = this.props;
         const url = `https://adventofcode.com/${p.event}/day/${p.day}`;
+        const showSolutions = solution && solution.one && (solution.one.working || solution.one.value);
         return <Container style={{marginTop: "7em"}}>
             <Header as="h1">
                 Day {p.day}: {p.title}
@@ -42,7 +43,7 @@ class Solver extends Component<Props> {
                                 <Button color="green" onClick={doSolve}>Solve!</Button>
                             </Button.Group>
                         </Grid.Column>
-                        {solution && <Grid.Column width={6}>
+                        {showSolutions && <Grid.Column width={6}>
                             {solution.one && <Result label="Part One" {...solution.one} />}
                             {p.partTwo
                                 ? <Result label="Part Two" {...solution.two} />
