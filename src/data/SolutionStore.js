@@ -81,15 +81,15 @@ class SolutionStore extends ReduceStore<State> {
                     ProblemStore.getDispatchToken(),
                 ]);
                 const event = action.event;
-                const day = action.number;
-                const p = ProblemStore.getProblem(event, day);
-                const sol = state[getKey(event, day)];
+                const number = action.number;
+                const p = ProblemStore.getProblem(event, number);
+                const sol = state[getKey(event, number)];
                 const runner = timedRun(sol == null ? "" : sol.input);
                 setTimeout(() => {
                     Dispatcher.dispatch({
                         type: "solved-part",
-                        event: event,
-                        number: day,
+                        event,
+                        number,
                         part: "one",
                         ...runner(p.partOne)
                     });
@@ -97,8 +97,8 @@ class SolutionStore extends ReduceStore<State> {
                         if (p.partTwo) {
                             Dispatcher.dispatch({
                                 type: "solved-part",
-                                event: event,
-                                number: day,
+                                event,
+                                number,
                                 part: "two",
                                 ...runner(p.partTwo)
                             });
