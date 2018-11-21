@@ -43,6 +43,9 @@ Copy the `src/problems/template.js` file to the appropriate location, fill in
 the problem's details, write some tests next to it, and then implement the
 `partOne` and `partTwo` functions.
 
+When your solution is ready to go, register it in `src/data/ProblemStore.js`
+with the other solutions.
+
 For a one-shot test-everything run (instead of watching w/ auto rerun), use:
 
     CI=true npm test
