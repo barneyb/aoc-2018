@@ -1,6 +1,5 @@
 // @flow local-strict
 import React, {Component} from "react";
-import PropTypes from "prop-types";
 import {Dimmer, Header, Loader, Segment,} from "semantic-ui-react";
 import type {Answer} from "./problems/utils/flow";
 
@@ -31,15 +30,5 @@ class Result extends Component<Props> {
         </Segment>
     }
 }
-
-Result.propTypes = {
-    label: PropTypes.string.isRequired,
-    value: PropTypes.oneOfType([
-        PropTypes.string,
-        PropTypes.number,
-    ]),
-    elapsed: PropTypes.number,
-    working: PropTypes.bool.isRequired,
-};
 
 export default Result;
