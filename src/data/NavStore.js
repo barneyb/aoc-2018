@@ -5,11 +5,12 @@ import type {Action} from "./Actions";
 
 const ACTIVE_PROBLEM_LOCAL_STORAGE_KEY = "aoc-active-problem";
 
+export type ProblemSpec = {
+    event: string,
+    day: number,
+};
 export type State = {
-    currentProblem?: {
-        event: string,
-        day: number,
-    }
+    currentProblem?: ProblemSpec
 };
 
 class NavStore extends ReduceStore<State> {
@@ -17,7 +18,7 @@ class NavStore extends ReduceStore<State> {
         super(Dispatcher);
     }
 
-    getInitialState() {
+    getInitialState(): State {
         const v = window.localStorage.getItem(ACTIVE_PROBLEM_LOCAL_STORAGE_KEY);
         let currProb;
         if (v != null && v.indexOf("/") > 0) {
@@ -32,7 +33,7 @@ class NavStore extends ReduceStore<State> {
         };
     }
 
-    reduce(state: State, action: Action) {
+    reduce(state: State, action: Action): State {
         switch (action.type) {
             case "go-home":
                 window.localStorage.removeItem(ACTIVE_PROBLEM_LOCAL_STORAGE_KEY);
@@ -55,7 +56,7 @@ class NavStore extends ReduceStore<State> {
         }
     }
 
-    getCurrentProblem() {
+    getCurrentProblem(): ProblemSpec {
         return this.getState().currentProblem;
     }
 }

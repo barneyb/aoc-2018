@@ -4,10 +4,11 @@ import {ReduceStore} from 'flux/utils';
 import Dispatcher from "./Dispatcher";
 import type {Action} from "./Actions";
 
+export type EventProblems = {
+    [string]: Problem
+};
 export type State = {
-    [string]: {
-        [string]: Problem
-    }
+    [string]: EventProblems
 };
 
 const initialState : State = {};
@@ -35,19 +36,19 @@ class ProblemStore extends ReduceStore<State> {
         super(Dispatcher);
     }
 
-    getInitialState() {
+    getInitialState(): State {
         return initialState;
     }
 
-    reduce(state: State, action: Action) {
+    reduce(state: State, action: Action): State {
         return state;
     }
 
-    getProblem(event: string, day: number) {
+    getProblem(event: string, day: number): Problem {
         return this.getState()[event][day.toString()];
     }
 
-    getProblemsForEvent(event: string) {
+    getProblemsForEvent(event: string): EventProblems {
         return this.getState()[event];
     }
 

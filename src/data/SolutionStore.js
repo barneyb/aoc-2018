@@ -43,11 +43,11 @@ class SolutionStore extends ReduceStore<State> {
         super(Dispatcher);
     }
 
-    getInitialState() {
+    getInitialState(): State {
         return {};
     }
 
-    reduce(state: State, action: Action) {
+    reduce(state: State, action: Action): State {
         switch (action.type) {
             case "update-input":
                 return {
@@ -117,7 +117,7 @@ class SolutionStore extends ReduceStore<State> {
         }
     }
 
-    getSolution(event: string, day: number) {
+    getSolution(event: string, day: number): Solutions {
         return this.getState()[getKey(event, day)];
     }
 
