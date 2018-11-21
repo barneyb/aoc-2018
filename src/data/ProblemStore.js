@@ -3,6 +3,7 @@ import type {Problem} from "../problems/utils/flow";
 import {ReduceStore} from 'flux/utils';
 import Dispatcher from "./Dispatcher";
 import type {Action} from "./Actions";
+import problems from "../problems";
 
 export type EventProblems = {
     [string]: Problem
@@ -23,9 +24,11 @@ const loadProblem : Problem => void = p => {
     e[p.day.toString()] = p;
 };
 
-loadProblem(require("../problems/2015/Day01").default);
-loadProblem(require("../problems/2015/Day02").default);
-loadProblem(require("../problems/2018/Day00").default);
+for (const event in problems) {
+    for (const item of Object.keys(problems[event])) {
+        loadProblem(problems[event][item]);
+    }
+}
 
 /*
  * This may seem "silly", but it allows all data access to operate the same way,
