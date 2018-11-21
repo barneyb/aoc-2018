@@ -21,6 +21,7 @@
     "jest": "23.6.0"
   },
   "scripts": {
+    "postinstall": "npm run flow-typed install jest",
     "start": "react-scripts start",
     "prebuild": "npm run flow",
     "build": "react-scripts build",

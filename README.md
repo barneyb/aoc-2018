@@ -10,8 +10,9 @@ corresponding tests, and are headless.
 
 The web UI is built with React and Flux, and requires Chrome `70` to use.
 
-Similar versions of the various packages will probably work just fine, but none
-have been tested.
+Similar versions of the various packages will probably work just fine. NPM can
+probably be replaced with Yarn, and Chrome with any modern browser. But only
+the software/versions listed above have been tested. 
 
 ## Using NVM (Optional)
 
@@ -46,18 +47,14 @@ For a one-shot test-everything run (instead of watching w/ auto rerun), use:
 
     CI=true npm test
 
-### Flow
+## Flow
 
 Flow is used for typechecking. Testing does _not_ enforce Flow's checks, but
 builds do. So you don't have to run it during development, but you will before
-you can create a production bundle. Because of how Facebook publishes Jest, you
-must install its libdef before running Flow:
+you can create a production bundle. To start the Flow server (and get the
+initial status report):
 
-    npm run flow-typed install jest
     npm run flow
-
-If you've already got Flow running, you may need to issue `npm run flow stop`
-after installing the libdef.
 
 ## Linting
 
