@@ -48,11 +48,11 @@ export const parseLine : (string) => Package = line => {
     };
 };
 
-export const surfaceArea : PackageStat = p =>
-    2 * p.w * p.h + 2 * p.w * p.d + 2 * p.h * p.d;
+export const surfaceArea : PackageStat = ({w, h, d}) =>
+    2 * w * h + 2 * w * d + 2 * h * d;
 
-export const extraArea : PackageStat = p => {
-    const ds = smallestPair(p.w, p.h, p.d);
+export const extraArea : PackageStat = ({w, h, d}) => {
+    const ds = smallestPair(w, h, d);
     return ds[0] * ds[1];
 };
 
@@ -71,13 +71,13 @@ export const smallestPair : (number, number, number) => Pair<number> = (w, h, d)
 export const wrappingArea : PackageStat = p =>
     surfaceArea(p) + extraArea(p);
 
-export const wrapLength : PackageStat = p => {
-    const ds = smallestPair(p.w, p.h, p.d);
+export const wrapLength : PackageStat = ({w, h, d}) => {
+    const ds = smallestPair(w, h, d);
     return 2 * (ds[0] + ds[1]);
 };
 
-export const bowLength : PackageStat = p =>
-    p.w * p.h * p.d;
+export const bowLength : PackageStat = ({w, h, d}) =>
+    w * h * d;
 
 export const ribbonLength : PackageStat = p =>
     wrapLength(p) + bowLength(p);
