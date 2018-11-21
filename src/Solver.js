@@ -17,6 +17,11 @@ type Props = {
 }
 
 class Solver extends Component<Props> {
+
+    componentDidMount() {
+        this.props.updateInput("");
+    }
+
     render() {
         const {
             problem: p,
