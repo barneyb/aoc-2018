@@ -8,6 +8,8 @@ export type Event = {
     problems: Problem[],
 };
 
+const explicitEventOrder = ["AoC 2018"];
+
 const listProblemsByEvent: State => Event[] = state => {
     const problems = [];
     for (const e in state) {
@@ -20,13 +22,17 @@ const listProblemsByEvent: State => Event[] = state => {
         }
     }
     problems.sort((a, b) => {
-        // descending by event
-        if (a.event > b.event) return -1;
-        if (a.event < b.event) return  1;
-        // assending by number
-        if (a.number < b.number) return -1;
-        if (a.number > b.number) return  1;
-        return 0; // which violates ProblemStore's invariant
+        // by explicit ordering
+        const ai = explicitEventOrder.indexOf(a.event);
+        const bi = explicitEventOrder.indexOf(b.event);
+        if (ai >= 0 && bi >= 0 && ai !== bi) return ai - bi;
+        if (ai >= 0 && bi < 0) return -1;
+        if (ai < 0 && bi >= 0) return 1;
+        // by event name
+        if (a.event < b.event) return -1;
+        if (a.event > b.event) return  1;
+        // by number
+        return a.number - b.number;
     });
     let curr = {};
     const groups = [];
