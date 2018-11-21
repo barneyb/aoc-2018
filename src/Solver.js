@@ -3,24 +3,16 @@ import React, {Component} from "react";
 import {Button, Container, Grid, Header, TextArea,} from "semantic-ui-react";
 import Result from "./Result";
 import type {Problem} from "./problems/utils/flow";
-import type {Solution} from "./data/SolutionStore";
+import type {Solutions} from "./data/SolutionStore";
 
 type Props = {
     problem: Problem,
-    solution: {
-        input: string,
-        one: Solution,
-        two: Solution,
-    },
+    solution: Solutions,
     updateInput: (string) => void,
     doSolve: () => void,
 }
 
 class Solver extends Component<Props> {
-
-    componentDidMount() {
-        this.props.updateInput("");
-    }
 
     render() {
         const {
@@ -30,7 +22,7 @@ class Solver extends Component<Props> {
             doSolve,
         } = this.props;
         const url = `https://adventofcode.com/${p.event}/day/${p.day}`;
-        const showSolutions = solution && solution.one && (solution.one.working || solution.one.value);
+        const showSolutions = solution && solution.one && (solution.one.working || solution.one.value != null || solution.one.error != null);
         return <Container style={{marginTop: "7em"}}>
             <Header as="h1">
                 Day {p.day}: {p.title}
@@ -49,9 +41,9 @@ class Solver extends Component<Props> {
                             </Button.Group>
                         </Grid.Column>
                         {showSolutions && <Grid.Column width={6}>
-                            {solution.one && <Result label="Part One" {...solution.one} />}
+                            {solution.one && <Result label="Part One" {...solution.one} stale={solution.one.at < solution.at} />}
                             {p.partTwo
-                                ? <Result label="Part Two" {...solution.two} />
+                                ? <Result label="Part Two" {...solution.two} stale={solution.two.at < solution.at} />
                                 : <p>Part two hasn't been implemented yet.</p>
                             }
                         </Grid.Column>

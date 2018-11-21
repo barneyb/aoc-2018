@@ -8,16 +8,22 @@ import type {Action} from "./Actions";
 type Result = {
     value: Answer,
     elapsed: number,
+} | {
+    error: Error,
+    elapsed: number,
 };
 
 export type Solution = {
     working: boolean,
+    at: number,
     value?: Answer,
+    error?: Error,
     elapsed?: number,
 };
 
 export type Solutions = {
     input: string,
+    at: number,
     one: Solution,
     two: Solution,
 };
@@ -28,11 +34,21 @@ export type State = {
 
 const timedRun: string => (string => Answer) => Result = input => work => {
     const start = Date.now();
-    const value = work(input);
-    const elapsed = Date.now() - start;
+    let value: Answer;
+    try {
+        value = work(input);
+        if (isNaN(value)) {
+            throw new Error("NaN (Not a Number) returned by solver.");
+        }
+    } catch (error) {
+        return {
+            error,
+            elapsed: Date.now() - start,
+        };
+    }
     return {
         value,
-        elapsed,
+        elapsed: Date.now() - start,
     };
 };
 
@@ -57,6 +73,7 @@ class SolutionStore extends ReduceStore<State> {
                         two: { working: false, },
                         ...state[getKey(action.event, action.day)],
                         input: action.input,
+                        at: Date.now(),
                     },
                 };
             case "solve":
@@ -65,9 +82,9 @@ class SolutionStore extends ReduceStore<State> {
                 ]);
                 const event = action.event;
                 const day = action.day;
-                const p = ProblemStore.getProblem(event, action.day);
-                const input = state[getKey(event, action.day)].input;
-                const runner = timedRun(input);
+                const p = ProblemStore.getProblem(event, day);
+                const sol = state[getKey(event, day)];
+                const runner = timedRun(sol == null ? "" : sol.input);
                 setTimeout(() => {
                     Dispatcher.dispatch({
                         type: "solved-part",
@@ -107,6 +124,8 @@ class SolutionStore extends ReduceStore<State> {
                         ...state[getKey(action.event, action.day)],
                         [action.part]: {
                             working: false,
+                            at: Date.now(),
+                            error: action.error,
                             value: action.value,
                             elapsed: action.elapsed,
                         }

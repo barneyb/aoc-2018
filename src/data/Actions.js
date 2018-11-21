@@ -23,6 +23,7 @@ export type Action = {
     event: string,
     day: number,
     part: string,
-    value: Answer,
+    value?: Answer,
+    error?: Error,
     elapsed: number,
 };
