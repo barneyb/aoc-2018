@@ -3,7 +3,7 @@ import type {Problem} from "../utils/flow";
 
 const Day02 : Problem = {
     event: "2015",
-    day: 2,
+    number: 2,
     title: "I Was Told There Would Be No Math",
     // intro: "",
     partOne: input =>

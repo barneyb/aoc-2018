@@ -7,7 +7,7 @@ const ACTIVE_PROBLEM_LOCAL_STORAGE_KEY = "aoc-active-problem";
 
 export type ProblemSpec = {
     event: string,
-    day: number,
+    number: number,
 };
 export type State = {
     currentProblem?: ProblemSpec
@@ -25,7 +25,7 @@ class NavStore extends ReduceStore<State> {
             const parts = v.split("/");
             currProb = {
                 event: parts[0],
-                day: parseInt(parts[1]),
+                number: parseInt(parts[1]),
             }
         }
         return {
@@ -43,12 +43,12 @@ class NavStore extends ReduceStore<State> {
                 delete state.currentProblem;
                 return state;
             case "select-problem":
-                window.localStorage.setItem(ACTIVE_PROBLEM_LOCAL_STORAGE_KEY, action.event + "/" + action.day);
+                window.localStorage.setItem(ACTIVE_PROBLEM_LOCAL_STORAGE_KEY, action.event + "/" + action.number);
                 return {
                     ...state,
                     currentProblem: {
                         event: action.event,
-                        day: action.day,
+                        number: action.number,
                     },
                 };
             default:

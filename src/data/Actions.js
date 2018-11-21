@@ -8,20 +8,20 @@ export type Action = {
 } | {
     type: "select-problem",
     event: string,
-    day: number,
+    number: number,
 } | {
     type: "update-input",
     event: string,
-    day: number,
+    number: number,
     input: string,
 } | {
     type: "solve",
     event: string,
-    day: number,
+    number: number,
 } | {
     type: "solved-part",
     event: string,
-    day: number,
+    number: number,
     part: string,
     value?: Answer,
     error?: Error,

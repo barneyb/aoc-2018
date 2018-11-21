@@ -21,12 +21,12 @@ class Solver extends Component<Props> {
             updateInput,
             doSolve,
         } = this.props;
-        const url = `https://adventofcode.com/${p.event}/day/${p.day}`;
+        const url = `https://adventofcode.com/${p.event}/day/${p.number}`;
         const showSolutions = solution && solution.one && (solution.one.working || solution.one.value != null || solution.one.error != null);
         return <Container style={{marginTop: "7em"}}>
             <Header as="h1">
-                Day {p.day}: {p.title}
-                {p.day >=1 && p.day <= 25 && <Header.Subheader><a href={url}>{url}</a></Header.Subheader>}
+                Day {p.number}: {p.title}
+                {p.number >=1 && p.number <= 25 && <Header.Subheader><a href={url}>{url}</a></Header.Subheader>}
             </Header>
             {p.intro && <p>{p.intro}
             </p>}

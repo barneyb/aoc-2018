@@ -1,6 +1,6 @@
 const Day01 = {
     event: "2015",
-    day: 1,
+    number: 1,
     title: "Not Quite Lisp",
     partOne: input => {
         input = input.trim();

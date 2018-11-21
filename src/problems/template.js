@@ -3,7 +3,7 @@ import type {Problem} from "./utils/flow";
 
 const Day : Problem = {
     event: "",
-    day: 0,
+    number: 0,
     title: "",
     // intro: "",
     partOne: input =>

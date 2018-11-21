@@ -32,7 +32,7 @@ class App extends Component<Props> {
         } = this.props;
         const {
             event: currEvent,
-            day: currDay
+            number: currDay
         } = currentProblem || {};
 
         return (
@@ -48,10 +48,10 @@ class App extends Component<Props> {
                                       className={currEvent === e.event ? "active" : ""}>
                                 <Dropdown.Menu>
                                     {e.problems.map(p =>
-                                        <Dropdown.Item key={p.day}
-                                                       onClick={eo => doProblem(e.event, p.day)}
-                                                       active={currEvent === e.event && currDay === p.day}
-                                        >Day {p.day}: {p.title}</Dropdown.Item>
+                                        <Dropdown.Item key={p.number}
+                                                       onClick={eo => doProblem(e.event, p.number)}
+                                                       active={currEvent === e.event && currDay === p.number}
+                                        >Day {p.number}: {p.title}</Dropdown.Item>
                                     )}
                                 </Dropdown.Menu>
                             </Dropdown>)}
@@ -60,8 +60,8 @@ class App extends Component<Props> {
                 {currentProblem
                     ? <Solver problem={currentProblem}
                               solution={solution}
-                              doSolve={() => doSolve(currentProblem.event, currentProblem.day)}
-                              updateInput={input => updateInput(currentProblem.event, currentProblem.day, input)}
+                              doSolve={() => doSolve(currentProblem.event, currentProblem.number)}
+                              updateInput={input => updateInput(currentProblem.event, currentProblem.number, input)}
                     />
                     : <Home/>
                 }

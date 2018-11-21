@@ -4,7 +4,7 @@ export type Answer = string | number;
 
 export type Problem = {
     event: string,
-    day: number,
+    number: number,
     title: string,
     intro?: string,
     partOne: (string) => Answer,

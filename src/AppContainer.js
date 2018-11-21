@@ -20,26 +20,26 @@ const AppContainer = Container.createFunctional(
         let curr = NavStore.getCurrentProblem();
         return {
             events: listProblemsByEvent(ProblemStore.getState()),
-            currentProblem: curr && ProblemStore.getProblem(curr.event, curr.day),
-            solution: curr && SolutionStore.getSolution(curr.event, curr.day),
+            currentProblem: curr && ProblemStore.getProblem(curr.event, curr.number),
+            solution: curr && SolutionStore.getSolution(curr.event, curr.number),
             doHome: () => Dispatcher.dispatch({
                 type: "go-home",
             }),
-            doProblem: (event, day) => Dispatcher.dispatch({
+            doProblem: (event, number) => Dispatcher.dispatch({
                 type: "select-problem",
                 event,
-                day,
+                number,
             }),
-            updateInput: (event, day, input) => Dispatcher.dispatch({
+            updateInput: (event, number, input) => Dispatcher.dispatch({
                 type: "update-input",
                 event,
-                day,
+                number,
                 input,
             }),
-            doSolve: (event, day) => Dispatcher.dispatch({
+            doSolve: (event, number) => Dispatcher.dispatch({
                 type: "solve",
                 event,
-                day,
+                number,
             }),
         };
     },

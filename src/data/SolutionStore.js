@@ -68,10 +68,10 @@ class SolutionStore extends ReduceStore<State> {
             case "update-input":
                 return {
                     ...state,
-                    [getKey(action.event, action.day)]: {
+                    [getKey(action.event, action.number)]: {
                         one: { working: false, },
                         two: { working: false, },
-                        ...state[getKey(action.event, action.day)],
+                        ...state[getKey(action.event, action.number)],
                         input: action.input,
                         at: Date.now(),
                     },
@@ -81,7 +81,7 @@ class SolutionStore extends ReduceStore<State> {
                     ProblemStore.getDispatchToken(),
                 ]);
                 const event = action.event;
-                const day = action.day;
+                const day = action.number;
                 const p = ProblemStore.getProblem(event, day);
                 const sol = state[getKey(event, day)];
                 const runner = timedRun(sol == null ? "" : sol.input);
@@ -89,7 +89,7 @@ class SolutionStore extends ReduceStore<State> {
                     Dispatcher.dispatch({
                         type: "solved-part",
                         event: event,
-                        day: day,
+                        number: day,
                         part: "one",
                         ...runner(p.partOne)
                     });
@@ -98,7 +98,7 @@ class SolutionStore extends ReduceStore<State> {
                             Dispatcher.dispatch({
                                 type: "solved-part",
                                 event: event,
-                                day: day,
+                                number: day,
                                 part: "two",
                                 ...runner(p.partTwo)
                             });
@@ -107,8 +107,8 @@ class SolutionStore extends ReduceStore<State> {
                 }, 0);
                 return {
                     ...state,
-                    [getKey(action.event, action.day)]: {
-                        ...state[getKey(action.event, action.day)],
+                    [getKey(action.event, action.number)]: {
+                        ...state[getKey(action.event, action.number)],
                         one: {
                             working: true,
                         },
@@ -120,8 +120,8 @@ class SolutionStore extends ReduceStore<State> {
             case "solved-part":
                 return {
                     ...state,
-                    [getKey(action.event, action.day)]: {
-                        ...state[getKey(action.event, action.day)],
+                    [getKey(action.event, action.number)]: {
+                        ...state[getKey(action.event, action.number)],
                         [action.part]: {
                             working: false,
                             at: Date.now(),

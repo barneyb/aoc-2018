@@ -18,10 +18,10 @@ const loadProblem : Problem => void = p => {
         initialState[p.event] = {}
     }
     const e = initialState[p.event];
-    if (e.hasOwnProperty(p.day)) {
-        throw new Error(`Problem ${p.event}.${p.day} was registered twice`);
+    if (e.hasOwnProperty(p.number)) {
+        throw new Error(`Problem ${p.event}.${p.number} was registered twice`);
     }
-    e[p.day.toString()] = p;
+    e[p.number.toString()] = p;
 };
 
 for (const event in problems) {

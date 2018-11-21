@@ -23,9 +23,9 @@ const listProblemsByEvent: State => Event[] = state => {
         // descending by event
         if (a.event > b.event) return -1;
         if (a.event < b.event) return  1;
-        // assending by day
-        if (a.day < b.day) return -1;
-        if (a.day > b.day) return  1;
+        // assending by number
+        if (a.number < b.number) return -1;
+        if (a.number > b.number) return  1;
         return 0; // which violates ProblemStore's invariant
     });
     let curr = {};
