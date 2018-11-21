@@ -1,7 +1,4 @@
-const Day01 = {
-    event: "2015",
-    number: 1,
-    title: "Not Quite Lisp",
+const solver = {
     partOne: input => {
         input = input.trim();
         let floor = 0;
@@ -23,4 +20,4 @@ const Day01 = {
     },
 };
 
-export default Day01;
+export default solver;

@@ -39,12 +39,11 @@ Once Node and NPM are available:
     npm install
     npm test
 
-Copy the `src/problems/template.js` file to the appropriate location, fill in
-the problem's details, write some tests next to it, and then implement the
-`partOne` and `partTwo` functions.
+Copy the `src/problems/utils/template.js` file to the appropriate location,
+write some tests next to it, and implement `partOne` and `partTwo`.
 
-When your solution is ready to go, register it in `index.js` to get it loaded
-into the solver UI.
+When your solution is ready to go, register it in its folder's `index.js` with
+the `wrap` function to get it into the Solver UI.
 
 For a one-shot test-everything run (instead of watching w/ auto rerun), use:
 

@@ -1,11 +1,7 @@
 // @flow strict
-import type {Problem} from "../utils/flow";
+import type {Solver} from "../utils/flow";
 
-const Day02 : Problem = {
-    event: "2015",
-    number: 2,
-    title: "I Was Told There Would Be No Math",
-    // intro: "",
+const solver : Solver = {
     partOne: input =>
         sum(parse(input)
             .map(p => wrappingArea(p))),
@@ -14,7 +10,7 @@ const Day02 : Problem = {
             .map(p => ribbonLength(p))),
 };
 
-export default Day02;
+export default solver;
 
 type Package = {
     w: number,

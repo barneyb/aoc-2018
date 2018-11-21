@@ -13,22 +13,16 @@ export type State = {
 };
 
 const initialState : State = {};
-const loadProblem : Problem => void = p => {
+problems.forEach(p => {
     if (!initialState.hasOwnProperty(p.event)) {
         initialState[p.event] = {}
     }
     const e = initialState[p.event];
     if (e.hasOwnProperty(p.number)) {
-        throw new Error(`Problem ${p.event}.${p.number} was registered twice`);
+        throw new Error(`Problem ${p.event}/${p.number} was registered twice`);
     }
     e[p.number.toString()] = p;
-};
-
-for (const event in problems) {
-    for (const item of Object.keys(problems[event])) {
-        loadProblem(problems[event][item]);
-    }
-}
+});
 
 /*
  * This may seem "silly", but it allows all data access to operate the same way,
@@ -47,8 +41,8 @@ class ProblemStore extends ReduceStore<State> {
         return state;
     }
 
-    getProblem(event: string, day: number): Problem {
-        return this.getState()[event][day.toString()];
+    getProblem(event: string, number: number): Problem {
+        return this.getState()[event][number.toString()];
     }
 
     getProblemsForEvent(event: string): EventProblems {

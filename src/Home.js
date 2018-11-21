@@ -7,8 +7,8 @@ export type Props = {};
 class Home extends Component<Props> {
     render() {
         return <Container style={{marginTop: "7em"}}>
-            <Header as="h1">Barney's AoC Solver</Header>
-            <p>Pick a problem from the menu above to load the solver.
+            <Header as="h1">Barney's Solver</Header>
+            <p>Pick a problem from the menu above to load the solver for that problem.
             </p>
         </Container>
     }

@@ -41,7 +41,7 @@ class App extends Component<Props> {
                     <Container>
                         <Menu.Item as="a" header onClick={() => doHome()}>
                             <Image size="mini" src={logo} style={{marginRight: "1.5em"}}/>
-                            Barney's AoC
+                            Barney!
                         </Menu.Item>
                         {events && events.map(e =>
                             <Dropdown key={e.event} item text={e.event}
