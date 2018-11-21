@@ -7,6 +7,7 @@ import Dispatcher from "./data/Dispatcher";
 import listProblemsByEvent from "./data/listProblemsByEvent";
 import NavStore from "./data/NavStore";
 import SolutionStore from "./data/SolutionStore";
+import type { Props as AppProps } from "./App";
 
 const AppContainer = Container.createFunctional(
     props => <App {...props} />,
@@ -15,7 +16,7 @@ const AppContainer = Container.createFunctional(
         NavStore,
         SolutionStore,
     ],
-    () => {
+    (): AppProps => {
         let curr = NavStore.getCurrentProblem();
         return {
             events: listProblemsByEvent(ProblemStore.getState()),
