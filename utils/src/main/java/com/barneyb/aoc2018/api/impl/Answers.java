@@ -16,4 +16,9 @@ final public class Answers {
     public String getPartTwo() {
         return partTwo;
     }
+
+    @Override
+    public String toString() {
+        return "Answers[" + partOne + ", " + partTwo + ']';
+    }
 }
