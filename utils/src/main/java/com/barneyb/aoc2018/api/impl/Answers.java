@@ -4,6 +4,10 @@ final public class Answers {
     final String partOne;
     final String partTwo;
 
+    public Answers(Object partOne) {
+        this(partOne, "-");
+    }
+
     public Answers(Object partOne, Object partTwo) {
         this.partOne = partOne.toString();
         this.partTwo = partTwo.toString();
