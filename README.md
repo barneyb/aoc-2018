@@ -19,7 +19,7 @@ Feel free to add `-DskipTests` if you don't care.
 
 ## Running
 
-The `solve.sh` script is the way to run (after building)
+The `solve.sh` script is the way to run (after building):
 
     $ ./solve.sh 
     Usage: ./solve.sh <day> <path/to/input.txt>
@@ -44,3 +44,21 @@ Since not all days are necessarily available, they may be enumerated by passing
     ...
 
 If the day you want isn't available, you'll just have to solve it yourself. :)
+
+## Adding a Solver
+
+The `setup.sh` script is the way to get started on a new day's solver:
+
+    $ ./setup.sh 
+    Usage: ./setup.sh <day>
+    $ ./setup.sh 1
+    
+It requires you to be on `master` with nothing staged and a "mostly" clean work
+dir. It'll create a new module, seed it with implementation and test skeleton
+files, touch a dummy `input.txt`. and ensure it builds cleanly. Then it'll
+register the new solver with the runner (for `solve.sh` to use), commit the
+whole shebang to a new branch (which you'll be left on), rebuild the runner,
+and finally list the available solvers, including the new one.
+
+The generated skeleton solves the fake "Day 0" as outlined above, which most
+likely is not what you want. So crack open `Day01.java` and make it better.
