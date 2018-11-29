@@ -23,6 +23,7 @@ The `solve.sh` script is the way to run (after building)
 
     $ ./solve.sh 
     Usage: ./solve.sh <day> <path/to/input.txt>
+           ./solve.sh list
     $ cat runner/dummy-input.txt
       i have spaces!
     $ ./solve.sh 0 runner/dummy-input.txt 
