@@ -154,3 +154,6 @@ git commit -m "skeleton for day $1"
 
 mvn package -DskipTests -pl runner -am
 ./solve.sh list
+
+# deliberately using the raw (unpadded) value
+./solve.sh $1 runner/dummy-input.txt
