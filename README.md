@@ -34,11 +34,13 @@ Given this revision to the measuring rules, how long is the input?
 
 ## Building
 
-Java 1.8.x and Maven 3.3.x are required to build:
+JDK 1.8.x and Maven 3.3.x are required to build:
 
     $ mvn --version
     Apache Maven 3.3.9
     Java version: 1.8.0_161
+    $ javac -version
+    javac 1.8.0_161
     $ mvn package
 
 ## Running
