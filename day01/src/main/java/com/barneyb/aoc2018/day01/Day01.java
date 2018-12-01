@@ -4,18 +4,40 @@ import com.barneyb.aoc2018.api.impl.Answers;
 import com.barneyb.aoc2018.api.impl.OneShotDay;
 import com.barneyb.aoc2018.util.FileUtils;
 
+import java.util.HashSet;
+import java.util.Set;
+
 public class Day01 extends OneShotDay {
 
     @Override
     public Answers solve(String input) {
         int[] drifts = parse(input);
+        return new Answers(
+                sum(drifts),
+                firstRepeat(drifts)
+        );
+    }
+
+    private int sum(int[] drifts) {
         int sum = 0;
         for (int drift : drifts) {
             sum += drift;
         }
-        return new Answers(
-                sum
-        );
+        return sum;
+    }
+
+    int firstRepeat(int[] drifts) {
+        Set<Integer> found = new HashSet<>();
+        int sum = 0;
+        found.add(sum);
+        while (true) {
+            for (int drift : drifts) {
+                sum += drift;
+                if (! found.add(sum)) {
+                    return sum;
+                }
+            }
+        }
     }
 
     private int[] parse(String input) {
