@@ -77,11 +77,14 @@ public class Main {
         try {
             Main m = new Main(args);
             if (m.doSolve) {
+                long startedAt = System.currentTimeMillis();
                 Day solver = m.createSolverForUse(m.day);
                 String input = readInput(m.inputFile);
                 solver.setInput(input);
                 System.out.printf("Part One: %s%n", solver.getPartOne());
                 System.out.printf("Part Two: %s%n", solver.getPartTwo());
+                long elapsed = System.currentTimeMillis() - startedAt;
+                System.out.printf("%d ms%n", elapsed);
             }
         } catch (Exception e) {
             System.out.println("There was an error running the solver:");
