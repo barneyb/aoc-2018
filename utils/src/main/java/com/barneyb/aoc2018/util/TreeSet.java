@@ -111,6 +111,23 @@ public class TreeSet<E extends Comparable<E>> {
         set.clear();
         assert set.isEmpty();
         assert set.size() == 0;
+        if (args.length > 0) {
+            perfTest(Integer.parseInt(args[0]));
+        }
+    }
+
+    static void perfTest(int iterations) {
+        TreeSet<Integer> set = new TreeSet<>();
+        Random r = new Random();
+        int range = 10 * iterations;
+        Stopwatch watch = new Stopwatch();
+        for (int i = 0; i < iterations; i++) {
+            set.add(r.nextInt(range));
+        }
+        for (int i = 0; i < 10 * iterations; i++) {
+            set.contains(r.nextInt(range));
+        }
+        System.out.printf("Perf Test: %d ms%n", watch.elapsed());
     }
 
 }
