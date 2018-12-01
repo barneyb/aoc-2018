@@ -1,20 +1,31 @@
 package com.barneyb.aoc2018.util;
 
-@SuppressWarnings("WeakerAccess")
+import java.util.Random;
+
 public class TreeSet<E extends Comparable<E>> {
 
     private class Node {
         E element;
-        Node left;
-        Node right;
+        int size;
+        Node left, right;
 
         Node(E element) {
+            this(element, 1);
+        }
+
+        Node(E element, int size) {
+            this.size = size;
             this.element = element;
+        }
+
+        void resetSize() {
+            this.size = (left == null ? 0 : left.size)
+                    + (right == null ? 0 : right.size)
+                    + 1;
         }
     }
 
     private Node root;
-    private int size = 0;
 
     public TreeSet() {
     }
@@ -23,38 +34,41 @@ public class TreeSet<E extends Comparable<E>> {
         if (element == null) throw new IllegalArgumentException("No nulls, yo");
         if (root == null) {
             root = new Node(element);
-            size += 1;
             return true;
         }
-        Node curr = root;
-        while (true) {
-            if (element.compareTo(curr.element) < 0) {
-                if (curr.left == null) {
-                    curr.left = new Node(element);
-                    size += 1;
-                    return true;
-                }
-                curr = curr.left;
-            } else if (element.compareTo(curr.element) > 0) {
-                if (curr.right == null) {
-                    curr.right = new Node(element);
-                    size += 1;
-                    return true;
-                }
-                curr = curr.right;
+        return add(element, root);
+    }
+
+    private boolean add(E element, Node curr) {
+        int cmp = element.compareTo(curr.element);
+        boolean result = false; // fallthrough if hit
+        if (cmp < 0) {
+            if (curr.left == null) {
+                curr.left = new Node(element);
+                result = true;
             } else {
-                return false; // found it
+                result = add(element, curr.left);
+            }
+        } else if (cmp > 0) {
+            if (curr.right == null) {
+                curr.right = new Node(element);
+                result = true;
+            } else {
+                result = add(element, curr.right);
             }
         }
+        if (result) {
+            curr.resetSize();
+        }
+        return result;
     }
 
     public void clear() {
         root = null;
-        size = 0;
     }
 
     public int size() {
-        return size;
+        return root == null ? 0 : root.size;
     }
 
     public boolean isEmpty() {
@@ -65,17 +79,21 @@ public class TreeSet<E extends Comparable<E>> {
         if (o == null) return false;
         @SuppressWarnings("unchecked")
         E element = (E) o;
-        Node curr = root;
-        while (curr != null) {
-            if (element.compareTo(curr.element) < 0) {
-                curr = curr.left;
-            } else if (element.compareTo(curr.element) > 0) {
-                curr = curr.right;
-            } else {
-                return true; // found it
-            }
+        return contains(element, root);
+    }
+
+    private boolean contains(E element, Node curr) {
+        if (curr == null) {
+            return false; // miss
         }
-        return false;
+        int cmp = element.compareTo(curr.element);
+        if (cmp < 0) {
+            return contains(element, curr.left);
+        } else if (cmp > 0) {
+            return contains(element, curr.right);
+        } else {
+            return true; // found it
+        }
     }
 
     @SuppressWarnings("AssertWithSideEffects")
