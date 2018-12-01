@@ -24,3 +24,4 @@ git rebase master $branch
 git checkout master
 git merge --no-ff -m "Merge branch '$branch'" $branch
 git branch -d $branch
+git push
