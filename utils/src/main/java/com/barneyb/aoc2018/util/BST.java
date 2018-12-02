@@ -19,12 +19,6 @@ public class BST<K extends Comparable<K>, V> implements ST<K, V> {
             this.value = value;
             this.size = size;
         }
-
-        void resetSize() {
-            this.size = (left == null ? 0 : left.size)
-                    + (right == null ? 0 : right.size)
-                    + 1;
-        }
     }
 
     private Node root;
@@ -33,35 +27,27 @@ public class BST<K extends Comparable<K>, V> implements ST<K, V> {
     }
 
     @Override
-    public void put(K key, V val) {
-        if (key == null || val == null) {
+    public void put(K key, V value) {
+        if (key == null || value == null) {
             throw new IllegalArgumentException("No nulls, yo");
         }
-        if (root == null) {
-            root = new Node(key, val);
-        }
-        put(key, val, root);
+        root = put(root, key, value);
     }
 
-    private void put(K key, V value, Node curr) {
+    private Node put(Node curr, K key, V value) {
+        if (curr == null) {
+            return new Node(key, value);
+        }
         int cmp = key.compareTo(curr.key);
         if (cmp < 0) {
-            if (curr.left == null) {
-                curr.left = new Node(key, value);
-            } else {
-                put(key, value, curr.left);
-            }
-            curr.resetSize();
+            curr.left = put(curr.left, key, value);
         } else if (cmp > 0) {
-            if (curr.right == null) {
-                curr.right = new Node(key, value);
-            } else {
-                put(key, value, curr.right);
-            }
-            curr.resetSize();
+            curr.right = put(curr.right, key, value);
         } else { // replace
             curr.value = value;
         }
+        curr.size = size(curr.left) + size(curr.right) + 1;
+        return curr;
     }
 
     public void clear() {
@@ -69,7 +55,11 @@ public class BST<K extends Comparable<K>, V> implements ST<K, V> {
     }
 
     public int size() {
-        return root == null ? 0 : root.size;
+        return size(root);
+    }
+
+    private int size(Node n) {
+        return n == null ? 0 : n.size;
     }
 
     public boolean isEmpty() {
@@ -78,18 +68,18 @@ public class BST<K extends Comparable<K>, V> implements ST<K, V> {
 
     public V get(K key) {
         if (key == null) return null;
-        return get(key, root);
+        return get(root, key);
     }
 
-    private V get(K key, Node curr) {
+    private V get(Node curr, K key) {
         if (curr == null) {
             return null; // miss
         }
         int cmp = key.compareTo(curr.key);
         if (cmp < 0) {
-            return get(key, curr.left);
+            return get(curr.left, key);
         } else if (cmp > 0) {
-            return get(key, curr.right);
+            return get(curr.right, key);
         } else {
             return curr.value; // found it
         }
