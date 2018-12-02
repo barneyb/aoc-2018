@@ -4,96 +4,35 @@ import java.util.Random;
 
 public class TreeSet<E extends Comparable<E>> {
 
-    private class Node {
-        E element;
-        int size;
-        Node left, right;
+    private static Object VALUE = new int[0]; // this is serializable
 
-        Node(E element) {
-            this(element, 1);
-        }
-
-        Node(E element, int size) {
-            this.size = size;
-            this.element = element;
-        }
-
-        void resetSize() {
-            this.size = (left == null ? 0 : left.size)
-                    + (right == null ? 0 : right.size)
-                    + 1;
-        }
-    }
-
-    private Node root;
+    private BST<E, Object> tree;
 
     public TreeSet() {
+        tree = new BST<>();
     }
 
-    public boolean add(E element) {
-        if (element == null) throw new IllegalArgumentException("No nulls, yo");
-        if (root == null) {
-            root = new Node(element);
-            return true;
-        }
-        return add(element, root);
-    }
-
-    private boolean add(E element, Node curr) {
-        int cmp = element.compareTo(curr.element);
-        boolean result = false; // fallthrough if hit
-        if (cmp < 0) {
-            if (curr.left == null) {
-                curr.left = new Node(element);
-                result = true;
-            } else {
-                result = add(element, curr.left);
-            }
-        } else if (cmp > 0) {
-            if (curr.right == null) {
-                curr.right = new Node(element);
-                result = true;
-            } else {
-                result = add(element, curr.right);
-            }
-        }
-        if (result) {
-            curr.resetSize();
-        }
-        return result;
+    public void add(E element) {
+        tree.put(element, VALUE);
     }
 
     public void clear() {
-        root = null;
+        tree.clear();
     }
 
     public int size() {
-        return root == null ? 0 : root.size;
+        return tree.size();
     }
 
     public boolean isEmpty() {
-        return size() == 0;
+        return tree.isEmpty();
     }
 
     public boolean contains(Object o) {
         if (o == null) return false;
         @SuppressWarnings("unchecked")
         E element = (E) o;
-        return contains(element, root);
-    }
-
-    private boolean contains(E element, Node curr) {
-        if (curr == null) {
-            return false; // miss
-        }
-        int cmp = element.compareTo(curr.element);
-        if (cmp < 0) {
-            return contains(element, curr.left);
-        } else if (cmp > 0) {
-            return contains(element, curr.right);
-        } else {
-            return true; // found it
-        }
+        return tree.contains(element);
     }
 
     @SuppressWarnings("AssertWithSideEffects")
@@ -101,9 +40,9 @@ public class TreeSet<E extends Comparable<E>> {
         TreeSet<Integer> set = new TreeSet<>();
         assert set.isEmpty();
         assert set.size() == 0;
-        assert set.add(3);
-        assert set.add(1);
-        assert ! set.add(3);
+        set.add(3);
+        set.add(1);
+        set.add(3);
         assert set.contains(1);
         assert ! set.contains(2);
         assert ! set.isEmpty();
