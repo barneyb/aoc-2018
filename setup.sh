@@ -76,8 +76,8 @@ EOF
 cat << EOF > ${main}/Day${day}.java
 package com.barneyb.aoc2018.day${day};
 
-import com.barneyb.aoc2018.api.impl.Answers;
-import com.barneyb.aoc2018.api.impl.OneShotDay;
+import com.barneyb.aoc2018.util.Answers;
+import com.barneyb.aoc2018.util.OneShotDay;
 import com.barneyb.aoc2018.util.FileUtils;
 
 public class Day${day} extends OneShotDay {
@@ -104,7 +104,7 @@ cat << EOF > ${test}/Day${day}Test.java
 package com.barneyb.aoc2018.day${day};
 
 import com.barneyb.aoc2018.api.Day;
-import com.barneyb.aoc2018.api.impl.Answers;
+import com.barneyb.aoc2018.util.Answers;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;

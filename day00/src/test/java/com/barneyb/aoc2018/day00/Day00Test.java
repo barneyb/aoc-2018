@@ -1,7 +1,7 @@
 package com.barneyb.aoc2018.day00;
 
 import com.barneyb.aoc2018.api.Day;
-import com.barneyb.aoc2018.api.impl.Answers;
+import com.barneyb.aoc2018.util.Answers;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;

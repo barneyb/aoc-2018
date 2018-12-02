@@ -1,4 +1,4 @@
-package com.barneyb.aoc2018.api.impl;
+package com.barneyb.aoc2018.util;
 
 import com.barneyb.aoc2018.api.Day;
 

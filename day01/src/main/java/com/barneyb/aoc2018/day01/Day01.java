@@ -1,9 +1,9 @@
 package com.barneyb.aoc2018.day01;
 
 import com.barneyb.aoc2018.api.Set;
-import com.barneyb.aoc2018.api.impl.Answers;
-import com.barneyb.aoc2018.api.impl.OneShotDay;
+import com.barneyb.aoc2018.util.Answers;
 import com.barneyb.aoc2018.util.FileUtils;
+import com.barneyb.aoc2018.util.OneShotDay;
 import com.barneyb.aoc2018.util.TreeSet;
 
 public class Day01 extends OneShotDay {
