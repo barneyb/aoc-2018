@@ -2,16 +2,16 @@ package com.barneyb.aoc2018.util;
 
 import java.util.Iterator;
 
-public class Stack<E> implements Iterable<E> {
+public class Queue<E> implements Iterable<E> {
 
     private Deque<E> deque = new Deque<>();
 
-    public void push(E element) {
-        deque.push(element);
+    public void enqueue(E element) {
+        deque.enqueue(element);
     }
 
-    public E pop() {
-        return deque.pop();
+    public E dequeue() {
+        return deque.dequeue();
     }
 
     public int size() {
