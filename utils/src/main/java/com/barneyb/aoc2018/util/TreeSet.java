@@ -1,9 +1,11 @@
 package com.barneyb.aoc2018.util;
 
+import com.barneyb.aoc2018.api.Set;
+
 import java.util.Iterator;
 import java.util.Random;
 
-public class TreeSet<E extends Comparable<E>> implements Iterable<E> {
+public class TreeSet<E extends Comparable<E>> implements Set<E> {
 
     private static Object VALUE = new int[0]; // this is serializable
 
@@ -23,10 +25,6 @@ public class TreeSet<E extends Comparable<E>> implements Iterable<E> {
 
     public int size() {
         return tree.size();
-    }
-
-    public boolean isEmpty() {
-        return tree.isEmpty();
     }
 
     public boolean contains(Object o) {
