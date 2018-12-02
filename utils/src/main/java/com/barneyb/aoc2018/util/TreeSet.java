@@ -37,25 +37,7 @@ public class TreeSet<E extends Comparable<E>> {
 
     @SuppressWarnings("AssertWithSideEffects")
     public static void main(String[] args) {
-        TreeSet<Integer> set = new TreeSet<>();
-        assert set.isEmpty();
-        assert set.size() == 0;
-        set.add(3);
-        set.add(1);
-        set.add(3);
-        assert set.contains(1);
-        assert ! set.contains(2);
-        assert ! set.isEmpty();
-        assert set.size() == 2;
-        set.clear();
-        assert set.isEmpty();
-        assert set.size() == 0;
-        if (args.length > 0) {
-            perfTest(Integer.parseInt(args[0]));
-        }
-    }
-
-    static void perfTest(int iterations) {
+        int iterations = 100_000; // ~550 ms
         TreeSet<Integer> set = new TreeSet<>();
         Random r = new Random();
         int range = 10 * iterations;
