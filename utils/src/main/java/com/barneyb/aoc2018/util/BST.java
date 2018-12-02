@@ -85,4 +85,18 @@ public class BST<K extends Comparable<K>, V> implements ST<K, V> {
         }
     }
 
+    @Override
+    public Iterable<K> keys() {
+        Queue<K> q = new Queue<K>();
+        keys(root, q);
+        return q;
+    }
+
+    private void keys(Node curr, Queue<K> q) {
+        if (curr == null) return;
+        keys(curr.left, q);
+        q.enqueue(curr.key);
+        keys(curr.right, q);
+    }
+
 }

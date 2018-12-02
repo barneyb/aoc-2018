@@ -23,6 +23,6 @@ public interface ST<K, V> {
 
     int size();
 
-    // Iterable<Keys> keys()
+    Iterable<K> keys();
 
 }
