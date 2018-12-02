@@ -80,6 +80,7 @@ public class Main {
                 long startedAt = System.currentTimeMillis();
                 Day solver = m.createSolverForUse(m.day);
                 String input = readInput(m.inputFile);
+                System.out.printf("Solving Day %d against '%s' ...%n", m.day, m.inputFile);
                 solver.setInput(input);
                 System.out.printf("Part One: %s%n", solver.getPartOne());
                 System.out.printf("Part Two: %s%n", solver.getPartTwo());
