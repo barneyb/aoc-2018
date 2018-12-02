@@ -1,11 +1,10 @@
 package com.barneyb.aoc2018.day01;
 
+import com.barneyb.aoc2018.api.Set;
 import com.barneyb.aoc2018.api.impl.Answers;
 import com.barneyb.aoc2018.api.impl.OneShotDay;
 import com.barneyb.aoc2018.util.FileUtils;
-
-import java.util.HashSet;
-import java.util.Set;
+import com.barneyb.aoc2018.util.TreeSet;
 
 public class Day01 extends OneShotDay {
 
@@ -27,7 +26,7 @@ public class Day01 extends OneShotDay {
     }
 
     int firstRepeat(int[] drifts) {
-        Set<Integer> found = new HashSet<>();
+        Set<Integer> found = new TreeSet<>();
         int sum = 0;
         found.add(sum);
         while (true) {
