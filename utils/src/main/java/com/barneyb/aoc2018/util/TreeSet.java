@@ -36,7 +36,11 @@ public class TreeSet<E extends Comparable<E>> implements Iterable<E> {
         return tree.contains(element);
     }
 
-    @SuppressWarnings("AssertWithSideEffects")
+    @Override
+    public Iterator<E> iterator() {
+        return tree.keys().iterator();
+    }
+
     public static void main(String[] args) {
         int iterations = 100_000; // ~550 ms
         TreeSet<Integer> set = new TreeSet<>();
@@ -50,11 +54,6 @@ public class TreeSet<E extends Comparable<E>> implements Iterable<E> {
             set.contains(r.nextInt(range));
         }
         System.out.printf("Perf Test: %d ms%n", watch.elapsed());
-    }
-
-    @Override
-    public Iterator<E> iterator() {
-        return tree.keys().iterator();
     }
 
 }
