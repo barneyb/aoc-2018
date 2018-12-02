@@ -33,9 +33,10 @@ public class Day01 extends OneShotDay {
         while (true) {
             for (int drift : drifts) {
                 sum += drift;
-                if (! found.add(sum)) {
+                if (found.contains(sum)) {
                     return sum;
                 }
+                found.add(sum);
             }
         }
     }
