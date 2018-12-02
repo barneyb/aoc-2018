@@ -1,8 +1,9 @@
 package com.barneyb.aoc2018.util;
 
+import java.util.Iterator;
 import java.util.Random;
 
-public class TreeSet<E extends Comparable<E>> {
+public class TreeSet<E extends Comparable<E>> implements Iterable<E> {
 
     private static Object VALUE = new int[0]; // this is serializable
 
@@ -35,7 +36,11 @@ public class TreeSet<E extends Comparable<E>> {
         return tree.contains(element);
     }
 
-    @SuppressWarnings("AssertWithSideEffects")
+    @Override
+    public Iterator<E> iterator() {
+        return tree.keys().iterator();
+    }
+
     public static void main(String[] args) {
         int iterations = 100_000; // ~550 ms
         TreeSet<Integer> set = new TreeSet<>();

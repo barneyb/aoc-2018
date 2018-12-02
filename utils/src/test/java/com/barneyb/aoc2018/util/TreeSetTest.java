@@ -2,6 +2,8 @@ package com.barneyb.aoc2018.util;
 
 import org.junit.Test;
 
+import java.util.Iterator;
+
 public class TreeSetTest {
 
     @Test
@@ -19,6 +21,22 @@ public class TreeSetTest {
         set.clear();
         assert set.isEmpty();
         assert set.size() == 0;
+    }
+
+    @Test
+    public void iterator() {
+        TreeSet<Integer> st = new TreeSet<>();
+        st.add(1);
+        st.add(3);
+        st.add(5);
+        Iterator<Integer> itr = st.iterator();
+        assert itr.hasNext();
+        assert st.contains(itr.next());
+        assert itr.hasNext();
+        assert st.contains(itr.next());
+        assert itr.hasNext();
+        assert st.contains(itr.next());
+        assert ! itr.hasNext();
     }
 
 }
