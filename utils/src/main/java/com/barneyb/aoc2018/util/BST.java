@@ -14,7 +14,7 @@ public class BST<K extends Comparable<K>, V> implements ST<K, V> {
         V value;
         int size;
         Node left, right;
-        boolean color; // black by default
+        boolean color = RED; // new nodes are always red-linked
 
         Node(K key, V value) {
             this(key, value, 1);
@@ -54,33 +54,52 @@ public class BST<K extends Comparable<K>, V> implements ST<K, V> {
             curr.value = value;
         }
         curr.size = size(curr.left) + size(curr.right) + 1;
+        if (isRed(curr.right) && ! isRed(curr.left)) {
+            curr = rotateLeft(curr);
+        }
+        if (isRed(curr.left) && isRed(curr.left.left)) {
+            curr = rotateRight(curr);
+        }
+        if (isRed(curr.left) && isRed(curr.right)) {
+            flipColors(curr);
+        }
         return curr;
     }
 
     private boolean isRed(Node n) {
+        if (n == null) {
+            // null links are black (by fiat)
+            return false;
+        }
         return n.color == RED;
     }
 
-    private Node rotateLeft(Node r) {
-        Node c = r.right;
-        r.right = c.left;
-        c.left = r;
-        c.color = r.color;
-        r.color = RED;
-        c.size = r.size;
-        r.size = size(r.left) + size(r.right) + 1;
-        return c;
+    private Node rotateLeft(Node h) {
+        Node x = h.right;
+        h.right = x.left;
+        x.left = h;
+        x.color = h.color;
+        h.color = RED;
+        x.size = h.size;
+        h.size = size(h.left) + size(h.right) + 1;
+        return x;
     }
 
-    private Node rotateRight(Node r) {
-        Node c = r.left;
-        r.left = c.right;
-        c.right = r;
-        c.color = r.color;
-        r.color = RED;
-        c.size = r.size;
-        r.size = size(r.left) + size(r.right) + 1;
-        return c;
+    private Node rotateRight(Node h) {
+        Node x = h.left;
+        h.left = x.right;
+        x.right = h;
+        x.color = h.color;
+        h.color = RED;
+        x.size = h.size;
+        h.size = size(h.left) + size(h.right) + 1;
+        return x;
+    }
+
+    private void flipColors(Node h) {
+        h.color = RED;
+        h.left.color = BLACK;
+        h.right.color = BLACK;
     }
 
     public void clear() {
