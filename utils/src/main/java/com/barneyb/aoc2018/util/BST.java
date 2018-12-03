@@ -4,11 +4,15 @@ import com.barneyb.aoc2018.api.ST;
 
 public class BST<K extends Comparable<K>, V> implements ST<K, V> {
 
+    private static boolean RED = true;
+    private static boolean BLACK = false;
+
     private class Node {
         K key;
         V value;
         int size;
         Node left, right;
+        boolean color; // black by default
 
         Node(K key, V value) {
             this(key, value, 1);
@@ -32,6 +36,7 @@ public class BST<K extends Comparable<K>, V> implements ST<K, V> {
             throw new IllegalArgumentException("No nulls, yo");
         }
         root = put(root, key, value);
+        root.color = BLACK;
     }
 
     private Node put(Node curr, K key, V value) {
@@ -48,6 +53,32 @@ public class BST<K extends Comparable<K>, V> implements ST<K, V> {
         }
         curr.size = size(curr.left) + size(curr.right) + 1;
         return curr;
+    }
+
+    private boolean isRed(Node n) {
+        return n.color == RED;
+    }
+
+    private Node rotateLeft(Node r) {
+        Node c = r.right;
+        r.right = c.left;
+        c.left = r;
+        c.color = r.color;
+        r.color = RED;
+        c.size = r.size;
+        r.size = size(r.left) + size(r.right) + 1;
+        return c;
+    }
+
+    private Node rotateRight(Node r) {
+        Node c = r.left;
+        r.left = c.right;
+        c.right = r;
+        c.color = r.color;
+        r.color = RED;
+        c.size = r.size;
+        r.size = size(r.left) + size(r.right) + 1;
+        return c;
     }
 
     public void clear() {
