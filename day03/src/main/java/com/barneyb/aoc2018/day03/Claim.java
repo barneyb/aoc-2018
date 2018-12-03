@@ -1,23 +1,18 @@
 package com.barneyb.aoc2018.day03;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import com.barneyb.aoc2018.util.Scanner;
 
 class Claim {
 
-    private static final Pattern PATTERN_STRING = Pattern.compile("#([0-9]+) @ ([0-9]+),([0-9]+): ([0-9]+)x([0-9]+)");
     public static Claim fromString(String str) {
         //#123 @ 3,2: 5x4
-        Matcher m = PATTERN_STRING.matcher(str);
-        if (! m.matches()) {
-            throw new RuntimeException("Malformed Input: '" + str + "'");
-        }
+        Scanner s = new Scanner(str);
         return new Claim(
-                Integer.parseInt(m.group(1)),
-                Integer.parseInt(m.group(2)),
-                Integer.parseInt(m.group(3)),
-                Integer.parseInt(m.group(4)),
-                Integer.parseInt(m.group(5))
+                s.skip("#").readInt(),
+                s.skip(" @ ").readInt(),
+                s.skip(",").readInt(),
+                s.skip(": ").readInt(),
+                s.skip("x").readInt()
         );
     }
 
