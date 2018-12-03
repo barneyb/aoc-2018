@@ -4,6 +4,8 @@ import org.junit.Test;
 
 import java.util.Iterator;
 
+import static org.junit.Assert.*;
+
 public class TreeSetTest {
 
     @Test
@@ -37,6 +39,16 @@ public class TreeSetTest {
         assert itr.hasNext();
         assert st.contains(itr.next());
         assert ! itr.hasNext();
+    }
+
+    @Test
+    public void toString_() {
+        TreeSet<Integer> st = new TreeSet<>();
+        assertEquals("[]", st.toString());
+        st.add(3);
+        st.add(7);
+        st.add(1);
+        assertEquals("[1,3,7]", st.toString());
     }
 
 }
