@@ -4,7 +4,7 @@ import java.util.Iterator;
 
 public class Queue<E> implements Iterable<E> {
 
-    private Deque<E> deque = new Deque<>();
+    private final Deque<E> deque = new Deque<>();
 
     public void enqueue(E element) {
         deque.enqueue(element);

@@ -5,7 +5,7 @@ import java.util.Iterator;
 public class Deque<E> implements Iterable<E> {
 
     class Link {
-        E element;
+        final E element;
         Link next;
 
         public Link(E element) {

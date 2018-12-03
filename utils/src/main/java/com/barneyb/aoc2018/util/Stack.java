@@ -4,7 +4,7 @@ import java.util.Iterator;
 
 public class Stack<E> implements Iterable<E> {
 
-    private Deque<E> deque = new Deque<>();
+    private final Deque<E> deque = new Deque<>();
 
     public void push(E element) {
         deque.push(element);

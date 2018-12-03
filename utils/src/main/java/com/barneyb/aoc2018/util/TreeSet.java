@@ -7,13 +7,9 @@ import java.util.Random;
 
 public class TreeSet<E extends Comparable<E>> implements Set<E> {
 
-    private static Object VALUE = new int[0]; // this is serializable
+    private static final Object VALUE = new int[0]; // this is serializable
 
-    private BST<E, Object> tree;
-
-    public TreeSet() {
-        tree = new BST<>();
-    }
+    private final BST<E, Object> tree= new BST<>();
 
     public void add(E element) {
         tree.put(element, VALUE);

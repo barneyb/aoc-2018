@@ -6,24 +6,19 @@ import java.util.Iterator;
 
 public class BST<K extends Comparable<K>, V> implements ST<K, V> {
 
-    private static boolean RED = true;
-    private static boolean BLACK = false;
+    private static final boolean RED = true;
+    private static final boolean BLACK = false;
 
     private class Node {
-        K key;
+        final K key;
         V value;
-        int size;
+        int size = 1; // new nodes always are just themselves
         Node left, right;
         boolean color = RED; // new nodes are always red-linked
 
         Node(K key, V value) {
-            this(key, value, 1);
-        }
-
-        Node(K key, V value, int size) {
             this.key = key;
             this.value = value;
-            this.size = size;
         }
     }
 
@@ -139,7 +134,7 @@ public class BST<K extends Comparable<K>, V> implements ST<K, V> {
 
     @Override
     public Iterable<K> keys() {
-        Queue<K> q = new Queue<K>();
+        Queue<K> q = new Queue<>();
         keys(root, q);
         return q;
     }
