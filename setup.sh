@@ -37,13 +37,13 @@ root="day$day"
 main="$root/src/main/java/com/barneyb/aoc2018/day$day"
 test="$root/src/test/java/com/barneyb/aoc2018/day$day"
 
-if [ -d $root ]; then
+if [ -d ${root} ]; then
     echo "Day $day is already set up"
     exit 1
 fi
 
-mkdir -p $main
-mkdir -p $test
+mkdir -p ${main}
+mkdir -p ${test}
 
 cat << EOF > ${root}/pom.xml
 <?xml version="1.0" encoding="UTF-8"?>
@@ -57,7 +57,7 @@ cat << EOF > ${root}/pom.xml
         <version>0.1.0-SNAPSHOT</version>
         <relativePath>../parent/pom.xml</relativePath>
     </parent>
-    <artifactId>day$day</artifactId>
+    <artifactId>day${day}</artifactId>
     <dependencies>
         <dependency>
             <groupId>com.barneyb.aoc-2018</groupId>
