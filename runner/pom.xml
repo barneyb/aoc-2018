@@ -18,6 +18,11 @@
         </dependency>
         <dependency>
             <groupId>com.barneyb.aoc-2018</groupId>
+            <artifactId>day03</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.barneyb.aoc-2018</groupId>
             <artifactId>day02</artifactId>
             <version>${project.version}</version>
         </dependency>
