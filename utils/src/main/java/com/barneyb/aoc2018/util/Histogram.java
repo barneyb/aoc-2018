@@ -6,14 +6,17 @@ public class Histogram<T extends Comparable<T>> extends BST<T, Integer> {
         Histogram<Character> h = new Histogram<>();
         Character c;
         for (int i = 0, l = s.length(); i < l; i++) {
-            c = s.charAt(i);
-            if (h.contains(c)) {
-                h.put(c, h.get(c) + 1);
-            } else {
-                h.put(c, 1);
-            }
+            h.count(s.charAt(i));
         }
         return h;
+    }
+
+    public void count(T c) {
+        if (contains(c)) {
+            put(c, get(c) + 1);
+        } else {
+            put(c, 1);
+        }
     }
 
     /**
