@@ -107,7 +107,7 @@ import com.barneyb.aoc2018.api.Day;
 import com.barneyb.aoc2018.util.Answers;
 import org.junit.Test;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 
 public class Day${day}Test {
 

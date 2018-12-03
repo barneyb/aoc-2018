@@ -2,7 +2,7 @@ package com.barneyb.aoc2018.day02;
 
 import org.junit.Test;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 
 public class Day02Test {
 
@@ -39,9 +39,9 @@ public class Day02Test {
     @Test
     public void areNeighbors() {
         Day02 d = new Day02();
-        assert ! d.areNeighbors("abc", "abc"); // identical
-        assert d.areNeighbors("abc", "abx"); // one diff
-        assert ! d.areNeighbors("abc", "axy"); // two diffs
+        assertFalse(d.areNeighbors("abc", "abc")); // identical
+        assertTrue(d.areNeighbors("abc", "abx")); // one diff
+        assertFalse(d.areNeighbors("abc", "axy")); // two diffs
     }
 
     @Test

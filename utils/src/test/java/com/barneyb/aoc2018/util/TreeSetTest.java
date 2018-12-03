@@ -11,18 +11,18 @@ public class TreeSetTest {
     @Test
     public void allInOne() {
         TreeSet<Integer> set = new TreeSet<>();
-        assert set.isEmpty();
-        assert set.size() == 0;
+        assertTrue(set.isEmpty());
+        assertEquals(0, set.size());
         set.add(3);
         set.add(1);
         set.add(3);
-        assert set.contains(1);
-        assert ! set.contains(2);
-        assert ! set.isEmpty();
-        assert set.size() == 2;
+        assertTrue(set.contains(1));
+        assertFalse(set.contains(2));
+        assertFalse(set.isEmpty());
+        assertEquals(2, set.size());
         set.clear();
-        assert set.isEmpty();
-        assert set.size() == 0;
+        assertTrue(set.isEmpty());
+        assertEquals(0, set.size());
     }
 
     @Test
@@ -32,13 +32,13 @@ public class TreeSetTest {
         st.add(3);
         st.add(5);
         Iterator<Integer> itr = st.iterator();
-        assert itr.hasNext();
-        assert st.contains(itr.next());
-        assert itr.hasNext();
-        assert st.contains(itr.next());
-        assert itr.hasNext();
-        assert st.contains(itr.next());
-        assert ! itr.hasNext();
+        assertTrue(itr.hasNext());
+        assertTrue(st.contains(itr.next()));
+        assertTrue(itr.hasNext());
+        assertTrue(st.contains(itr.next()));
+        assertTrue(itr.hasNext());
+        assertTrue(st.contains(itr.next()));
+        assertFalse(itr.hasNext());
     }
 
     @Test

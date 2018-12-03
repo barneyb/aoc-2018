@@ -4,28 +4,29 @@ import org.junit.Test;
 
 import java.util.Iterator;
 
-import static org.junit.Assert.assertEquals;
+import static java.lang.Integer.valueOf;
+import static org.junit.Assert.*;
 
 public class BSTTest {
 
     @Test
     public void allInOne() {
         BST<Integer, Integer> st = new BST<>();
-        assert st.isEmpty();
-        assert st.size() == 0;
+        assertTrue(st.isEmpty());
+        assertEquals(0, st.size());
         st.put(3, 4);
         st.put(1, 2);
         st.put(3, 5);
-        assert st.contains(1);
-        assert ! st.contains(2);
-        assert ! st.isEmpty();
-        assert st.size() == 2;
-        assert st.get(1) == 2;
-        assert st.get(2) == null;
-        assert st.get(3) == 5;
+        assertTrue(st.contains(1));
+        assertFalse(st.contains(2));
+        assertFalse(st.isEmpty());
+        assertEquals(2, st.size());
+        assertEquals(valueOf(2), st.get(1));
+        assertNull(st.get(2));
+        assertEquals(valueOf(5), st.get(3));
         st.clear();
-        assert st.isEmpty();
-        assert st.size() == 0;
+        assertTrue(st.isEmpty());
+        assertEquals(0, st.size());
     }
 
     @Test
@@ -35,13 +36,13 @@ public class BSTTest {
         st.put(3, 4);
         st.put(5, 6);
         Iterator<Integer> itr = st.keys().iterator();
-        assert itr.hasNext();
-        assert st.contains(itr.next());
-        assert itr.hasNext();
-        assert st.contains(itr.next());
-        assert itr.hasNext();
-        assert st.contains(itr.next());
-        assert ! itr.hasNext();
+        assertTrue(itr.hasNext());
+        assertTrue(st.contains(itr.next()));
+        assertTrue(itr.hasNext());
+        assertTrue(st.contains(itr.next()));
+        assertTrue(itr.hasNext());
+        assertTrue(st.contains(itr.next()));
+        assertFalse(itr.hasNext());
     }
 
     @Test
