@@ -1,4 +1,4 @@
-package com.barneyb.aoc2018.day02;
+package com.barneyb.aoc2018.util;
 
 import org.junit.Test;
 
