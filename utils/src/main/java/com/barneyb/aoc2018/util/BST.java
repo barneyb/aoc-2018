@@ -2,6 +2,8 @@ package com.barneyb.aoc2018.util;
 
 import com.barneyb.aoc2018.api.ST;
 
+import java.util.Iterator;
+
 public class BST<K extends Comparable<K>, V> implements ST<K, V> {
 
     private static boolean RED = true;
@@ -130,4 +132,16 @@ public class BST<K extends Comparable<K>, V> implements ST<K, V> {
         keys(curr.right, q);
     }
 
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder("{");
+        for (Iterator<K> itr = keys().iterator(); itr.hasNext(); ) {
+            K k = itr.next();
+            sb.append(k).append(':').append(get(k));
+            if (itr.hasNext()) {
+                sb.append(',');
+            }
+        }
+        return sb.append('}').toString();
+    }
 }
