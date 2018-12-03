@@ -1,6 +1,5 @@
 package com.barneyb.aoc2018.day03;
 
-import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -37,16 +36,21 @@ class Claim {
         if (this == o) return true;
         if (!(o instanceof Claim)) return false;
         Claim claim = (Claim) o;
-        return id == claim.id &&
-                left == claim.left &&
-                top == claim.top &&
-                width == claim.width &&
-                height == claim.height;
+        if (id != claim.id) return false;
+        if (left != claim.left) return false;
+        if (top != claim.top) return false;
+        if (width != claim.width) return false;
+        return height == claim.height;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, left, top, width, height);
+        int result = id;
+        result = 31 * result + left;
+        result = 31 * result + top;
+        result = 31 * result + width;
+        result = 31 * result + height;
+        return result;
     }
 
     @Override
