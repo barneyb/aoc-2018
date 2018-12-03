@@ -3,7 +3,6 @@ package com.barneyb.aoc2018.util;
 import com.barneyb.aoc2018.api.Set;
 
 import java.util.Iterator;
-import java.util.Random;
 
 public class TreeSet<E extends Comparable<E>> implements Set<E> {
 
@@ -46,21 +45,6 @@ public class TreeSet<E extends Comparable<E>> implements Set<E> {
             }
         }
         return sb.append(']').toString();
-    }
-
-    public static void main(String[] args) {
-        int iterations = 100_000; // ~550 ms
-        TreeSet<Integer> set = new TreeSet<>();
-        Random r = new Random();
-        int range = 10 * iterations;
-        Stopwatch watch = new Stopwatch();
-        for (int i = 0; i < iterations; i++) {
-            set.add(r.nextInt(range));
-        }
-        for (int i = 0; i < 10 * iterations; i++) {
-            set.contains(r.nextInt(range));
-        }
-        System.out.printf("Perf Test: %d ms%n", watch.elapsed());
     }
 
 }
