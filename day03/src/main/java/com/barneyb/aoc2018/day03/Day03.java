@@ -11,7 +11,8 @@ public class Day03 extends OneShotDay {
     public Answers solve(String input) {
         Fabric s = new Fabric(parse(input));
         return new Answers(
-                s.partOne()
+                s.partOne(),
+                s.partTwo()
         );
     }
 
@@ -19,6 +20,7 @@ public class Day03 extends OneShotDay {
 
         Claim[] claims;
         int width, height;
+        Histogram<Integer> claimHistogram;
 
         Fabric(Claim[] claims) {
             this.claims = claims;
@@ -26,16 +28,28 @@ public class Day03 extends OneShotDay {
                 width = Math.max(width, c.left + c.width);
                 height = Math.max(height, c.top + c.height);
             }
+            claimHistogram = buildClaimHistogram();
+        }
+
+        private int partTwo() {
+            claimLoop:
+            for (Claim c : claims) {
+                for (int x = c.left, mx = c.left + c.width; x < mx; x++) {
+                    for (int y = c.top, my = c.top + c.height; y < my; y++) {
+                        if (claimHistogram.get(index(x, y)) > 1) {
+                            continue claimLoop;
+                        }
+                    }
+                }
+                return c.id;
+            }
+            throw new RuntimeException("No claim is isolated");
         }
 
         private int partOne() {
-            Histogram<Integer> h = new Histogram<>();
-            for (Claim c : claims) {
-                lay(c, h);
-            }
             int mulitClaimCount = 0;
-            for (Integer i : h.keys()) {
-                if (h.get(i) > 1) {
+            for (Integer i : claimHistogram.keys()) {
+                if (claimHistogram.get(i) > 1) {
                     mulitClaimCount += 1;
                 }
             }
@@ -47,6 +61,14 @@ public class Day03 extends OneShotDay {
 //                System.out.println();
 //            }
             return mulitClaimCount;
+        }
+
+        private Histogram<Integer> buildClaimHistogram() {
+            Histogram<Integer> h = new Histogram<>();
+            for (Claim c : claims) {
+                lay(c, h);
+            }
+            return h;
         }
 
         private void lay(Claim c, Histogram<Integer> h) {
