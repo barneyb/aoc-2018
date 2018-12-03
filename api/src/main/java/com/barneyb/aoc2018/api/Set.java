@@ -1,7 +1,5 @@
 package com.barneyb.aoc2018.api;
 
-import java.util.Iterator;
-
 public interface Set<E> extends Iterable<E> {
 
     // Set()
@@ -17,7 +15,5 @@ public interface Set<E> extends Iterable<E> {
     }
 
     boolean contains(Object o);
-
-    Iterator<E> iterator();
 
 }
