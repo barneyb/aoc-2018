@@ -12,11 +12,6 @@
     <artifactId>runner</artifactId>
     <dependencies>
         <dependency>
-            <groupId>commons-io</groupId>
-            <artifactId>commons-io</artifactId>
-            <version>2.6</version>
-        </dependency>
-        <dependency>
             <groupId>com.barneyb.aoc-2018</groupId>
             <artifactId>day03</artifactId>
             <version>${project.version}</version>

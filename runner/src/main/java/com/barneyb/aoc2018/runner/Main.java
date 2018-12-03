@@ -1,7 +1,7 @@
 package com.barneyb.aoc2018.runner;
 
 import com.barneyb.aoc2018.api.Day;
-import org.apache.commons.io.FileUtils;
+import com.barneyb.aoc2018.util.FileUtils;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -42,7 +42,7 @@ public class Main {
         if (! f.exists()) {
             throw new FileNotFoundException("File not found: " + f.getCanonicalPath());
         }
-        return FileUtils.readFileToString(f, "UTF-8");
+        return FileUtils.readFile(f);
     }
 
     private void printHelp() {

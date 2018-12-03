@@ -7,7 +7,10 @@ import java.nio.file.Files;
 public final class FileUtils {
 
     public static String readFile(String path) {
-        File f = new File(path);
+        return readFile(new File(path));
+    }
+
+    public static String readFile(File f) {
         if (! f.exists()) {
             throw new IllegalArgumentException("File not found '" + f.getAbsolutePath() + '\'');
         }
