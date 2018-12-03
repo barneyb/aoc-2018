@@ -1,4 +1,4 @@
-package com.barneyb.aoc2018.day02;
+package com.barneyb.aoc2018.util;
 
 import org.junit.Test;
 
@@ -30,5 +30,20 @@ public class HistogramTest {
         assertEquals(valueOf(2), h.get('b'));
         assertEquals(valueOf(3), h.get('c'));
     }
+
+    @Test
+    public void count() {
+        Histogram<Character> h = new Histogram<>();
+        h.count('c');
+        h.count('b');
+        h.count('a');
+        h.count('c');
+        h.count('b');
+        h.count('c');
+        assertEquals(valueOf(1), h.get('a'));
+        assertEquals(valueOf(2), h.get('b'));
+        assertEquals(valueOf(3), h.get('c'));
+    }
+
 
 }

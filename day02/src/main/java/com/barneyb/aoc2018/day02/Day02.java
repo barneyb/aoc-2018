@@ -2,6 +2,7 @@ package com.barneyb.aoc2018.day02;
 
 import com.barneyb.aoc2018.util.Answers;
 import com.barneyb.aoc2018.util.FileUtils;
+import com.barneyb.aoc2018.util.Histogram;
 import com.barneyb.aoc2018.util.OneShotDay;
 
 public class Day02 extends OneShotDay {
