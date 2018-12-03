@@ -39,6 +39,19 @@ public class TreeSet<E extends Comparable<E>> implements Set<E> {
         return tree.keys().iterator();
     }
 
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder("[");
+        for (Iterator<E> itr = iterator(); itr.hasNext(); ) {
+            E el = itr.next();
+            sb.append(el);
+            if (itr.hasNext()) {
+                sb.append(',');
+            }
+        }
+        return sb.append(']').toString();
+    }
+
     public static void main(String[] args) {
         int iterations = 100_000; // ~550 ms
         TreeSet<Integer> set = new TreeSet<>();

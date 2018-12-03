@@ -2,13 +2,19 @@ package com.barneyb.aoc2018.util;
 
 import com.barneyb.aoc2018.api.ST;
 
+import java.util.Iterator;
+
 public class BST<K extends Comparable<K>, V> implements ST<K, V> {
+
+    private static boolean RED = true;
+    private static boolean BLACK = false;
 
     private class Node {
         K key;
         V value;
         int size;
         Node left, right;
+        boolean color = RED; // new nodes are always red-linked
 
         Node(K key, V value) {
             this(key, value, 1);
@@ -32,6 +38,7 @@ public class BST<K extends Comparable<K>, V> implements ST<K, V> {
             throw new IllegalArgumentException("No nulls, yo");
         }
         root = put(root, key, value);
+        root.color = BLACK;
     }
 
     private Node put(Node curr, K key, V value) {
@@ -47,7 +54,52 @@ public class BST<K extends Comparable<K>, V> implements ST<K, V> {
             curr.value = value;
         }
         curr.size = size(curr.left) + size(curr.right) + 1;
+        if (isRed(curr.right) && ! isRed(curr.left)) {
+            curr = rotateLeft(curr);
+        }
+        if (isRed(curr.left) && isRed(curr.left.left)) {
+            curr = rotateRight(curr);
+        }
+        if (isRed(curr.left) && isRed(curr.right)) {
+            flipColors(curr);
+        }
         return curr;
+    }
+
+    private boolean isRed(Node n) {
+        if (n == null) {
+            // null links are black (by fiat)
+            return false;
+        }
+        return n.color == RED;
+    }
+
+    private Node rotateLeft(Node h) {
+        Node x = h.right;
+        h.right = x.left;
+        x.left = h;
+        x.color = h.color;
+        h.color = RED;
+        x.size = h.size;
+        h.size = size(h.left) + size(h.right) + 1;
+        return x;
+    }
+
+    private Node rotateRight(Node h) {
+        Node x = h.left;
+        h.left = x.right;
+        x.right = h;
+        x.color = h.color;
+        h.color = RED;
+        x.size = h.size;
+        h.size = size(h.left) + size(h.right) + 1;
+        return x;
+    }
+
+    private void flipColors(Node h) {
+        h.color = RED;
+        h.left.color = BLACK;
+        h.right.color = BLACK;
     }
 
     public void clear() {
@@ -99,4 +151,16 @@ public class BST<K extends Comparable<K>, V> implements ST<K, V> {
         keys(curr.right, q);
     }
 
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder("{");
+        for (Iterator<K> itr = keys().iterator(); itr.hasNext(); ) {
+            K k = itr.next();
+            sb.append(k).append(':').append(get(k));
+            if (itr.hasNext()) {
+                sb.append(',');
+            }
+        }
+        return sb.append('}').toString();
+    }
 }

@@ -4,6 +4,8 @@ import org.junit.Test;
 
 import java.util.Iterator;
 
+import static org.junit.Assert.assertEquals;
+
 public class BSTTest {
 
     @Test
@@ -40,6 +42,16 @@ public class BSTTest {
         assert itr.hasNext();
         assert st.contains(itr.next());
         assert ! itr.hasNext();
+    }
+
+    @Test
+    public void toString_() {
+        BST<String, Integer> st = new BST<>();
+        assertEquals("{}", st.toString());
+        st.put("cat", 3);
+        st.put("dog", 7);
+        st.put("bat", 1);
+        assertEquals("{bat:1,cat:3,dog:7}", st.toString());
     }
 
 }
