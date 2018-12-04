@@ -23,6 +23,32 @@ public class Histogram<T extends Comparable<T>> extends BST<T, Integer> {
         }
     }
 
+    public T leastFrequent() {
+        T element = null;
+        int frequency = Integer.MAX_VALUE;
+        for (T g : keys()) {
+            Integer f = get(g);
+            if (f < frequency) {
+                frequency = f;
+                element = g;
+            }
+        }
+        return element;
+    }
+
+    public T mostFrequent() {
+        T element = null;
+        int frequency = -1;
+        for (T g : keys()) {
+            Integer f = get(g);
+            if (f > frequency) {
+                frequency = f;
+                element = g;
+            }
+        }
+        return element;
+    }
+
     /**
      * I return zero for keys which have no value, not null.
      */
