@@ -6,6 +6,10 @@ public class Timestamp implements Comparable<Timestamp> {
 
     public static Timestamp fromString(String str) {
         Scanner s = new Scanner(str);
+        return fromScanner(s);
+    }
+
+    public static Timestamp fromScanner(Scanner s) {
         return new Timestamp(
                 s.readInt(),
                 s.skip("-").readInt(),
@@ -82,6 +86,6 @@ public class Timestamp implements Comparable<Timestamp> {
 
     @Override
     public String toString() {
-        return String.format("%d-%d-%d %d:%d", year, month, day, hour, minute);
+        return String.format("%04d-%02d-%02d %02d:%02d", year, month, day, hour, minute);
     }
 }
