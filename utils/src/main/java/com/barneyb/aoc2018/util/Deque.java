@@ -108,4 +108,17 @@ public class Deque<E> implements Iterable<E> {
         }
         return result;
     }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder("[");
+        for (Iterator<E> itr = iterator(); itr.hasNext(); ) {
+            E el = itr.next();
+            sb.append(el);
+            if (itr.hasNext()) {
+                sb.append(',');
+            }
+        }
+        return sb.append(']').toString();
+    }
 }

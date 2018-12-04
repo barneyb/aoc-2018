@@ -47,4 +47,8 @@ public class Stack<E> implements Iterable<E> {
         return deque.hashCode();
     }
 
+    @Override
+    public String toString() {
+        return deque.toString();
+    }
 }
