@@ -5,11 +5,13 @@ TEMP_FILE=.temp.out
 
 cd `dirname $0`
 
-# Rule 1: no external libs, other than IO. Iterator is a special case because
-# it's a language feature (foreach loop), but not in the java.lang package.
+# Rule 1: no external libs, other than IO. `java.util.Iterator` and the
+# `java.util.function` package are special cases because they're language
+# features (foreach loop and method references, respectively), but not in the
+# `java.lang` package.
 find . -name "*.java" \
     | grep -v /test/ \
-    | xargs grep --perl-regexp 'import +(?!java\.(n?io\.|util\.Iterator;)|com\.barneyb\.aoc2018)' \
+    | xargs grep --perl-regexp 'import +(?!java\.(n?io\.|util\.(Iterator|function\.))|com\.barneyb\.aoc2018)' \
     > ${TEMP_FILE} \
     || true # `grep` exits non-zero if nothing is found
 

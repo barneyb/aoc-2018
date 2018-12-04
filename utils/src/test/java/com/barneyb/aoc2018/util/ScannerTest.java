@@ -67,4 +67,12 @@ public class ScannerTest {
         s.readInt();
     }
 
+    @Test
+    public void readWord() {
+        Scanner s = new Scanner("i eat frogs");
+        assertEquals("i", s.readWord());
+        assertEquals("eat", s.readWord());
+        assertEquals("frogs", s.readWord());
+    }
+
 }

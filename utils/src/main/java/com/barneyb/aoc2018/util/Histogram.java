@@ -12,11 +12,41 @@ public class Histogram<T extends Comparable<T>> extends BST<T, Integer> {
     }
 
     public void count(T c) {
+        add(c, 1);
+    }
+
+    public void add(T c, int n) {
         if (contains(c)) {
-            put(c, get(c) + 1);
+            put(c, get(c) + n);
         } else {
-            put(c, 1);
+            put(c, n);
         }
+    }
+
+    public T leastFrequent() {
+        T element = null;
+        int frequency = Integer.MAX_VALUE;
+        for (T g : keys()) {
+            Integer f = get(g);
+            if (f < frequency) {
+                frequency = f;
+                element = g;
+            }
+        }
+        return element;
+    }
+
+    public T mostFrequent() {
+        T element = null;
+        int frequency = -1;
+        for (T g : keys()) {
+            Integer f = get(g);
+            if (f > frequency) {
+                frequency = f;
+                element = g;
+            }
+        }
+        return element;
     }
 
     /**
