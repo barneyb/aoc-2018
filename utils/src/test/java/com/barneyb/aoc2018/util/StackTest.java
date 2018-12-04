@@ -33,4 +33,16 @@ public class StackTest {
         assertTrue(s.isEmpty());
     }
 
+    @Test
+    public void equality() {
+        Stack<String> a = new Stack<>(new String[] {
+               "cat",
+               "dog"
+        });
+        Stack<String> b = new Stack<>();
+        b.push("cat");
+        b.push("dog");
+        assertEquals(a, b);
+    }
+
 }

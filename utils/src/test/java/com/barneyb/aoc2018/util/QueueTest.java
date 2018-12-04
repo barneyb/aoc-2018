@@ -33,4 +33,16 @@ public class QueueTest {
         assertTrue(s.isEmpty());
     }
 
+    @Test
+    public void equality() {
+        Queue<String> a = new Queue<>(new String[] {
+                "cat",
+                "dog"
+        });
+        Queue<String> b = new Queue<>();
+        b.enqueue("cat");
+        b.enqueue("dog");
+        assertEquals(a, b);
+    }
+
 }
