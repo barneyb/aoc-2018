@@ -3,8 +3,6 @@ set -e
 
 cd `dirname $0`
 
-./check_rules.sh
-
 day=$1
 if [ "$day" = "" ]; then
     echo "Usage: $0 <day>"
@@ -15,6 +13,8 @@ if [ `git status --porcelain | wc -l` != "0" ]; then
     echo "Your working copy is dirty; I refuse"
     exit 1
 fi
+
+./check_rules.sh
 
 if [ ${#day} -eq 1 ]; then
     day="0$day"
