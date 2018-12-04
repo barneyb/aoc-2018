@@ -1,8 +1,8 @@
 package com.barneyb.aoc2018.day04;
 
 import com.barneyb.aoc2018.util.Answers;
-import com.barneyb.aoc2018.util.OneShotDay;
 import com.barneyb.aoc2018.util.FileUtils;
+import com.barneyb.aoc2018.util.OneShotDay;
 
 public class Day04 extends OneShotDay {
 
@@ -12,6 +12,15 @@ public class Day04 extends OneShotDay {
                 input.length(),
                 input.trim().length()
         );
+    }
+
+    public static Record[] parse(String input) {
+        String[] lines = input.trim().split("\n");
+        Record[] rs = new Record[lines.length];
+        for (int i = 0, l = lines.length; i < l; i++) {
+            rs[i] = Record.fromString(lines[i]);
+        }
+        return rs;
     }
 
     public static void main(String[] args)  {
