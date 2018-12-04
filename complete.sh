@@ -3,6 +3,8 @@ set -e
 
 cd `dirname $0`
 
+./check_rules.sh
+
 day=$1
 if [ "$day" = "" ]; then
     echo "Usage: $0 <day>"
