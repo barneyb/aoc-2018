@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.PushbackReader;
 import java.io.Reader;
 import java.io.StringReader;
+import java.util.function.Predicate;
 
 /**
  * I provide a way to construct extremely simple string parsing routines.
@@ -70,8 +71,35 @@ public class Scanner {
         return sb.toString();
     }
 
+    public String readWord() {
+        String s = readUntil(Character::isWhitespace);
+        readWhile(Character::isWhitespace);
+        return s;
+    }
+
     public int readInt() {
+        String s = readWhile(Character::isDigit);
+        if (s.length() == 0) {
+            throw new NoMatchException("No integer was found");
+        }
+        return Integer.parseInt(s);
+    }
+
+    private String readUntil(Predicate<Integer> test) {
+        return readWhile(test.negate());
+    }
+
+    private String readWhile(Predicate<Integer> test) {
         StringBuilder sb = new StringBuilder();
+        readIntoWhile(sb, test);
+        return sb.toString();
+    }
+
+    private void readIntoUntil(StringBuilder sb, Predicate<Integer> test) {
+        readIntoWhile(sb, test.negate());
+    }
+
+    private void readIntoWhile(StringBuilder sb, Predicate<Integer> test) {
         try {
             int c;
             while (true) {
@@ -79,7 +107,7 @@ public class Scanner {
                 if (c < 0) {
                     break;
                 }
-                if (! Character.isDigit(c)) {
+                if (! test.test(c)) {
                     in.unread(c);
                     break;
                 }
@@ -88,14 +116,9 @@ public class Scanner {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        if (sb.length() == 0) {
-            throw new NoMatchException("No integer was found");
-        }
-        return Integer.parseInt(sb.toString());
     }
 
     public String rest() {
         return read(Integer.MAX_VALUE);
     }
-
 }
