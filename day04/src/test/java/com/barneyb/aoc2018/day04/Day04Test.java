@@ -46,7 +46,7 @@ public class Day04Test {
     public void solve() {
         Answers a = new Day04().solve(EXAMPLE_INPUT);
         assertEquals("240", a.getPartOne());
-        assertEquals("-", a.getPartTwo());
+        assertEquals("4455", a.getPartTwo());
     }
 
     @Test
@@ -68,5 +68,20 @@ public class Day04Test {
                 new Nap(10, 5, 25),
                 new Nap(10, 30, 55),
         }), Day04.getNaps(RECORDS_10));
+    }
+
+    @Test
+    public void guardMinute() {
+        assertEquals((25 << 8) + 59, Day04.guardMinute(25, 59));
+    }
+
+    @Test
+    public void guardMinuteProduct() {
+        assertEquals(4455, Day04.guardMinuteProduct((99 << 8) + 45));
+    }
+
+    @Test
+    public void guardMinuteChain() {
+        assertEquals(4455, Day04.guardMinuteProduct(Day04.guardMinute(99, 45)));
     }
 }

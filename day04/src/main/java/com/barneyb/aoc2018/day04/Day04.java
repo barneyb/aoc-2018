@@ -7,13 +7,32 @@ public class Day04 extends OneShotDay {
     @Override
     public Answers solve(String input) {
         Record[] rs = parse(input);
+        Queue<Nap> naps = getNaps(rs);
         return new Answers(
-                partOne(rs)
+                partOne(naps),
+                partTwo(naps)
         );
     }
 
-    private int partOne(Record[] rs) {
-        Queue<Nap> naps = getNaps(rs);
+    private int partTwo(Queue<Nap> naps) {
+        Histogram<Integer> guardMinutes = new Histogram<>();
+        for (Nap n : naps) {
+            for (int i = n.getStart(), l = n.getEnd(); i < l; i++) {
+                guardMinutes.count(guardMinute(n.getGuardId(), i));
+            }
+        }
+        return guardMinuteProduct(guardMinutes.mostFrequent());
+    }
+
+    static int guardMinuteProduct(int gm) {
+        return (gm >> 8) * (gm & 0xFF);
+    }
+
+    static int guardMinute(int guardId, int minute) {
+        return (guardId << 8) + minute;
+    }
+
+    private int partOne(Queue<Nap> naps) {
         Integer id = sleepiestGuard(naps);
         Integer minute = sleepiestMinute(naps, id);
         return id * minute;
