@@ -94,7 +94,6 @@ public class Day04 extends OneShotDay {
     }
 
     public static void main(String[] args)  {
-        Day04 d = new Day04();
         String input = FileUtils.readFile("day04/input.txt");
         Record[] rs = parse(input);
         System.out.println("Before:");
