@@ -16,7 +16,7 @@ public class Day05 extends OneShotDay {
     }
 
     static int partOne(String input) {
-        Polymer p = ArrayPolymer.parse(input);
+        Polymer p = LinkedPolymer.parse(input);
         p.reduce();
         return p.length();
     }
