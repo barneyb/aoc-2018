@@ -1,17 +1,22 @@
 package com.barneyb.aoc2018.day05;
 
 import com.barneyb.aoc2018.util.Answers;
-import com.barneyb.aoc2018.util.OneShotDay;
 import com.barneyb.aoc2018.util.FileUtils;
+import com.barneyb.aoc2018.util.OneShotDay;
 
 public class Day05 extends OneShotDay {
 
     @Override
     public Answers solve(String input) {
+        Polymer p = StringPolymer.parse(input.trim());
         return new Answers(
-                input.length(),
-                input.trim().length()
+                partOne(p)
         );
+    }
+
+    static int partOne(Polymer p) {
+        p.reduce();
+        return p.length();
     }
 
     public static void main(String[] args)  {
