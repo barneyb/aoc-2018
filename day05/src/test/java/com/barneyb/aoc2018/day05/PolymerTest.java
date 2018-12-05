@@ -9,6 +9,12 @@ abstract public class PolymerTest {
     abstract Polymer parse(String s);
 
     @Test
+    public void parse() {
+        Polymer p = parse("glergypants");
+        assertEquals("glergypants", p.toString());
+    }
+
+    @Test
     public void length() {
         Polymer p = parse("aA");
         assertEquals(2, p.length());
