@@ -1,5 +1,6 @@
 package com.barneyb.aoc2018.day05;
 
+// both parts: ~8700 ms
 public class StringPolymer implements Polymer {
 
     private String polymer;

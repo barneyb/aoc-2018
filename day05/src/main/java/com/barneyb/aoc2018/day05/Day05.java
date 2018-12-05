@@ -8,15 +8,31 @@ public class Day05 extends OneShotDay {
 
     @Override
     public Answers solve(String input) {
-        Polymer p = StringPolymer.parse(input.trim());
+        String trimmed = input.trim();
         return new Answers(
-                partOne(p)
+                partOne(trimmed),
+                partTwo(trimmed)
         );
     }
 
-    static int partOne(Polymer p) {
+    static int partOne(String input) {
+        Polymer p = StringPolymer.parse(input);
         p.reduce();
         return p.length();
+    }
+
+    static int partTwo(String input) {
+        int best = Integer.MAX_VALUE;
+        for (int i = 'A'; i <= 'Z'; i++) {
+            int n = partOne(input
+                    .replace("" + (char) i, "")
+                    .replace("" + (char) (i + 32), "")
+            );
+            if (n < best) {
+                best = n;
+            }
+        }
+        return best;
     }
 
     public static void main(String[] args)  {

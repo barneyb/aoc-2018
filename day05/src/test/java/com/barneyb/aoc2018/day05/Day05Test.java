@@ -11,7 +11,7 @@ public class Day05Test {
     public void solve() {
         Answers a = new Day05().solve("dabAcCaCBAcCcaDA");
         assertEquals("10", a.getPartOne());
-        assertEquals("-", a.getPartTwo());
+        assertEquals("4", a.getPartTwo());
     }
 
 }
