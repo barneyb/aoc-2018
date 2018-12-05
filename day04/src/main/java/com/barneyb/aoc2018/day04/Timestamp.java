@@ -4,12 +4,11 @@ import com.barneyb.aoc2018.util.Scanner;
 
 public class Timestamp implements Comparable<Timestamp> {
 
-    public static Timestamp fromString(String str) {
-        Scanner s = new Scanner(str);
-        return fromScanner(s);
+    public static Timestamp parse(String str) {
+        return scan(new Scanner(str));
     }
 
-    public static Timestamp fromScanner(Scanner s) {
+    public static Timestamp scan(Scanner s) {
         return new Timestamp(
                 s.readInt(),
                 s.skip("-").readInt(),

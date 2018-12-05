@@ -4,12 +4,16 @@ import com.barneyb.aoc2018.util.Scanner;
 
 public class Record implements Comparable<Record> {
 
-    public static Record fromString(String str) {
-        Scanner s = new Scanner(str);
+    public static Record parse(String str) {
+        return scan(new Scanner(str));
+    }
+
+    public static Record scan(Scanner s) {
         s.skip("[");
-        Timestamp ts = Timestamp.fromScanner(s);
+        Timestamp ts = Timestamp.scan(s);
         s.skip("] ");
-        switch (s.readWord()) {
+        String prefix = s.readWord();
+        switch (prefix) {
             case "Guard":
                 return new Record(
                         ts,
@@ -27,7 +31,7 @@ public class Record implements Comparable<Record> {
                         Action.WAKE_UP
                 );
             default:
-                throw new IllegalArgumentException("Unrecognized record: '" + str + "'");
+                throw new IllegalArgumentException("Unrecognized record prefix: '" + prefix + "'");
         }
     }
 

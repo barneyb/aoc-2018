@@ -10,7 +10,7 @@ public class TimestampTest {
     public void strings() {
         assertEquals(new Timestamp(
                 1980, 6, 10, 0, 8
-        ), Timestamp.fromString("1980-06-10 00:08"));
+        ), Timestamp.parse("1980-06-10 00:08"));
     }
 
 }

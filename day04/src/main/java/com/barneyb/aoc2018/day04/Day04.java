@@ -87,7 +87,7 @@ public class Day04 extends OneShotDay {
         String[] lines = input.trim().split("\n");
         Record[] rs = new Record[lines.length];
         for (int i = 0, l = lines.length; i < l; i++) {
-            rs[i] = Record.fromString(lines[i]);
+            rs[i] = Record.parse(lines[i]);
         }
         Sort.sort(rs);
         return rs;

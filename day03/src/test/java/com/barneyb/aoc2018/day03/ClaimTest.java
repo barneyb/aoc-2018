@@ -12,12 +12,12 @@ public class ClaimTest {
     public void parseLine() {
         assertEquals(new Claim(
                 9, 166, 500, 12, 15
-        ), Claim.fromString(LINE));
+        ), Claim.parse(LINE));
     }
 
     @Test
     public void toString_() {
-        assertEquals(LINE, Claim.fromString(LINE).toString());
+        assertEquals(LINE, Claim.parse(LINE).toString());
     }
 
 }

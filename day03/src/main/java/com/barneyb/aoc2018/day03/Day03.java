@@ -88,7 +88,7 @@ public class Day03 extends OneShotDay {
         String[] lines = input.trim().split("\n");
         Claim[] claims = new Claim[lines.length];
         for (int i = 0, l = lines.length; i < l; i++) {
-            claims[i] = Claim.fromString(lines[i]);
+            claims[i] = Claim.parse(lines[i]);
         }
         return claims;
     }

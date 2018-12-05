@@ -4,9 +4,11 @@ import com.barneyb.aoc2018.util.Scanner;
 
 class Claim {
 
-    public static Claim fromString(String str) {
-        //#123 @ 3,2: 5x4
-        Scanner s = new Scanner(str);
+    public static Claim parse(String str) {
+        return scan(new Scanner(str));
+    }
+
+    public static Claim scan(Scanner s) {
         return new Claim(
                 s.skip("#").readInt(),
                 s.skip(" @ ").readInt(),
