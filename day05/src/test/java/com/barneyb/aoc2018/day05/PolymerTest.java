@@ -10,7 +10,7 @@ abstract public class PolymerTest {
 
     @Test
     public void length() {
-        Polymer p = StringPolymer.parse("aA");
+        Polymer p = parse("aA");
         assertEquals(2, p.length());
         p.reduce(); // to ""
         assertEquals(0, p.length());
@@ -18,44 +18,51 @@ abstract public class PolymerTest {
 
     @Test
     public void parseAndReduce_aA() {
-        StringPolymer p = StringPolymer.parse("aA");
+        Polymer p = parse("aA");
         p.reduce();
         assertEquals("", p.toString());
     }
 
     @Test
     public void parseAndReduce_Aa() {
-        StringPolymer p = StringPolymer.parse("Aa");
+        Polymer p = parse("Aa");
         p.reduce();
         assertEquals("", p.toString());
     }
 
     @Test
     public void parseAndReduce_abBA() {
-        StringPolymer p = StringPolymer.parse("abBA");
+        Polymer p = parse("abBA");
         p.reduce();
         assertEquals("", p.toString());
     }
 
     @Test
     public void parseAndReduce_abAB() {
-        StringPolymer p = StringPolymer.parse("abAB");
+        Polymer p = parse("abAB");
         p.reduce();
         assertEquals("abAB", p.toString());
     }
 
     @Test
     public void parseAndReduce_aabAAB() {
-        StringPolymer p = StringPolymer.parse("aabAAB");
+        Polymer p = parse("aabAAB");
         p.reduce();
         assertEquals("aabAAB", p.toString());
     }
 
     @Test
     public void parseAndReduce_dabAcCaCBAcCcaDA() {
-        StringPolymer p = StringPolymer.parse("dabAcCaCBAcCcaDA");
+        Polymer p = parse("dabAcCaCBAcCcaDA");
         p.reduce();
         assertEquals("dabCBAcaDA", p.toString());
+    }
+
+    @Test
+    public void parseAndReduce_abAcCaCBAcCcaA() {
+        Polymer p = parse("abAcCaCBAcCcaA");
+        p.reduce();
+        assertEquals("abCBAc", p.toString());
     }
 
 }
