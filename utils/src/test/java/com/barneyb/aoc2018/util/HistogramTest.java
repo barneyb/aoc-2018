@@ -45,5 +45,31 @@ public class HistogramTest {
         assertEquals(valueOf(3), h.get('c'));
     }
 
+    @Test
+    public void add() {
+        Histogram<Character> h = new Histogram<>();
+        h.add('b', 2);
+        h.add('c', 3);
+        h.add('a', 1);
+        assertEquals(valueOf(1), h.get('a'));
+        assertEquals(valueOf(2), h.get('b'));
+        assertEquals(valueOf(3), h.get('c'));
+    }
 
+    @Test
+    public void bounds() {
+        // ties are broken by "lowest key"
+        Histogram<Character> h = new Histogram<>();
+        h.add('b', 2);
+        h.add('c', 3);
+        h.add('a', 1);
+        assertEquals(Character.valueOf('a'), h.leastFrequent());
+        assertEquals(Character.valueOf('c'), h.mostFrequent());
+        h.count('a');
+        assertEquals(Character.valueOf('a'), h.leastFrequent());
+        assertEquals(Character.valueOf('c'), h.mostFrequent());
+        h.count('a');
+        assertEquals(Character.valueOf('b'), h.leastFrequent());
+        assertEquals(Character.valueOf('a'), h.mostFrequent());
+    }
 }
