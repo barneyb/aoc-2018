@@ -16,16 +16,16 @@ public class HistogramTest {
     }
 
     @Test
-    public void fromString_ordered() {
-        Histogram<Character> h = Histogram.fromString("abbccc");
+    public void ofCharacters_ordered() {
+        Histogram<Character> h = Histogram.ofCharacters("abbccc");
         assertEquals(valueOf(1), h.get('a'));
         assertEquals(valueOf(2), h.get('b'));
         assertEquals(valueOf(3), h.get('c'));
     }
 
     @Test
-    public void fromString_mixed() {
-        Histogram<Character> h = Histogram.fromString("cbacbc");
+    public void ofCharacters_mixed() {
+        Histogram<Character> h = Histogram.ofCharacters("cbacbc");
         assertEquals(valueOf(1), h.get('a'));
         assertEquals(valueOf(2), h.get('b'));
         assertEquals(valueOf(3), h.get('c'));

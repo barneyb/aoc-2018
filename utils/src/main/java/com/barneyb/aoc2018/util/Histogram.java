@@ -2,7 +2,7 @@ package com.barneyb.aoc2018.util;
 
 public class Histogram<T extends Comparable<T>> extends BST<T, Integer> {
 
-    public static Histogram<Character> fromString(String s) {
+    public static Histogram<Character> ofCharacters(String s) {
         Histogram<Character> h = new Histogram<>();
         Character c;
         for (int i = 0, l = s.length(); i < l; i++) {

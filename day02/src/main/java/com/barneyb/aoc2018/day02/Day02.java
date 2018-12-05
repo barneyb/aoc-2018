@@ -84,7 +84,7 @@ public class Day02 extends OneShotDay {
         @SuppressWarnings("unchecked")
         Histogram<Character>[] hs = new Histogram[strings.length];
         for (int i = 0, l = strings.length; i < l; i++) {
-            hs[i] = Histogram.fromString(strings[i]);
+            hs[i] = Histogram.ofCharacters(strings[i]);
         }
         return hs;
     }
