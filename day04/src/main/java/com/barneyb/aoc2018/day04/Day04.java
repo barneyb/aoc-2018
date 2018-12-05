@@ -6,8 +6,7 @@ public class Day04 extends OneShotDay {
 
     @Override
     public Answers solve(String input) {
-        Record[] rs = parse(input);
-        Queue<Nap> naps = getNaps(rs);
+        Queue<Nap> naps = parseNaps(input);
         return new Answers(
                 partOne(naps),
                 partTwo(naps)
@@ -58,56 +57,33 @@ public class Day04 extends OneShotDay {
         return guards.mostFrequent();
     }
 
-    static Queue<Nap> getNaps(Record[] rs) {
+    static Queue<Nap> parseNaps(String input) {
+        String[] lines = input.trim().split("\n");
+        Sort.sort(lines);
         Queue<Nap> naps = new Queue<>();
-        Timestamp asleepAt = null;
-        Integer thisGuard = null;
-        for (Record r : rs) {
-            switch (r.getAction()) {
-                case BEGIN:
-                    thisGuard = r.getGuardId();
+        int asleepAt = 0;
+        int thisGuard = 0;
+        for (String line : lines) {
+            String[] words = line.substring(15).split(" ");
+            switch (words[1]) {
+                case "Guard":
+                    thisGuard = Integer.parseInt(words[2].substring(1));
                     break;
-                case FALL_ASLEEP:
-                    asleepAt = r.getTs();
+                case "falls":
+                    asleepAt = Integer.parseInt(words[0].substring(0, 2));
                     break;
-                case WAKE_UP:
-                    //noinspection ConstantConditions
+                case "wakes":
                     naps.enqueue(new Nap(
                             thisGuard,
-                            asleepAt.getMinute(),
-                            r.getTs().getMinute()
+                            asleepAt,
+                            Integer.parseInt(words[0].substring(0, 2))
                     ));
                     break;
+                default:
+                    throw new IllegalArgumentException("Unknown word: '" + words[1] + "'");
             }
         }
         return naps;
-    }
-
-    public static Record[] parse(String input) {
-        String[] lines = input.trim().split("\n");
-        Record[] rs = new Record[lines.length];
-        for (int i = 0, l = lines.length; i < l; i++) {
-            rs[i] = Record.fromString(lines[i]);
-        }
-        Sort.sort(rs);
-        return rs;
-    }
-
-    public static void main(String[] args)  {
-        Day04 d = new Day04();
-        String input = FileUtils.readFile("day04/input.txt");
-        Record[] rs = parse(input);
-        System.out.println("Before:");
-        for (int i = 0; i < 20; i++) {
-            System.out.println(rs[i]);
-        }
-        Stopwatch w = new Stopwatch();
-        Sort.sort(rs);
-        w.stop();
-        System.out.println("After (" + w.elapsed() + " ms):");
-        for (int i = 0; i < 20; i++) {
-            System.out.println(rs[i]);
-        }
     }
 
 }
