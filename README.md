@@ -74,12 +74,12 @@ If the day you want isn't available, you'll just have to solve it yourself. :)
 
 ## Adding a Solver
 
-The `setup.sh` script (no Bash-free equivalent is provided) is the way to get
+The `start.sh` script (no Bash-free equivalent is provided) is the way to get
 started on a new day's solver:
 
-    $ ./setup.sh
-    Usage: ./setup.sh <day>
-    $ ./setup.sh 1
+    $ ./start.sh
+    Usage: ./start.sh <day>
+    $ ./start.sh 1
     ...
     Day  0
     Day  1
