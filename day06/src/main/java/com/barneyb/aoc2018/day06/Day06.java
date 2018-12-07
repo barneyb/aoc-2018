@@ -8,13 +8,19 @@ public class Day06 extends OneShotDay {
     public Answers solve(String input) {
         Point[] ps = parse(input);
         constrain(ps);
-        ClosestPlot plot = new ClosestPlot(ps);
         return new Answers(
-                partOne(plot)
+                partOne(ps),
+                partTwo(ps, 10000)
         );
     }
 
-    private int partOne(ClosestPlot plot) {
+    static int partTwo(Point[] ps, int distCap) {
+        AllWithinPlot plot = new AllWithinPlot(ps, distCap);
+        return plot.getSize();
+    }
+
+    private int partOne(Point[] ps) {
+        ClosestPlot plot = new ClosestPlot(ps);
         TreeSet<Integer> bas = plot.getBoundaryAreas();
         BST<Integer, Integer> ss = plot.getSizes();
         // todo: BST needs to grow delete.

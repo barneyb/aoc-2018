@@ -28,11 +28,15 @@ public class Day06Test {
     public void solve() {
         Answers a = new Day06().solve(EXAMPLE_INPUT);
         assertEquals("17", a.getPartOne());
-        assertEquals("-", a.getPartTwo());
     }
 
     @Test
     public void parse() {
         assertArrayEquals(EXAMPLE_POINTS, Day06.parse(EXAMPLE_INPUT));
+    }
+
+    @Test
+    public void partTwo() {
+        assertEquals(16, Day06.partTwo(EXAMPLE_POINTS, 32));
     }
 }
