@@ -89,10 +89,9 @@ public class ClosestPlot {
     public BST<Integer, Integer> getSizes() {
         Histogram<Integer> sizes = new Histogram<>();
         for (int i : plot) {
-            if (i != CONFLICT) {
-                sizes.count(i);
-            }
+            sizes.count(i);
         }
+        sizes.delete(CONFLICT);
         return sizes;
     }
 

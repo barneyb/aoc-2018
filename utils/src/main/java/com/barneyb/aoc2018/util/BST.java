@@ -20,6 +20,10 @@ public class BST<K extends Comparable<K>, V> implements ST<K, V> {
             this.key = key;
             this.value = value;
         }
+
+        void updateSize() {
+            size = size(left) + size(right) + (value != null ? 1 : 0);
+        }
     }
 
     private Node root;
@@ -48,7 +52,7 @@ public class BST<K extends Comparable<K>, V> implements ST<K, V> {
         } else { // replace
             curr.value = value;
         }
-        curr.size = size(curr.left) + size(curr.right) + 1;
+        curr.updateSize();
         if (isRed(curr.right) && ! isRed(curr.left)) {
             curr = rotateLeft(curr);
         }
@@ -59,6 +63,14 @@ public class BST<K extends Comparable<K>, V> implements ST<K, V> {
             flipColors(curr);
         }
         return curr;
+    }
+
+    @Override
+    public void delete(K key) {
+        // can't use the default w/ public put, because `null`
+        if (contains(key)) {
+            put(root, key, null);
+        }
     }
 
     private boolean isRed(Node n) {
@@ -76,7 +88,7 @@ public class BST<K extends Comparable<K>, V> implements ST<K, V> {
         x.color = h.color;
         h.color = RED;
         x.size = h.size;
-        h.size = size(h.left) + size(h.right) + 1;
+        h.updateSize();
         return x;
     }
 
@@ -87,7 +99,7 @@ public class BST<K extends Comparable<K>, V> implements ST<K, V> {
         x.color = h.color;
         h.color = RED;
         x.size = h.size;
-        h.size = size(h.left) + size(h.right) + 1;
+        h.updateSize();
         return x;
     }
 
@@ -142,7 +154,8 @@ public class BST<K extends Comparable<K>, V> implements ST<K, V> {
     private void keys(Node curr, Queue<K> q) {
         if (curr == null) return;
         keys(curr.left, q);
-        q.enqueue(curr.key);
+        if (curr.value != null)
+            q.enqueue(curr.key);
         keys(curr.right, q);
     }
 

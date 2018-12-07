@@ -55,4 +55,21 @@ public class BSTTest {
         assertEquals("{bat:1,cat:3,dog:7}", st.toString());
     }
 
+    @Test
+    public void deletion() {
+        BST<String, Integer> st = new BST<>();
+        assertEquals(0, st.size());
+        assertEquals(0, Utils.iteratorLength(st.keys()));
+        st.put("cat", 3);
+        st.put("dog", 2);
+        st.put("bat", 4);
+        assertEquals(3, st.size());
+        assertEquals(3, Utils.iteratorLength(st.keys()));
+        st.delete("cat");
+        assertEquals(2, st.size());
+        assertEquals(2, Utils.iteratorLength(st.keys()));
+        st.delete("glerg");
+        assertEquals(2, st.size());
+        assertEquals(2, Utils.iteratorLength(st.keys()));
+    }
 }

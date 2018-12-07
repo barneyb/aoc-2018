@@ -23,7 +23,6 @@ public class Day06 extends OneShotDay {
         ClosestPlot plot = new ClosestPlot(ps);
         TreeSet<Integer> bas = plot.getBoundaryAreas();
         BST<Integer, Integer> ss = plot.getSizes();
-        // todo: BST needs to grow delete.
         int max = 0;
         for (Integer i : ss.keys()) {
             if (bas.contains(i)) {
