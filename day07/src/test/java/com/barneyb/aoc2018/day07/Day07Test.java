@@ -17,13 +17,13 @@ public class Day07Test {
             "Step F must be finished before step E can begin.";
 
     private static final Prerequisite[] EXAMPLE_PREREQS = {
-            new Prerequisite("A", "C"),
-            new Prerequisite("F", "C"),
-            new Prerequisite("B", "A"),
-            new Prerequisite("D", "A"),
-            new Prerequisite("E", "B"),
-            new Prerequisite("E", "D"),
-            new Prerequisite("E", "F"),
+            new Prerequisite("C", "A"),
+            new Prerequisite("C", "F"),
+            new Prerequisite("A", "B"),
+            new Prerequisite("A", "D"),
+            new Prerequisite("B", "E"),
+            new Prerequisite("D", "E"),
+            new Prerequisite("F", "E"),
     };
 
     @Test

@@ -30,7 +30,7 @@ public class Prerequisite {
 
     @Override
     public String toString() {
-        return item + " requires " + prereq;
+        return item + " is prereq of " + prereq;
     }
 
 }
