@@ -30,6 +30,10 @@ public class Queue<E> implements Iterable<E> {
         return deque.isEmpty();
     }
 
+    public void clear() {
+        deque.clear();
+    }
+
     public Iterator<E> iterator() {
         return deque.iterator();
     }
