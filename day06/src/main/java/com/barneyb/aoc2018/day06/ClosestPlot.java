@@ -5,7 +5,7 @@ import com.barneyb.aoc2018.util.Histogram;
 import com.barneyb.aoc2018.util.Stack;
 import com.barneyb.aoc2018.util.TreeSet;
 
-public class MinDistancePlot {
+public class ClosestPlot {
 
     public static final int UNKNOWN = -2;
     public static final int CONFLICT = -1;
@@ -14,7 +14,7 @@ public class MinDistancePlot {
     private final TreeSet<Point> seeds;
     private final int[] plot;
 
-    public MinDistancePlot(Point[] points) {
+    public ClosestPlot(Point[] points) {
         Point max = Day06.max(points);
         width = max.x + 1;
         height = max.y + 1;

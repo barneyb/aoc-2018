@@ -4,7 +4,7 @@ import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
 
-public class MinDistancePlotTest {
+public class ClosestPlotTest {
 
     @Test
     public void expansion() {
@@ -18,6 +18,6 @@ public class MinDistancePlotTest {
                 "bbb.eeeff\n" +
                 "bbb.eefff\n" +
                 "bbb.ffffF\n",
-                new MinDistancePlot(Day06Test.EXAMPLE_POINTS).toString());
+                new ClosestPlot(Day06Test.EXAMPLE_POINTS).toString());
     }
 }
