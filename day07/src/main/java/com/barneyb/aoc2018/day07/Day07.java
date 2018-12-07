@@ -6,6 +6,10 @@ public class Day07 extends OneShotDay {
 
     @Override
     public Answers solve(String input) {
+        return solve(input, 60, 5);
+    }
+
+    static Answers solve(String input, int extraCost, int workerCount) {
         Prerequisite[] prereqs = parse(input);
         SDG sdg = new SDG(prereqs);
         Digraph g = sdg.graph();
@@ -16,12 +20,12 @@ public class Day07 extends OneShotDay {
                 readyNames.add(sdg.getName(i));
             }
         }
-        Queue<String> order = new Queue<>();
+        Queue<String> prereqOrder = new Queue<>();
         while (! readyNames.isEmpty()) {
             String name = readyNames.min();
             readyNames.delete(name);
             int site = sdg.getSite(name);
-            order.enqueue(name);
+            prereqOrder.enqueue(name);
             for (Integer a : g.adjacentTo(site)) {
                 marked[a] += 1;
                 if (marked[a] == g.indegree(a)) {
@@ -30,7 +34,7 @@ public class Day07 extends OneShotDay {
             }
         }
         StringBuilder sb = new StringBuilder();
-        for (String s : order) {
+        for (String s : prereqOrder) {
             sb.append(s);
         }
         return new Answers(

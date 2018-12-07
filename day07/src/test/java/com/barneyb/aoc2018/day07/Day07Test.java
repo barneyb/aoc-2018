@@ -28,9 +28,9 @@ public class Day07Test {
 
     @Test
     public void solve() {
-        Answers a = new Day07().solve(EXAMPLE_INPUT);
+        Answers a = Day07.solve(EXAMPLE_INPUT, 0, 2);
         assertEquals("CABDFE", a.getPartOne());
-        assertEquals("-", a.getPartTwo());
+        assertEquals("15", a.getPartTwo());
     }
 
     @Test
