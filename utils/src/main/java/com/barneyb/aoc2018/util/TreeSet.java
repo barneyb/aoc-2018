@@ -8,7 +8,7 @@ public class TreeSet<E extends Comparable<E>> implements Set<E> {
 
     private static final Object VALUE = new int[0]; // this is serializable
 
-    private final BST<E, Object> tree= new BST<>();
+    private final BST<E, Object> tree = new BST<>();
 
     public void add(E element) {
         tree.put(element, VALUE);
@@ -32,6 +32,14 @@ public class TreeSet<E extends Comparable<E>> implements Set<E> {
     @Override
     public void delete(E element) {
         tree.delete(element);
+    }
+
+    public E min() {
+        return tree.min();
+    }
+
+    public void deleteMin() {
+        tree.deleteMin();
     }
 
     @Override
