@@ -63,6 +63,11 @@ public class Deque<E> implements Iterable<E> {
         return size() == 0;
     }
 
+    public void clear() {
+        head = tail = null;
+        size = 0;
+    }
+
     public Iterator<E> iterator() {
         return new Iterator<E>() {
             Link curr = head;

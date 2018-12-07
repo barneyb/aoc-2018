@@ -111,9 +111,11 @@ import static org.junit.Assert.*;
 
 public class Day${day}Test {
 
+    private static final String EXAMPLE_INPUT = "  cat  ";
+
     @Test
     public void solve() {
-        Answers a = new Day${day}().solve("  cat  ");
+        Answers a = new Day${day}().solve(EXAMPLE_INPUT);
         assertEquals("7", a.getPartOne());
         assertEquals("3", a.getPartTwo());
     }
