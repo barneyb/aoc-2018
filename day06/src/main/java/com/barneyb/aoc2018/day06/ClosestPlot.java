@@ -65,24 +65,17 @@ public class ClosestPlot {
         int n;
         for (int x = 0; x < width; x++) {
             n = plot[index(x, 0)];
-            if (n != CONFLICT) {
-                areas.add(n);
-            }
+            areas.add(n);
             n = plot[index(x, height - 1)];
-            if (n != CONFLICT) {
-                areas.add(n);
-            }
+            areas.add(n);
         }
         for (int y = 0; y < height; y++) {
             n = plot[index(0, y)];
-            if (n != CONFLICT) {
-                areas.add(n);
-            }
+            areas.add(n);
             n = plot[index(width - 1, y)];
-            if (n != CONFLICT) {
-                areas.add(n);
-            }
+            areas.add(n);
         }
+        areas.delete(CONFLICT);
         return areas;
     }
 

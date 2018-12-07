@@ -16,4 +16,5 @@ public interface Set<E> extends Iterable<E> {
 
     boolean contains(Object o);
 
+    void delete(E element);
 }

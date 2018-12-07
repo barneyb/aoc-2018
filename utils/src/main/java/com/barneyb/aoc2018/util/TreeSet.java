@@ -30,6 +30,11 @@ public class TreeSet<E extends Comparable<E>> implements Set<E> {
     }
 
     @Override
+    public void delete(E element) {
+        tree.delete(element);
+    }
+
+    @Override
     public Iterator<E> iterator() {
         return tree.keys().iterator();
     }
