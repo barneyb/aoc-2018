@@ -8,14 +8,14 @@ import static org.junit.Assert.assertEquals;
 
 public class Day06Test {
 
-    private static final String EXAMPLE_INPUT = "1, 1\n" +
+    static final String EXAMPLE_INPUT = "1, 1\n" +
             "1, 6\n" +
             "8, 3\n" +
             "3, 4\n" +
             "5, 5\n" +
             "8, 9";
 
-    private static final Point[] EXAMPLE_POINTS = {
+    static final Point[] EXAMPLE_POINTS = {
             new Point(1, 1),
             new Point(1, 6),
             new Point(8, 3),

@@ -1,12 +1,39 @@
 package com.barneyb.aoc2018.day06;
 
-public class Point {
+public class Point implements Comparable<Point> {
 
     final int x, y;
 
     public Point(int x, int y) {
         this.x = x;
         this.y = y;
+    }
+
+    public int md(Point p) {
+        return Math.abs(x - p.x) + Math.abs(y - p.y);
+    }
+
+    public Point plus(Point p) {
+        return new Point(
+                x + p.x,
+                y + p.y
+        );
+    }
+
+    public Point minus(Point p) {
+        return new Point(
+                x - p.x,
+                y - p.y
+        );
+    }
+
+    @Override
+    public int compareTo(Point p) {
+        if (x < p.x) return -1;
+        if (x > p.x) return 1;
+        if (y < p.y) return -1;
+        if (y > p.y) return 1;
+        return 0;
     }
 
     @Override
