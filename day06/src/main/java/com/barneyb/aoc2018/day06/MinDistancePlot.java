@@ -1,5 +1,7 @@
 package com.barneyb.aoc2018.day06;
 
+import com.barneyb.aoc2018.util.BST;
+import com.barneyb.aoc2018.util.Histogram;
 import com.barneyb.aoc2018.util.Stack;
 import com.barneyb.aoc2018.util.TreeSet;
 
@@ -51,7 +53,47 @@ public class MinDistancePlot {
     }
 
     private int index(Point p) {
-        return p.y * width + p.x;
+        return index(p.x, p.y);
+    }
+
+    private int index(int x, int y) {
+        return y * width + x;
+    }
+
+    public TreeSet<Integer> getBoundaryAreas() {
+        TreeSet<Integer> areas = new TreeSet<>();
+        int n;
+        for (int x = 0; x < width; x++) {
+            n = plot[index(x, 0)];
+            if (n != CONFLICT) {
+                areas.add(n);
+            }
+            n = plot[index(x, height - 1)];
+            if (n != CONFLICT) {
+                areas.add(n);
+            }
+        }
+        for (int y = 0; y < height; y++) {
+            n = plot[index(0, y)];
+            if (n != CONFLICT) {
+                areas.add(n);
+            }
+            n = plot[index(width - 1, y)];
+            if (n != CONFLICT) {
+                areas.add(n);
+            }
+        }
+        return areas;
+    }
+
+    public BST<Integer, Integer> getSizes() {
+        Histogram<Integer> sizes = new Histogram<>();
+        for (int i : plot) {
+            if (i != CONFLICT) {
+                sizes.count(i);
+            }
+        }
+        return sizes;
     }
 
     @Override
