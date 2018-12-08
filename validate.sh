@@ -13,6 +13,10 @@ actual=runner/target/actual.log
 
 mvn clean package
 cat ./completion.log | egrep -v '^[0-9]+ ms' > ${expected}
-./solve.sh --all | egrep -v '^[0-9]+ ms' > ${actual}
+./solve.sh --all | egrep -v '^[0-9]+ ms' | tee ${actual}
+
+echo
+shasum ${expected} ${actual}
+echo "Diff:"
 
 diff ${expected} ${actual}
