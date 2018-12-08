@@ -1,8 +1,4 @@
-package com.barneyb.aoc2018.day07;
-
-import com.barneyb.aoc2018.util.BST;
-import com.barneyb.aoc2018.util.Digraph;
-import com.barneyb.aoc2018.util.TreeSet;
+package com.barneyb.aoc2018.util;
 
 public class NamedDigraph<Name extends Comparable<Name>> {
 
@@ -15,7 +11,7 @@ public class NamedDigraph<Name extends Comparable<Name>> {
         final T source;
         final T target;
 
-        AbstractEdge(T source, T target) {
+        public AbstractEdge(T source, T target) {
             this.source = source;
             this.target = target;
         }
