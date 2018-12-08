@@ -1,13 +1,23 @@
 package com.barneyb.aoc2018.day07;
 
-public class Prerequisite {
+public class Prerequisite implements NamedDigraph.Edge<String> {
 
-    final String item;
-    final String prereq;
+    final String source;
+    final String target;
 
-    Prerequisite(String item, String prereq) {
-        this.item = item;
-        this.prereq = prereq;
+    Prerequisite(String source, String target) {
+        this.source = source;
+        this.target = target;
+    }
+
+    @Override
+    public String getSource() {
+        return source;
+    }
+
+    @Override
+    public String getTarget() {
+        return target;
     }
 
     @Override
@@ -17,20 +27,20 @@ public class Prerequisite {
 
         Prerequisite prereq = (Prerequisite) o;
 
-        if (!item.equals(prereq.item)) return false;
-        return this.prereq.equals(prereq.prereq);
+        if (!source.equals(prereq.source)) return false;
+        return this.target.equals(prereq.target);
     }
 
     @Override
     public int hashCode() {
-        int result = item.hashCode();
-        result = 31 * result + prereq.hashCode();
+        int result = source.hashCode();
+        result = 31 * result + target.hashCode();
         return result;
     }
 
     @Override
     public String toString() {
-        return item + " is prereq of " + prereq;
+        return source + " is prereq of " + target;
     }
 
 }

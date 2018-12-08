@@ -11,27 +11,27 @@ public class Day07 extends OneShotDay {
 
     static Answers solve(String input, int extraCost, int workerCount) {
         Prerequisite[] prereqs = parse(input);
-        SDG sdg = new SDG(prereqs);
-        Digraph g = sdg.graph();
+        NamedDigraph<String> ng = new NamedDigraph<>(prereqs);
+        Digraph g = ng.graph();
         TreeSet<String> startTasks = new TreeSet<>();
         int[] siteCosts = new int[g.getSiteCount()];
         for (int i = 0, l = g.getSiteCount(); i < l; i++) {
             if (g.indegree(i) == 0) {
-                startTasks.add(sdg.getName(i));
+                startTasks.add(ng.getName(i));
             }
             siteCosts[i] = extraCost + i + 1;
         }
         StringBuilder sb = new StringBuilder();
-        for (String s : partOne(sdg, g, startTasks)) {
+        for (String s : partOne(ng, g, startTasks)) {
             sb.append(s);
         }
         return new Answers(
                 sb.toString(),
-                partTwo(workerCount, sdg, g, startTasks, siteCosts)
+                partTwo(workerCount, ng, g, startTasks, siteCosts)
         );
     }
 
-    private static int partTwo(int workerCount, SDG sdg, Digraph g, TreeSet<String> startTasks, int[] siteCosts) {
+    private static int partTwo(int workerCount, NamedDigraph<String> ng, Digraph g, TreeSet<String> startTasks, int[] siteCosts) {
         String[] workerTaskName = new String[workerCount];
         int[] workerTaskComplete = new int[workerCount];
         int tickCount = 0;
@@ -45,10 +45,10 @@ public class Day07 extends OneShotDay {
                 if (workerTaskName[i] == null || workerTaskComplete[i] > tickCount) {
                     continue;
                 }
-                for (Integer a : g.adjacentTo(sdg.getSite(workerTaskName[i]))) {
+                for (Integer a : g.adjacentTo(ng.getSite(workerTaskName[i]))) {
                     marked[a] += 1;
                     if (marked[a] == g.indegree(a)) {
-                        readyNames.add(sdg.getName(a));
+                        readyNames.add(ng.getName(a));
                     }
                 }
                 workerTaskName[i] = null;
@@ -61,7 +61,7 @@ public class Day07 extends OneShotDay {
                         foundOne = true;
                         String name = readyNames.min();
                         readyNames.delete(name);
-                        int site = sdg.getSite(name);
+                        int site = ng.getSite(name);
                         workerTaskName[i] = name;
                         workerTaskComplete[i] = tickCount + siteCosts[site];
                         break;
@@ -86,7 +86,7 @@ public class Day07 extends OneShotDay {
         return tickCount;
     }
 
-    private static Queue<String> partOne(SDG sdg, Digraph g, TreeSet<String> startTasks) {
+    private static Queue<String> partOne(NamedDigraph<String> ng, Digraph g, TreeSet<String> startTasks) {
         TreeSet<String> readyNames = new TreeSet<>();
         for (String s : startTasks) {
             readyNames.add(s);
@@ -96,20 +96,16 @@ public class Day07 extends OneShotDay {
         while (! readyNames.isEmpty()) {
             String name = readyNames.min();
             readyNames.delete(name);
-            int site = sdg.getSite(name);
+            int site = ng.getSite(name);
             prereqOrder.enqueue(name);
             for (Integer a : g.adjacentTo(site)) {
                 marked[a] += 1;
                 if (marked[a] == g.indegree(a)) {
-                    readyNames.add(sdg.getName(a));
+                    readyNames.add(ng.getName(a));
                 }
             }
         }
         return prereqOrder;
-    }
-
-    static void print(Object s) {
-        System.out.println(s);
     }
 
     static Prerequisite[] parse(String input) {
