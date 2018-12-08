@@ -15,6 +15,7 @@ if [ `git status --porcelain | wc -l` != "0" ]; then
 fi
 
 ./check_rules.sh
+mvn package
 
 if [ ${#day} -eq 1 ]; then
     day="0$day"
@@ -23,6 +24,12 @@ fi
 branch=day${day}
 
 git rebase master ${branch}
+
+in_file=day${day}/input.txt
+if [ -f ${in_file} ]; then
+    ./solve.sh ${day} ${in_file} | tee --append completion.log
+fi
+
 git checkout master
 git merge --no-ff -m "Merge branch '$branch'" ${branch}
 git branch -d ${branch}
