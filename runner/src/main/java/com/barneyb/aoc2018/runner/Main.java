@@ -20,6 +20,19 @@ public class Main {
         } else if (isOption("list", args[0])) {
             printSolverList();
             doSolve = false;
+        } else if (isOption("all", args[0])) {
+            Day[] solvers = solverArray();
+            for (int i = 0; i < solvers.length; i++) {
+                if (solvers[i] != null) {
+                    File f = new File(String.format("day%02d/input.txt", i));
+                    if (f.exists()) {
+                        doSolve(i, f, solvers[i]);
+                    } else {
+                        System.out.printf("No input file '%s' for Day %d%n", f.getPath(), i);
+                    }
+                }
+            }
+            doSolve = false;
         } else if (args.length != 2) {
             throw new IllegalArgumentException("You must supply a integer day and a path to a UTF-8 encoded input file.");
         } else {
@@ -28,7 +41,7 @@ public class Main {
         }
     }
 
-    private Day createSolverForUse(int day) throws IllegalAccessException {
+    private static Day createSolverForUse(int day) throws IllegalAccessException {
         Day solver;
         try {
             solver = createSolver(day);
@@ -51,17 +64,28 @@ public class Main {
     }
 
     private void printSolverList() {
+        Day[] solvers = solverArray();
         for (int i = 0; i <= 25; i++) {
-            try {
-                createSolver(i);
+            if (solvers[i] != null) {
                 System.out.printf("Day %2d%n", i);
-            } catch (ClassNotFoundException | IllegalAccessException | InstantiationException e) {
+            } else {
                 System.out.printf("// Day %2d%n", i);
             }
         }
     }
 
-    private Day createSolver(int day) throws ClassNotFoundException, IllegalAccessException, InstantiationException {
+    private Day[] solverArray() {
+        Day[] result = new Day[26];
+        for (int i = 0; i <= 25; i++) {
+            try {
+                result[i] = createSolver(i);
+            } catch (ClassNotFoundException | IllegalAccessException | InstantiationException ignored) {
+            }
+        }
+        return result;
+    }
+
+    private static Day createSolver(int day) throws ClassNotFoundException, IllegalAccessException, InstantiationException {
         String paddedDay = day < 10 ? ("0" + day) : ("" + day);
         //noinspection unchecked
         return (Day) Class.forName(String.format("com.barneyb.aoc2018.day%s.Day%s", paddedDay, paddedDay)).newInstance();
@@ -77,21 +101,34 @@ public class Main {
         try {
             Main m = new Main(args);
             if (m.doSolve) {
-                long startedAt = System.currentTimeMillis();
-                Day solver = m.createSolverForUse(m.day);
-                String input = readInput(m.inputFile);
-                System.out.printf("Solving Day %d against '%s' ...%n", m.day, m.inputFile);
-                solver.setInput(input);
-                System.out.printf("Part One: %s%n", solver.getPartOne());
-                System.out.printf("Part Two: %s%n", solver.getPartTwo());
-                long elapsed = System.currentTimeMillis() - startedAt;
-                System.out.printf("%d ms%n", elapsed);
+                solveAndPrint(m.day, m.inputFile);
             }
         } catch (Exception e) {
             System.out.println("There was an error running the solver:");
             e.printStackTrace();
             System.exit(1);
         }
+    }
+
+    private static void solveAndPrint(int day, File inputFile) throws IllegalAccessException {
+        Day solver = createSolverForUse(day);
+        doSolve(day, inputFile, solver);
+    }
+
+    private static void doSolve(int day, File inputFile, Day solver) {
+        long startedAt = System.currentTimeMillis();
+        String input;
+        try {
+            input = readInput(inputFile);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        System.out.printf("Solving Day %d against '%s' ...%n", day, inputFile);
+        solver.setInput(input);
+        System.out.printf("Part One: %s%n", solver.getPartOne());
+        System.out.printf("Part Two: %s%n", solver.getPartTwo());
+        long elapsed = System.currentTimeMillis() - startedAt;
+        System.out.printf("%d ms%n", elapsed);
     }
 
 }
