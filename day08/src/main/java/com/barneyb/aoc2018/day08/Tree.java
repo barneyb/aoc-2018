@@ -1,13 +1,14 @@
 package com.barneyb.aoc2018.day08;
 
 import com.barneyb.aoc2018.util.Bag;
+import com.barneyb.aoc2018.util.List;
 
 import java.util.Iterator;
 
 public class Tree {
 
     private static class Node {
-        Bag<Node> children = new Bag<>();
+        List<Node> children = new List<>();
         Bag<Integer> metadata = new Bag<>();
 
         void addChild(Node n) {
@@ -28,6 +29,20 @@ public class Tree {
             }
             return sum;
         }
+
+        int getValue() {
+            if (children.isEmpty()) {
+                return getMetaSum();
+            }
+            int v = 0;
+            for (int i : metadata) {
+                if (i <= children.size()) {
+                    v += children.get(i - 1).getValue(); // indexing basis!
+                }
+            }
+            return v;
+        }
+
     }
 
     private static class Digest implements Iterator<Integer> {
@@ -72,5 +87,9 @@ public class Tree {
 
     public int getMetaSum() {
         return root.getMetaSum();
+    }
+
+    public int getValue() {
+        return root.getValue();
     }
 }

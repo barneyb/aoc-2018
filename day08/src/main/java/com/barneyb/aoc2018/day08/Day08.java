@@ -13,8 +13,10 @@ public class Day08 extends OneShotDay {
         for (int i = 0, l = ss.length; i < l; i++) {
             ns[i] = Integer.parseInt(ss[i]);
         }
+        Tree tree = new Tree(ns);
         return new Answers(
-                new Tree(ns).getMetaSum()
+                tree.getMetaSum(),
+                tree.getValue()
         );
     }
 
