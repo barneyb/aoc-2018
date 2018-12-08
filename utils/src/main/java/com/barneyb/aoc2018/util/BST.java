@@ -73,6 +73,16 @@ public class BST<K extends Comparable<K>, V> implements ST<K, V> {
         }
     }
 
+    public void deleteMin() {
+        // todo: this is also stupid
+        delete(min());
+    }
+
+    public K min() {
+        // todo: this is _stupid_
+        return keys().iterator().next();
+    }
+
     private boolean isRed(Node n) {
         if (n == null) {
             // null links are black (by fiat)
