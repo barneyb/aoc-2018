@@ -13,7 +13,7 @@ public class Day09Test {
     public void solve() {
         Answers a = new Day09().solve(EXAMPLE_INPUT);
         assertEquals("32", a.getPartOne());
-        assertEquals("-", a.getPartTwo());
+        assertEquals("22563", a.getPartTwo());
     }
 
     @Test

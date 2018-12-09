@@ -12,8 +12,13 @@ public class Day09 extends OneShotDay {
         int playerCount = Integer.parseInt(parts[0]);
         int lastMarble = Integer.parseInt(parts[6]);
         return new Answers(
-                partOne(playerCount, lastMarble)
+                partOne(playerCount, lastMarble),
+                partTwo(playerCount, lastMarble)
         );
+    }
+
+    private long partTwo(int playerCount, int lastMarble) {
+        return partOne(playerCount, lastMarble * 100);
     }
 
     private static class Marble {
@@ -60,9 +65,9 @@ public class Day09 extends OneShotDay {
         }
     }
 
-    static int partOne(int playerCount, int lastMarble) {
+    static long partOne(int playerCount, int lastMarble) {
         Ring ring = new Ring();
-        int[] scores = new int[playerCount];
+        long[] scores = new long[playerCount];
         for (int i = 1; i <= lastMarble; i++) {
             if (i % 23 == 0) {
                 int p = (i - 1) % playerCount;
@@ -76,8 +81,8 @@ public class Day09 extends OneShotDay {
                 ring.add(i);
             }
         }
-        int max = 0;
-        for (int s : scores) {
+        long max = 0;
+        for (long s : scores) {
             if (s > max) {
                 max = s;
             }
