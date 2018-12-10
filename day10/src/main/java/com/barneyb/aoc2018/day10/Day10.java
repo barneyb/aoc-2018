@@ -24,7 +24,7 @@ public class Day10 extends OneShotDay {
     }
 
     static String partOne(Particle[] ps) {
-        return new Array(ps).message();
+        return new Array(ps).toString();
     }
 
     public static void main(String[] args)  {

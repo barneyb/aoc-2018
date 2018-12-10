@@ -10,9 +10,9 @@ import static org.junit.Assert.assertEquals;
 
 public class Day10Test {
 
-    private static final String EXAMPLE_INPUT = Resources.asText("example.txt");
+    static final String EXAMPLE_INPUT = Resources.asText("example.txt");
 
-    private static final Particle[] EXAMPLE_PARTICLES = {
+    static final Particle[] EXAMPLE_PARTICLES = {
         new Particle(new Point( 9,  1), new Point( 0,  2)),
         new Particle(new Point( 7,  0), new Point(-1,  0)),
         new Particle(new Point( 3, -2), new Point(-1,  1)),
@@ -50,14 +50,14 @@ public class Day10Test {
     public void solve() {
         Answers a = new Day10().solve(EXAMPLE_INPUT);
         assertEquals(
-                "#   #  ###\n" +
-                "#   #   # \n" +
-                "#   #   # \n" +
-                "#####   # \n" +
-                "#   #   # \n" +
-                "#   #   # \n" +
-                "#   #   # \n" +
-                "#   #  ###",
+                "#...#..###\n" +
+                "#...#...#.\n" +
+                "#...#...#.\n" +
+                "#####...#.\n" +
+                "#...#...#.\n" +
+                "#...#...#.\n" +
+                "#...#...#.\n" +
+                "#...#..###",
                 a.getPartOne());
         assertEquals("-", a.getPartTwo());
     }
