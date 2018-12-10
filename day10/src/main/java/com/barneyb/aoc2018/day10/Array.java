@@ -10,6 +10,12 @@ public class Array {
         this.particles = particles;
     }
 
+    public void tick() {
+        for (Particle p : particles) {
+            p.tick();
+        }
+    }
+
     public Bounds bounds() {
         int minX = Integer.MAX_VALUE;
         int minY = Integer.MAX_VALUE;

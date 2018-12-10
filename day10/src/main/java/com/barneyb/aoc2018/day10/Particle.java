@@ -31,6 +31,10 @@ public class Particle {
         this.vel = vel;
     }
 
+    public void tick() {
+        pos = pos.plus(vel);
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
