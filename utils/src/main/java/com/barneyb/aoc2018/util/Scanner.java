@@ -54,6 +54,11 @@ public class Scanner {
         return this;
     }
 
+    public Scanner skipWS() {
+        readWhile(Character::isWhitespace);
+        return this;
+    }
+
     public String read(int l) {
         StringBuilder sb = new StringBuilder();
         try {
