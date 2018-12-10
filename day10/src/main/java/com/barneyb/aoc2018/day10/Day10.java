@@ -9,8 +9,20 @@ public class Day10 extends OneShotDay {
     @Override
     public Answers solve(String input) {
         Particle[] ps = parse(input);
+        Array a = new Array(ps);
+        long priorArea = a.bounds().area();
+        while (true) {
+            a.tick();
+            long area = a.bounds().area();
+            if (area > priorArea) {
+                // getting bigger
+                a.untick();
+                break;
+            }
+            priorArea = area;
+        }
         return new Answers(
-                partOne(ps)
+                a.toString()
         );
     }
 
@@ -21,10 +33,6 @@ public class Day10 extends OneShotDay {
             ps[i] = Particle.parse(lines[i]);
         }
         return ps;
-    }
-
-    static String partOne(Particle[] ps) {
-        return new Array(ps).toString();
     }
 
     public static void main(String[] args)  {

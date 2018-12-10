@@ -16,6 +16,12 @@ public class Array {
         }
     }
 
+    public void untick() {
+        for (Particle p : particles) {
+            p.untick();
+        }
+    }
+
     public Bounds bounds() {
         int minX = Integer.MAX_VALUE;
         int minY = Integer.MAX_VALUE;
@@ -36,8 +42,9 @@ public class Array {
     @Override
     public String toString() {
         Bounds b = bounds();
-        int w = b.width();
-        int h = b.height();
+        int w = (int) b.width();
+        int h = (int) b.height();
+        if (w > 3000 || h > 3000) return "too big, sorry " + b;
         boolean[][] grid = new boolean[h][];
         for (int y = 0; y < h; y++) {
             grid[y] = new boolean[w];

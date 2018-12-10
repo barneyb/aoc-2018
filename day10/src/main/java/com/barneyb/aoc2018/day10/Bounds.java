@@ -12,15 +12,15 @@ public class Bounds {
         this.max = max;
     }
 
-    public int width() {
+    public long width() {
         return max.x - min.x + 1;
     }
 
-    public int height() {
+    public long height() {
         return max.y - min.y + 1;
     }
 
-    public int area() {
+    public long area() {
         return width() * height();
     }
 
@@ -47,6 +47,7 @@ public class Bounds {
         return "Bounds{" +
                 "min=" + min +
                 ", max=" + max +
+                ", area=" + area() +
                 '}';
     }
 }
