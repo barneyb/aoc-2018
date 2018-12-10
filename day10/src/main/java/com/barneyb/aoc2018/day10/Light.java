@@ -3,15 +3,15 @@ package com.barneyb.aoc2018.day10;
 import com.barneyb.aoc2018.util.Point;
 import com.barneyb.aoc2018.util.Scanner;
 
-public class Particle {
+public class Light {
 
-    public static Particle parse(String str) {
+    public static Light parse(String str) {
         return scan(new Scanner(str));
     }
 
-    public static Particle scan(Scanner s) {
+    public static Light scan(Scanner s) {
         //position=<-6, 10> velocity=< 2, -2>
-        return new Particle(
+        return new Light(
                 new Point(
                         s.skip("position=<").skipWS().readInt(),
                         s.skip(",").skipWS().readInt()
@@ -26,7 +26,7 @@ public class Particle {
     Point pos;
     Point vel;
 
-    public Particle(Point pos, Point vel) {
+    public Light(Point pos, Point vel) {
         this.pos = pos;
         this.vel = vel;
     }
@@ -42,12 +42,12 @@ public class Particle {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof Particle)) return false;
+        if (!(o instanceof Light)) return false;
 
-        Particle particle = (Particle) o;
+        Light light = (Light) o;
 
-        if (!pos.equals(particle.pos)) return false;
-        return vel.equals(particle.vel);
+        if (!pos.equals(light.pos)) return false;
+        return vel.equals(light.vel);
     }
 
     @Override

@@ -8,32 +8,32 @@ public class Day10 extends OneShotDay {
 
     @Override
     public Answers solve(String input) {
-        Particle[] ps = parse(input);
-        Array a = new Array(ps);
-        long priorArea = a.bounds().area();
+        Light[] lights = parse(input);
+        Pattern p = new Pattern(lights);
+        long priorArea = p.bounds().area();
         while (true) {
-            a.tick();
-            long area = a.bounds().area();
+            p.tick();
+            long area = p.bounds().area();
             if (area > priorArea) {
                 // getting bigger
-                a.untick();
+                p.untick();
                 break;
             }
             priorArea = area;
         }
         return new Answers(
-                a.toString(),
-                a.tickCount()
+                p.toString(),
+                p.tickCount()
         );
     }
 
-    static Particle[] parse(String input) {
+    static Light[] parse(String input) {
         String[] lines = input.trim().split("\n");
-        Particle[] ps = new Particle[lines.length];
+        Light[] lights = new Light[lines.length];
         for (int i = 0, l = lines.length; i < l; i++) {
-            ps[i] = Particle.parse(lines[i]);
+            lights[i] = Light.parse(lines[i]);
         }
-        return ps;
+        return lights;
     }
 
     public static void main(String[] args)  {

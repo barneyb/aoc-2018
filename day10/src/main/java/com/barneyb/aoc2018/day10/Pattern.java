@@ -2,25 +2,25 @@ package com.barneyb.aoc2018.day10;
 
 import com.barneyb.aoc2018.util.Point;
 
-public class Array {
+public class Pattern {
 
-    private final Particle[] particles;
+    private final Light[] lights;
     private int tickCount = 0;
 
-    public Array(Particle[] particles) {
-        this.particles = particles;
+    public Pattern(Light[] lights) {
+        this.lights = lights;
     }
 
     public void tick() {
-        for (Particle p : particles) {
-            p.tick();
+        for (Light l : lights) {
+            l.tick();
         }
         tickCount += 1;
     }
 
     public void untick() {
-        for (Particle p : particles) {
-            p.untick();
+        for (Light l : lights) {
+            l.untick();
         }
         tickCount -= 1;
     }
@@ -30,11 +30,11 @@ public class Array {
         int minY = Integer.MAX_VALUE;
         int maxX = Integer.MIN_VALUE;
         int maxY = Integer.MIN_VALUE;
-        for (Particle p : particles) {
-            minX = Math.min(minX, p.pos.x);
-            minY = Math.min(minY, p.pos.y);
-            maxX = Math.max(maxX, p.pos.x);
-            maxY = Math.max(maxY, p.pos.y);
+        for (Light l : lights) {
+            minX = Math.min(minX, l.pos.x);
+            minY = Math.min(minY, l.pos.y);
+            maxX = Math.max(maxX, l.pos.x);
+            maxY = Math.max(maxY, l.pos.y);
         }
         return new Bounds(
                 new Point(minX, minY),
@@ -56,8 +56,8 @@ public class Array {
         for (int y = 0; y < h; y++) {
             grid[y] = new boolean[w];
         }
-        for (Particle particle : particles) {
-            Point p = particle.pos.minus(b.min);
+        for (Light l : lights) {
+            Point p = l.pos.minus(b.min);
             grid[p.y][p.x] = true;
         }
         StringBuilder sb = new StringBuilder();

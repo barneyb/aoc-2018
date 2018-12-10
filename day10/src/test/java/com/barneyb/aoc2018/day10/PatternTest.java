@@ -5,11 +5,11 @@ import org.junit.Test;
 import static com.barneyb.aoc2018.day10.Day10Test.exampleParticles;
 import static org.junit.Assert.assertEquals;
 
-public class ArrayTest {
+public class PatternTest {
 
     @Test
     public void ticks() {
-        Array a = new Array(exampleParticles());
+        Pattern p = new Pattern(exampleParticles());
         assertEquals(
                 "........#.............\n" +
                 "................#.....\n" +
@@ -27,8 +27,8 @@ public class ArrayTest {
                 "...........#..#.......\n" +
                 "#...........#.........\n" +
                 "...#.......#..........",
-                a.toString());
-        a.tick();
+                p.toString());
+        p.tick();
         assertEquals(
                 "........#....#....\n" +
                 "......#.....#.....\n" +
@@ -42,8 +42,8 @@ public class ArrayTest {
                 "......#...#.....#.\n" +
                 "#...........#.....\n" +
                 "..#.....#.#.......",
-                a.toString());
-        a.tick();
+                p.toString());
+        p.tick();
         assertEquals(
                 "..........#...\n" +
                 "#..#...####..#\n" +
@@ -55,8 +55,8 @@ public class ArrayTest {
                 "#....#.#......\n" +
                 ".#...#...##.#.\n" +
                 "....#.........",
-                a.toString());
-        a.tick();
+                p.toString());
+        p.tick();
         assertEquals(
                 "#...#..###\n" +
                 "#...#...#.\n" +
@@ -66,8 +66,8 @@ public class ArrayTest {
                 "#...#...#.\n" +
                 "#...#...#.\n" +
                 "#...#..###",
-                a.toString());
-        a.tick();
+                p.toString());
+        p.tick();
         assertEquals(
                 "........#....\n" +
                 "....##...#.#.\n" +
@@ -80,7 +80,7 @@ public class ArrayTest {
                 ".#.....##....\n" +
                 "...........#.\n" +
                 "...........#.",
-                a.toString());
+                p.toString());
     }
 
 }
