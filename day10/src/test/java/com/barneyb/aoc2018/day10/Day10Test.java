@@ -61,7 +61,7 @@ public class Day10Test {
                 "#...#...#.\n" +
                 "#...#..###",
                 a.getPartOne());
-        assertEquals("-", a.getPartTwo());
+        assertEquals("3", a.getPartTwo());
     }
 
     @Test

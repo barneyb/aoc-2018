@@ -5,6 +5,7 @@ import com.barneyb.aoc2018.util.Point;
 public class Array {
 
     private final Particle[] particles;
+    private int tickCount = 0;
 
     public Array(Particle[] particles) {
         this.particles = particles;
@@ -14,12 +15,14 @@ public class Array {
         for (Particle p : particles) {
             p.tick();
         }
+        tickCount += 1;
     }
 
     public void untick() {
         for (Particle p : particles) {
             p.untick();
         }
+        tickCount -= 1;
     }
 
     public Bounds bounds() {
@@ -37,6 +40,10 @@ public class Array {
                 new Point(minX, minY),
                 new Point(maxX, maxY)
         );
+    }
+
+    public int tickCount() {
+        return tickCount;
     }
 
     @Override

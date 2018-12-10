@@ -22,7 +22,8 @@ public class Day10 extends OneShotDay {
             priorArea = area;
         }
         return new Answers(
-                a.toString()
+                a.toString(),
+                a.tickCount()
         );
     }
 
