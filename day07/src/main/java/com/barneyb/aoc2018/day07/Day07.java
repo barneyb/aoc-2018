@@ -14,24 +14,23 @@ public class Day07 extends OneShotDay {
         NamedDigraph<String> ng = new NamedDigraph<>(prereqs);
         Digraph g = ng.graph();
         TreeSet<String> startTasks = new TreeSet<>();
-        int[] siteCosts = new int[g.getSiteCount()];
         for (int i = 0, l = g.getSiteCount(); i < l; i++) {
             if (g.indegree(i) == 0) {
                 startTasks.add(ng.getName(i));
             }
-            siteCosts[i] = extraCost + i + 1;
-        }
-        StringBuilder sb = new StringBuilder();
-        for (String s : partOne(ng, g, startTasks)) {
-            sb.append(s);
         }
         return new Answers(
-                sb.toString(),
-                partTwo(workerCount, ng, g, startTasks, siteCosts)
+                partOne(ng, startTasks),
+                partTwo(ng, startTasks, extraCost, workerCount)
         );
     }
 
-    private static int partTwo(int workerCount, NamedDigraph<String> ng, Digraph g, TreeSet<String> startTasks, int[] siteCosts) {
+    private static int partTwo(NamedDigraph<String> ng, TreeSet<String> startTasks, int extraCost, int workerCount) {
+        Digraph g = ng.graph();
+        int[] siteCosts = new int[g.getSiteCount()];
+        for (int i = 0, l = g.getSiteCount(); i < l; i++) {
+            siteCosts[i] = extraCost + i + 1;
+        }
         String[] workerTaskName = new String[workerCount];
         int[] workerTaskComplete = new int[workerCount];
         int tickCount = 0;
@@ -86,12 +85,13 @@ public class Day07 extends OneShotDay {
         return tickCount;
     }
 
-    private static Queue<String> partOne(NamedDigraph<String> ng, Digraph g, TreeSet<String> startTasks) {
+    private static String partOne(NamedDigraph<String> ng, TreeSet<String> startTasks) {
         TreeSet<String> readyNames = new TreeSet<>();
         for (String s : startTasks) {
             readyNames.add(s);
         }
         Queue<String> prereqOrder = new Queue<>();
+        Digraph g = ng.graph();
         int[] marked = new int[g.getSiteCount()];
         while (! readyNames.isEmpty()) {
             String name = readyNames.min();
@@ -105,7 +105,11 @@ public class Day07 extends OneShotDay {
                 }
             }
         }
-        return prereqOrder;
+        StringBuilder sb = new StringBuilder();
+        for (String s : prereqOrder) {
+            sb.append(s);
+        }
+        return sb.toString();
     }
 
     static Prerequisite[] parse(String input) {
