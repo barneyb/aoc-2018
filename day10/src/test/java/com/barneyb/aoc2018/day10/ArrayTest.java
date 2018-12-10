@@ -2,14 +2,14 @@ package com.barneyb.aoc2018.day10;
 
 import org.junit.Test;
 
-import static com.barneyb.aoc2018.day10.Day10Test.EXAMPLE_PARTICLES;
+import static com.barneyb.aoc2018.day10.Day10Test.exampleParticles;
 import static org.junit.Assert.assertEquals;
 
 public class ArrayTest {
 
     @Test
     public void ticks() {
-        Array a = new Array(EXAMPLE_PARTICLES);
+        Array a = new Array(exampleParticles());
         assertEquals(
                 "........#.............\n" +
                 "................#.....\n" +
