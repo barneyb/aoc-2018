@@ -1,23 +1,12 @@
 package com.barneyb.aoc2018.day08;
 
-import com.barneyb.aoc2018.util.Bag;
-import com.barneyb.aoc2018.util.List;
-
 import java.util.Iterator;
 
 public class Tree {
 
     private static class Node {
-        List<Node> children = new List<>();
-        Bag<Integer> metadata = new Bag<>();
-
-        void addChild(Node n) {
-            children.add(n);
-        }
-
-        void addMeta(int n) {
-            metadata.add(n);
-        }
+        Node[] children;
+        int[] metadata;
 
         int getMetaSum() {
             int sum = 0;
@@ -31,13 +20,13 @@ public class Tree {
         }
 
         int getValue() {
-            if (children.isEmpty()) {
+            if (children.length == 0) {
                 return getMetaSum();
             }
             int v = 0;
             for (int i : metadata) {
-                if (i <= children.size()) {
-                    v += children.get(i - 1).getValue(); // indexing basis!
+                if (i <= children.length) {
+                    v += children[i - 1].getValue(); // indexing basis!
                 }
             }
             return v;
@@ -68,7 +57,11 @@ public class Tree {
     private Node root;
 
     Tree(int[] ns) {
-        this.root = readNode(new Digest(ns, 0));
+        Digest d = new Digest(ns, 0);
+        this.root = readNode(d);
+        if (d.hasNext()) {
+            throw new RuntimeException("Failed to consume all input");
+        }
     }
 
     private Node readNode(Digest d) {
@@ -76,11 +69,13 @@ public class Tree {
         int childCount = d.next();
         int metaCount = d.next();
         // eat the children
-        for (int j = 0; j < childCount; j++) {
-            n.addChild(readNode(d));
+        n.children = new Node[childCount];
+        for (int i = 0; i < childCount; i++) {
+            n.children[i] = readNode(d);
         }
-        for (int j = 0; j < metaCount; j++) {
-            n.addMeta(d.next());
+        n.metadata = new int[metaCount];
+        for (int i = 0; i < metaCount; i++) {
+            n.metadata[i] = d.next();
         }
         return n;
     }
