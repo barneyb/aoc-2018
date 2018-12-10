@@ -125,10 +125,18 @@ public class Main {
         }
         System.out.printf("Solving Day %d against '%s' ...%n", day, inputFile);
         solver.setInput(input);
-        System.out.printf("Part One: %s%n", solver.getPartOne());
-        System.out.printf("Part Two: %s%n", solver.getPartTwo());
+        renderPart("One", solver.getPartOne());
+        renderPart("Two", solver.getPartTwo());
         long elapsed = System.currentTimeMillis() - startedAt;
         System.out.printf("%d ms%n", elapsed);
+    }
+
+    private static void renderPart(String label, String answer) {
+        if (answer.contains("\n")) {
+            System.out.printf("Part %s:%n%s%n", label, answer);
+        } else {
+            System.out.printf("Part %s: %s%n", label, answer);
+        }
     }
 
 }
