@@ -3,7 +3,7 @@ set -e
 
 cd `dirname $0`
 
-if [ `git status --porcelain | wc -l` != "0" ]; then
+if [ "$1" != "--force" -a `git status --porcelain | wc -l` != "0" ]; then
     echo "Your working copy is dirty; I refuse"
     exit 1
 fi
