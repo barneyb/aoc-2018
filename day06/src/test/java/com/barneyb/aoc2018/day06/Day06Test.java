@@ -1,6 +1,7 @@
 package com.barneyb.aoc2018.day06;
 
 import com.barneyb.aoc2018.util.Answers;
+import com.barneyb.aoc2018.util.Point;
 import org.junit.Test;
 
 import static org.junit.Assert.assertArrayEquals;
