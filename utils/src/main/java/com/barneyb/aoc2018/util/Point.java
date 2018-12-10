@@ -1,8 +1,8 @@
-package com.barneyb.aoc2018.day06;
+package com.barneyb.aoc2018.util;
 
 public class Point implements Comparable<Point> {
 
-    final int x, y;
+    public final int x, y;
 
     public Point(int x, int y) {
         this.x = x;

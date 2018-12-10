@@ -1,5 +1,7 @@
 package com.barneyb.aoc2018.day06;
 
+import com.barneyb.aoc2018.util.Point;
+
 public class AllWithinPlot {
 
     private int size;

@@ -1,9 +1,6 @@
 package com.barneyb.aoc2018.day06;
 
-import com.barneyb.aoc2018.util.BST;
-import com.barneyb.aoc2018.util.Histogram;
-import com.barneyb.aoc2018.util.Stack;
-import com.barneyb.aoc2018.util.TreeSet;
+import com.barneyb.aoc2018.util.*;
 
 public class ClosestPlot {
 

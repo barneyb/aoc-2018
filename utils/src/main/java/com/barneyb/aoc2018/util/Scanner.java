@@ -54,6 +54,11 @@ public class Scanner {
         return this;
     }
 
+    public Scanner skipWS() {
+        readWhile(Character::isWhitespace);
+        return this;
+    }
+
     public String read(int l) {
         StringBuilder sb = new StringBuilder();
         try {
@@ -78,11 +83,20 @@ public class Scanner {
     }
 
     public int readInt() {
+        int c;
+        boolean negative;
+        try {
+            c = in.read();
+            negative = c == '-';
+            if (! negative) in.unread(c);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
         String s = readWhile(Character::isDigit);
         if (s.length() == 0) {
             throw new NoMatchException("No integer was found");
         }
-        return Integer.parseInt(s);
+        return (negative ? -1 : 1) * Integer.parseInt(s);
     }
 
     private String readUntil(Predicate<Integer> test) {
