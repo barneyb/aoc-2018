@@ -9,8 +9,8 @@ final public class Answers {
     }
 
     public Answers(Object partOne, Object partTwo) {
-        this.partOne = partOne.toString();
-        this.partTwo = partTwo.toString();
+        this.partOne = partOne == null ? "null" : partOne.toString();
+        this.partTwo = partTwo == null ? "null" : partTwo.toString();
     }
 
     public String getPartOne() {
