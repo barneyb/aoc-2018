@@ -61,6 +61,10 @@ After building, you can solve:
     Part One: 17
     Part Two: 14
 
+For some problems (e.g., Day 11), AoC doesn't provide `input.txt`, just a small
+snippet directly on the page. You'll need to stick it in `input.txt` yourself,
+as that's the only way to get input in to the solver.
+
 Days available for solving may be enumerated by passing `list` as the sole
 argument. Initially, only Day 0 will be available:
 
