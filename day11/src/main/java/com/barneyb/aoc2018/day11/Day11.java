@@ -11,9 +11,10 @@ public class Day11 extends OneShotDay {
     public Answers solve(String input) {
         int serial = Integer.parseInt(input.trim());
         Grid g = new Grid(serial);
-        Point p = g.mostPowerfulPoint();
+        Point p = g.mostPowerfulPoint().p;
         return new Answers(
-            p.x + "," + p.y
+            p.x + "," + p.y,
+                g.mostPowerfulPoint(10, 40) // todo: needs to be 1, 300
         );
     }
 

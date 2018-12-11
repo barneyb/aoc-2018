@@ -11,14 +11,14 @@ public class Day11Test {
     public void solveOne() {
         Answers a = new Day11().solve("18");
         assertEquals("33,45", a.getPartOne());
-        assertEquals("-", a.getPartTwo());
+        assertEquals("90,269,16", a.getPartTwo());
     }
 
     @Test
     public void solveTwo() {
         Answers a = new Day11().solve("42");
         assertEquals("21,61", a.getPartOne());
-        assertEquals("-", a.getPartTwo());
+        assertEquals("232,251,12", a.getPartTwo());
     }
 
 }
