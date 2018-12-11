@@ -54,6 +54,7 @@ After building, you can solve:
     $ ./solve.sh
     Usage: ./solve.sh <day> <path/to/input.txt>
            ./solve.sh list
+           ./solve.sh all
     $ cat runner/dummy-input.txt
       i have spaces!
     $ ./solve.sh 0 runner/dummy-input.txt
@@ -71,6 +72,17 @@ argument. Initially, only Day 0 will be available:
     ...
 
 If the day you want isn't available, you'll just have to solve it yourself. :)
+
+If you drop `input.txt` into each day's directory, you can run them all in one
+batch. The solver will skip any days it can't do, as well as any days an input
+file wasn't provided for. Here's how it might look after the first day:
+
+    $ ./solve.sh all
+    Solving Day 0 against 'day00/input.txt' ...
+    Part One: 17
+    Part Two: 14
+    16 ms
+    No input file 'day01/input.txt' for Day 1
 
 ## Adding a Solver
 

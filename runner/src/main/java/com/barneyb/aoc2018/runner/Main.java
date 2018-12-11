@@ -61,6 +61,7 @@ public class Main {
     private void printHelp() {
         System.out.println("Usage: aoc-2018.jar <day> <path/to/input.txt>");
         System.out.println("       aoc-2018.jar list");
+        System.out.println("       aoc-2018.jar all");
     }
 
     private void printSolverList() {
