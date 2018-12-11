@@ -8,6 +8,11 @@ if [ "$1" != "--force" -a `git status --porcelain | wc -l` != "0" ]; then
     exit 1
 fi
 
+if [ ! -f ./completion.log ]; then
+    echo "No 'completion.log' found. Sorry."
+    exit 1
+fi
+
 expected=runner/target/expected.log
 actual=runner/target/actual.log
 
