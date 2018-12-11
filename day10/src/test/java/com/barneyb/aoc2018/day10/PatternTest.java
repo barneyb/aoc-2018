@@ -10,6 +10,7 @@ public class PatternTest {
     @Test
     public void ticks() {
         Pattern p = new Pattern(exampleParticles());
+        assertEquals(0, p.tickCount());
         assertEquals(
                 "........#.............\n" +
                 "................#.....\n" +
@@ -28,7 +29,8 @@ public class PatternTest {
                 "#...........#.........\n" +
                 "...#.......#..........",
                 p.toString());
-        p.tick();
+        p.tick(1);
+        assertEquals(1, p.tickCount());
         assertEquals(
                 "........#....#....\n" +
                 "......#.....#.....\n" +
@@ -43,20 +45,8 @@ public class PatternTest {
                 "#...........#.....\n" +
                 "..#.....#.#.......",
                 p.toString());
-        p.tick();
-        assertEquals(
-                "..........#...\n" +
-                "#..#...####..#\n" +
-                "..............\n" +
-                "....#....#....\n" +
-                "..#.#.........\n" +
-                "...#...#......\n" +
-                "...#..#..#.#..\n" +
-                "#....#.#......\n" +
-                ".#...#...##.#.\n" +
-                "....#.........",
-                p.toString());
-        p.tick();
+        p.tick(2);
+        assertEquals(3, p.tickCount());
         assertEquals(
                 "#...#..###\n" +
                 "#...#...#.\n" +
@@ -67,7 +57,8 @@ public class PatternTest {
                 "#...#...#.\n" +
                 "#...#..###",
                 p.toString());
-        p.tick();
+        p.tick(1);
+        assertEquals(4, p.tickCount());
         assertEquals(
                 "........#....\n" +
                 "....##...#.#.\n" +

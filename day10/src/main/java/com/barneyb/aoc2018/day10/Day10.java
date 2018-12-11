@@ -12,11 +12,11 @@ public class Day10 extends OneShotDay {
         Pattern p = new Pattern(lights);
         long priorArea = p.bounds().area();
         while (true) {
-            p.tick();
+            p.tick(1);
             long area = p.bounds().area();
             if (area > priorArea) {
                 // getting bigger
-                p.untick();
+                p.tick(-1);
                 break;
             }
             priorArea = area;

@@ -11,18 +11,11 @@ public class Pattern {
         this.lights = lights;
     }
 
-    public void tick() {
+    public void tick(int steps) {
         for (Light l : lights) {
-            l.tick();
+            l.tick(steps);
         }
-        tickCount += 1;
-    }
-
-    public void untick() {
-        for (Light l : lights) {
-            l.untick();
-        }
-        tickCount -= 1;
+        tickCount += steps;
     }
 
     public Bounds bounds() {

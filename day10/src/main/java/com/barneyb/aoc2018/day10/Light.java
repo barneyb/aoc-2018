@@ -31,12 +31,8 @@ public class Light {
         this.vel = vel;
     }
 
-    public void tick() {
-        pos = pos.plus(vel);
-    }
-
-    public void untick() {
-        pos = pos.minus(vel);
+    public void tick(int steps) {
+        pos = pos.plus(vel.times(steps));
     }
 
     @Override
