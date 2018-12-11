@@ -1,16 +1,19 @@
 package com.barneyb.aoc2018.day11;
 
 import com.barneyb.aoc2018.util.Answers;
-import com.barneyb.aoc2018.util.OneShotDay;
 import com.barneyb.aoc2018.util.FileUtils;
+import com.barneyb.aoc2018.util.OneShotDay;
+import com.barneyb.aoc2018.util.Point;
 
 public class Day11 extends OneShotDay {
 
     @Override
     public Answers solve(String input) {
+        int serial = Integer.parseInt(input.trim());
+        Grid g = new Grid(serial);
+        Point p = g.mostPowerfulPoint();
         return new Answers(
-                input.length(),
-                input.trim().length()
+            p.x + "," + p.y
         );
     }
 
