@@ -27,6 +27,13 @@ public class Point implements Comparable<Point> {
         );
     }
 
+    public Point times(int scalar) {
+        return new Point(
+                x * scalar,
+                y * scalar
+        );
+    }
+
     @Override
     public int compareTo(Point p) {
         if (x < p.x) return -1;
