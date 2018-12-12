@@ -9,8 +9,11 @@ public class Pots {
     private final Bag<String> growthPatterns;
 
     public Pots(String state, Bag<String> growthPatterns) {
-        this.state = new StringBuilder(state);
-        this.growthPatterns = growthPatterns;
+        this.state = new StringBuilder(state.replace('.', ' '));
+        this.growthPatterns = new Bag<>();
+        for (String p : growthPatterns) {
+            this.growthPatterns.add(p.replace('.', ' '));
+        }
     }
 
     public void tick() {
@@ -21,16 +24,16 @@ public class Pots {
         if (i < 4) {
             // need to add periods
             for (int j = i; j < 4; j++) {
-                state.insert(0, ".");
+                state.insert(0, " ");
                 offset -= 1;
             }
         }
         while (state.lastIndexOf("#") > state.length() - 5) {
-            state.append('.');
+            state.append(' ');
         }
         StringBuilder next = new StringBuilder(state.length() + 2);
         for (int j = 0, l = state.length() + 2; j < l; j += 10) {
-            next.append("..........");
+            next.append("          ");
         }
         for (String ptn : growthPatterns) {
             int start = -1;
