@@ -14,7 +14,7 @@ public class Day11 extends OneShotDay {
         Point p = g.mostPowerfulPoint().p;
         return new Answers(
             p.x + "," + p.y,
-                g.mostPowerfulPoint(1, 40) // todo: needs to be 1, 300
+                g.mostPowerfulPoint(1, 33) // todo: needs to be 1, 300
         );
     }
 

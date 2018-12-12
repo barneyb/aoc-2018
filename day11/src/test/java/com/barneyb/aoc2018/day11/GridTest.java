@@ -4,26 +4,26 @@ import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
 
-public class CellTest {
+public class GridTest {
 
     @Test
     public void levelOne() {
-        assertEquals(4, new Cell(3, 5).level(8));
+        assertEquals(4, Grid.level(3, 5, 8));
     }
 
     @Test
     public void levelTwo() {
-        assertEquals(-5, new Cell(122, 79).level(57));
+        assertEquals(-5, Grid.level(122, 79, 57));
     }
 
     @Test
     public void levelThree() {
-        assertEquals(0, new Cell(217, 196).level(39));
+        assertEquals(0, Grid.level(217, 196, 39));
     }
 
     @Test
     public void levelFour() {
-        assertEquals(4, new Cell(101, 153).level(71));
+        assertEquals(4, Grid.level(101, 153, 71));
     }
 
 }

@@ -12,9 +12,19 @@ public class Grid {
         for (int y = 1; y <= LEG; y++) {
             grid[y] = new int[LEG + 1];
             for (int x = 1; x <= LEG; x++) {
-                grid[y][x] = new Cell(x, y).level(serial);
+                grid[y][x] = level(x, y, serial);
             }
         }
+    }
+
+    static int level(int x, int y, int serial) {
+        int rackId = x + 10;
+        int level = rackId * y;
+        level += serial;
+        level *= rackId;
+        level /= 100;
+        level %= 10;
+        return level - 5;
     }
 
     public Square mostPowerfulPoint() {
