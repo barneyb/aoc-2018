@@ -28,15 +28,15 @@ public class Pots {
         while (state.lastIndexOf("#") > state.length() - 5) {
             state.append('.');
         }
-        StringBuilder next = new StringBuilder();
+        StringBuilder next = new StringBuilder(state.length() + 2);
+        for (int j = 0, l = state.length() + 2; j < l; j += 10) {
+            next.append("..........");
+        }
         for (String ptn : growthPatterns) {
             int start = -1;
             while (true) {
                 int p = state.indexOf(ptn, start);
                 if (p < 0) break;
-                while (next.length() < p + 3) {
-                    next.append('.');
-                }
                 next.setCharAt(p + 2, '#');
                 start = p + 1;
             }
@@ -45,6 +45,10 @@ public class Pots {
         if (i > 0) {
             next.delete(0, i);
             offset += i;
+        }
+        i = next.lastIndexOf("#");
+        if (i < next.length() - 1) {
+            next.delete(i + 1, next.length());
         }
         state = next;
     }

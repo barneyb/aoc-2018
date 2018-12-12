@@ -14,10 +14,17 @@ public class Day12 extends OneShotDay {
                 growers.add(new Scanner(lines[i]).readWord());
             }
         }
+        return new Answers(
+                getPotSum(state, growers, 20),
+                getPotSum(state, growers, 50000000000L / 100000)
+        );
+    }
+
+    private long getPotSum(String state, Bag<String> growers, long generations) {
         Pots pots = new Pots(state, growers);
 //        System.out.println("                 1         2         3");
 //        System.out.println("       0         0         0         0");
-        for (int i = 0; ; i++) {
+        for (long i = 0; ; i++) {
 //            System.out.printf("%2d: ", i);
 //            for (int j = -3; j < pots.offset(); j++) {
 //                System.out.print(".");
@@ -27,18 +34,17 @@ public class Day12 extends OneShotDay {
 //                System.out.print(".");
 //            }
 //            System.out.println();
-            if (i == 20) {
+            if (i == generations) {
                 break;
             }
             pots.tick();
         }
-        int sum = 0;
+        System.out.println(pots.state().length() + " pots after " + generations + " gens");
+        long sum = 0;
         for (int pn : pots.potsWithPlants()) {
             sum += pn;
         }
-        return new Answers(
-                sum
-        );
+        return sum;
     }
 
     public static void main(String[] args)  {
