@@ -85,8 +85,8 @@ public class Day${day} extends OneShotDay {
     @Override
     public Answers solve(String input) {
         return new Answers(
-                input.length(),
-                input.trim().length()
+                input.length()
+                , input.trim().length()
         );
     }
 
