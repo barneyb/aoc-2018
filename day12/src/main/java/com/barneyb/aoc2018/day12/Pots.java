@@ -7,6 +7,7 @@ public class Pots {
     private StringBuilder state;
     private int offset;
     private final Bag<String> growthPatterns;
+    private boolean stable;
 
     public Pots(String state, Bag<String> growthPatterns) {
         this.state = new StringBuilder(state.replace('.', ' '));
@@ -53,6 +54,9 @@ public class Pots {
         if (i < next.length() - 1) {
             next.delete(i + 1, next.length());
         }
+        if (state.toString().trim().equals(next.toString().trim())) {
+            stable = true;
+        }
         state = next;
     }
 
@@ -62,6 +66,20 @@ public class Pots {
 
     public int offset() {
         return offset;
+    }
+
+    public boolean stable() {
+        return stable;
+    }
+
+    public int plantCount() {
+        int c = 0;
+        for (int i = 0, l = state.length(); i < l; i++) {
+            if (state.charAt(i) == '#') {
+                c += 1;
+            }
+        }
+        return c;
     }
 
     Iterable<Integer> potsWithPlants() {

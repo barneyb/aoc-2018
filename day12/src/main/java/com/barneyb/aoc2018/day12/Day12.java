@@ -15,35 +15,41 @@ public class Day12 extends OneShotDay {
             }
         }
         return new Answers(
-                getPotSum(state, growers, 20),
-                getPotSum(state, growers, 50000000000L / 100000)
+                getPotSum(state, growers, 20)
+                , getPotSum(state, growers, 50000000000L)
         );
     }
 
-    private long getPotSum(String state, Bag<String> growers, long generations) {
+    static long getPotSum(String state, Bag<String> growers, final long generations) {
         Pots pots = new Pots(state, growers);
-//        System.out.println("                 1         2         3");
-//        System.out.println("       0         0         0         0");
+        long cutoff = generations;
         for (long i = 0; ; i++) {
-//            System.out.printf("%2d: ", i);
-//            for (int j = -3; j < pots.offset(); j++) {
-//                System.out.print(".");
+//            if (i % 5 == 0 || pots.stable()) {
+//                System.out.printf("%4d (%3d): ", i, pots.offset());
+//                for (int j = -3; j < pots.offset(); j++) {
+//                    System.out.print(".");
+//                }
+//                System.out.print(pots.state().replace(' ', '.'));
+//                for (int j = pots.offset() + pots.state().length(); j < 36; j++) {
+//                    System.out.print(".");
+//                }
+//                System.out.println();
 //            }
-//            System.out.print(pots.state());
-//            for (int j = pots.offset() + pots.state().length(); j < 36; j++) {
-//                System.out.print(".");
-//            }
-//            System.out.println();
-            if (i == generations) {
+            if (i == cutoff) {
+//                System.out.println("finished at " + i + " (of " + generations + ")");
                 break;
             }
             pots.tick();
+            if (pots.stable() && cutoff > i + 5) {
+                cutoff = i + 5;
+            }
         }
-        System.out.println(pots.state().length() + " pots after " + generations + " gens");
+//        System.out.println(pots.plantCount() + " plants after " + generations + " gens");
         long sum = 0;
         for (int pn : pots.potsWithPlants()) {
             sum += pn;
         }
+        sum += pots.plantCount() * (generations - cutoff);
         return sum;
     }
 
