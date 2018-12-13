@@ -7,9 +7,9 @@ import com.barneyb.aoc2018.util.Sort;
 import static com.barneyb.aoc2018.day13.Dir.NORTH;
 import static com.barneyb.aoc2018.day13.Dir.SOUTH;
 
-public class Map {
+class Map {
 
-    public static Map parse(String input) {
+    static Map parse(String input) {
         Queue<String> raw = new Queue<>(input.split("\n"));
         Queue<String> keepers = new Queue<>();
         for (String l : raw) {
@@ -28,7 +28,7 @@ public class Map {
     private final Cart[] carts;
     private final Queue<Crash> crashes = new Queue<>();
 
-    public Map(String[] grid) {
+    Map(String[] grid) {
         this.grid = new StringBuilder[grid.length];
         Queue<Cart> carts = new Queue<>();
         char cartIndex = 'A';
@@ -57,7 +57,7 @@ public class Map {
                             }
                         }
                         sb.setCharAt(x, cartIndex);
-                        carts.enqueue(new Cart(cartIndex, on, new Point(x, y), d));
+                        carts.enqueue(new Cart(cartIndex, new Point(x, y), on, d));
                         cartIndex += 1;
                         break;
                     }
@@ -73,15 +73,40 @@ public class Map {
     void tick() {
         Sort.sort(carts);
         for (Cart c : carts) {
-
+            grid[c.y()].setCharAt(c.x(), c.on());
+            Point p = c.next();
+            char at = charAt(p);
+            switch (at) {
+                case '/':
+                case '\\':
+                    c.update(p, at, c.dir().curve(at));
+                    break;
+                case '-':
+                case '|':
+                    c.update(p, at);
+                    break;
+                case '+':
+                    c.update(p, at, c.dir().turn(c.turn()), c.turn().next());
+                    break;
+                case ' ':
+                    throw new RuntimeException("Um, carts can't go on spaces");
+                default:
+                    crashes.enqueue(new Crash(p, c.label(), at));
+                    break;
+            }
+            grid[p.y].setCharAt(p.x, c.label());
         }
     }
 
-    public int crashCount() {
+    private char charAt(Point p) {
+        return grid[p.y].charAt(p.x);
+    }
+
+    int crashCount() {
         return crashes.size();
     }
 
-    public Point locationOfFirstCrash() {
+    Point locationOfFirstCrash() {
         return crashes.iterator().next().loc;
     }
 
@@ -90,9 +115,10 @@ public class Map {
         return toString(true);
     }
 
-    public String toString(boolean includeCarts) {
+    String toString(boolean includeCarts) {
         StringBuilder sb = new StringBuilder();
         for (int y = 0; y < grid.length; y++) {
+            if (y > 0) sb.append("\n");
             StringBuilder it = grid[y];
             if (! includeCarts) {
                 it = new StringBuilder(it);
@@ -101,7 +127,7 @@ public class Map {
                     it.setCharAt(c.x(), c.on());
                 }
             }
-            sb.append(it).append("\n");
+            sb.append(it);
         }
         return sb.toString();
     }

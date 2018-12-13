@@ -12,8 +12,8 @@ public class Day13Test {
     static final String EXAMPLE_INPUT = Resources.asText("example.txt");
 
     static final Cart[] EXAMPLE_CARTS = {
-            new Cart('A', '-', new Point(2, 0), Dir.EAST),
-            new Cart('B', '|', new Point(9, 3), Dir.SOUTH)
+            new Cart('A', new Point(2, 0), '-', Dir.EAST),
+            new Cart('B', new Point(9, 3), '|', Dir.SOUTH)
     };
 
     static final String[] EXAMPLE_GRID = {

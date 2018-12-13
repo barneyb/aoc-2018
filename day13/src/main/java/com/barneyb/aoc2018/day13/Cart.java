@@ -2,43 +2,64 @@ package com.barneyb.aoc2018.day13;
 
 import com.barneyb.aoc2018.util.Point;
 
-public class Cart implements Comparable<Cart> {
+class Cart implements Comparable<Cart> {
 
     private final char label;
-    private final char on;
     private Point pos;
+    private char on;
     private Dir dir;
     private Turn turn = Turn.LEFT;
 
-    public Cart(char label, char on, Point pos, Dir dir) {
+    Cart(char label, Point pos, char on, Dir dir) {
         this.label = label;
-        this.on = on;
-        this.pos = pos;
+        update(pos, on, dir);
+    }
+
+    void update(Point pos, char on, Dir dir, Turn turn) {
+        update(pos, on, dir);
+        this.turn = turn;
+    }
+
+    void update(Point pos, char on, Dir dir) {
+        update(pos, on);
         this.dir = dir;
     }
 
-    public char label() {
+    void update(Point pos, char on) {
+        this.pos = pos;
+        this.on = on;
+    }
+
+    Point next() {
+        return pos.plus(dir.step);
+    }
+
+    char label() {
         return label;
     }
 
-    public char on() {
+    char on() {
         return on;
     }
 
-    public Dir dir() {
+    Dir dir() {
         return dir;
     }
 
-    public Point pos() {
+    Point pos() {
         return pos;
     }
 
-    public int x() {
+    int x() {
         return pos.x;
     }
 
-    public int y() {
+    int y() {
         return pos.y;
+    }
+
+    Turn turn() {
+        return turn;
     }
 
     @Override
