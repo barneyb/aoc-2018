@@ -13,15 +13,25 @@ if [ ! -f ./completion.log ]; then
     exit 1
 fi
 
-expected=runner/target/expected.log
-actual=runner/target/actual.log
+dir=runner/target
+expected=${dir}/expected.log
+actual=${dir}/actual.log
+diff=${dir}/validate.diff
 
-mvn clean package
+# mvn clean package
 cat ./completion.log | egrep -v '^[0-9]+ ms' > ${expected}
-./solve.sh --all | egrep -v '^[0-9]+ ms' | tee ${actual}
+./solve.sh --all | egrep -v '^[0-9]+ ms' > ${actual}
+diff ${expected} ${actual} > ${diff}
 
 echo
 shasum ${expected} ${actual}
-echo "Diff:"
+cat ${diff}
 
-diff ${expected} ${actual}
+echo
+if [ -s $diff ]; then
+    echo "Differences found :("
+    echo
+    exit 1
+fi
+echo "No Differences Found!"
+echo
