@@ -2,7 +2,7 @@ package com.barneyb.aoc2018.day13;
 
 import com.barneyb.aoc2018.util.Point;
 import com.barneyb.aoc2018.util.Queue;
-import com.barneyb.aoc2018.util.Sort;
+import com.barneyb.aoc2018.util.TreeSet;
 
 import static com.barneyb.aoc2018.day13.Dir.NORTH;
 import static com.barneyb.aoc2018.day13.Dir.SOUTH;
@@ -25,17 +25,17 @@ class Map {
     }
 
     private final StringBuilder[] grid;
-    private final Cart[] carts;
+    private TreeSet<Cart> carts;
     private final Queue<Crash> crashes = new Queue<>();
 
     Map(String[] grid) {
         this.grid = new StringBuilder[grid.length];
-        Queue<Cart> carts = new Queue<>();
+        this.carts = new TreeSet<>();
         char cartIndex = 'A';
-        for (int y = 0, l = grid.length; y < l; y++) {
+        for (int y = 0; y < grid.length; y++) {
             StringBuilder sb = new StringBuilder(grid[y]);
             this.grid[y] = sb;
-            for (int x = sb.length() - 1; x >= 0; x--) {
+            for (int x = 0, l = sb.length(); x < l; x++) {
                 char c = sb.charAt(x);
                 for (Dir d : Dir.values()) {
                     if (c == d.indicator) {
@@ -57,22 +57,20 @@ class Map {
                             }
                         }
                         sb.setCharAt(x, cartIndex);
-                        carts.enqueue(new Cart(cartIndex, new Point(x, y), on, d));
+                        carts.add(new Cart(cartIndex, new Point(x, y), on, d));
                         cartIndex += 1;
                         break;
                     }
                 }
             }
         }
-        this.carts = new Cart[carts.size()];
-        for (int i = 0, l = carts.size(); i < l; i++) {
-            this.carts[i] = carts.dequeue();
-        }
     }
 
     void tick() {
-        Sort.sort(carts);
+        TreeSet<Cart> nextCarts = new TreeSet<>();
+        TreeSet<Character> boom = new TreeSet<>();
         for (Cart c : carts) {
+            if (boom.contains(c.label())) continue;
             grid[c.y()].setCharAt(c.x(), c.on());
             Point p = c.next();
             char at = charAt(p);
@@ -80,22 +78,27 @@ class Map {
                 case '/':
                 case '\\':
                     c.update(p, at, c.dir().curve(at));
+                    nextCarts.add(c);
                     break;
                 case '-':
                 case '|':
                     c.update(p, at);
+                    nextCarts.add(c);
                     break;
                 case '+':
                     c.update(p, at, c.dir().turn(c.turn()), c.turn().next());
+                    nextCarts.add(c);
                     break;
                 case ' ':
                     throw new RuntimeException("Um, carts can't go on spaces");
                 default:
                     crashes.enqueue(new Crash(p, c.label(), at));
+                    boom.add(at);
                     break;
             }
             grid[p.y].setCharAt(p.x, c.label());
         }
+        carts = nextCarts;
     }
 
     private char charAt(Point p) {
