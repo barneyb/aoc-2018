@@ -1,16 +1,18 @@
 package com.barneyb.aoc2018.day13;
 
 import com.barneyb.aoc2018.util.Answers;
-import com.barneyb.aoc2018.util.OneShotDay;
 import com.barneyb.aoc2018.util.FileUtils;
+import com.barneyb.aoc2018.util.OneShotDay;
+import com.barneyb.aoc2018.util.Point;
 
 public class Day13 extends OneShotDay {
 
     @Override
     public Answers solve(String input) {
+        Map m = Map.parse(input);
+        Point p = m.locationOfFirstCrash();
         return new Answers(
-                input.length()
-                , input.trim().length()
+                p.x + "," + p.y
         );
     }
 
