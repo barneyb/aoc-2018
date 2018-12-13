@@ -10,6 +10,9 @@ public class Day13 extends OneShotDay {
     @Override
     public Answers solve(String input) {
         Map m = Map.parse(input);
+        while (m.crashCount() == 0) {
+            m.tick();
+        }
         Point p = m.locationOfFirstCrash();
         return new Answers(
                 p.x + "," + p.y
