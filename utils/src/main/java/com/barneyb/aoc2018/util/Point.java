@@ -34,12 +34,16 @@ public class Point implements Comparable<Point> {
         );
     }
 
+    /**
+     * I provide "english reading" ordering of points. Origin is at the top
+     * left corner, x increases to the right, and y increases downward.
+     */
     @Override
     public int compareTo(Point p) {
-        if (x < p.x) return -1;
-        if (x > p.x) return 1;
         if (y < p.y) return -1;
         if (y > p.y) return 1;
+        if (x < p.x) return -1;
+        if (x > p.x) return 1;
         return 0;
     }
 
