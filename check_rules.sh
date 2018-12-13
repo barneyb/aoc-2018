@@ -8,10 +8,14 @@ cd `dirname $0`
 # Rule 1: no external libs, other than IO. `java.util.Iterator` and the
 # `java.util.function` package are special cases because they're language
 # features (foreach loop and method references, respectively), but not in the
-# `java.lang` package.
+# `java.lang` package. `java.util.Comparator` may join them at some point.
 find . -name "*.java" \
-    | grep -v /test/ \
-    | xargs grep --perl-regexp 'import +(?!java\.(n?io\.|util\.(Iterator|function\.))|com\.barneyb\.aoc2018)' \
+    | grep -v '/test/' \
+    | xargs grep 'import' \
+    | egrep -v 'com\.barneyb\.aoc2018' \
+    | egrep -v 'java.(n?)io\.*' \
+    | egrep -v 'java\.util\.Iterator' \
+    | egrep -v 'java\.util\.function.*' \
     > ${TEMP_FILE} \
     || true # `grep` exits non-zero if nothing is found
 
