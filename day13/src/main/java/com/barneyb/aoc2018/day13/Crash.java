@@ -13,4 +13,8 @@ class Crash {
         this.b = b;
     }
 
+    @Override
+    public String toString() {
+        return String.format("Crash{%s and %s at (%d,%d)}", a, b, loc.x, loc.y);
+    }
 }

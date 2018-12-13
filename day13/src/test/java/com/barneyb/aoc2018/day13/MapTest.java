@@ -102,4 +102,48 @@ public class MapTest {
                 "  \\------/   ",
                 m.toString());
     }
+
+    @Test
+    public void tickTwo() {
+        Map m = Map.parse(Day13Test.EXAMPLE_TWO_INPUT);
+        assertEquals(
+                "/A-B\\  \n" +
+                "|   |  \n" +
+                "| /C+-\\\n" +
+                "| | | D\n" +
+                "\\E+F/ |\n" +
+                "  |   G\n" +
+                "  \\H-I/",
+                m.toString());
+        m.tick();
+        assertEquals(
+                "/---\\  \n" +
+                "|   |  \n" +
+                "| C-+-\\\n" +
+                "| | | |\n" +
+                "\\-+-/ |\n" +
+                "  |   |\n" +
+                "  H---I",
+                m.toString());
+        m.tick();
+        assertEquals(
+                "/---\\  \n" +
+                "|   |  \n" +
+                "| /-+-\\\n" +
+                "| C | |\n" +
+                "\\-+-/ |\n" +
+                "  H   I\n" +
+                "  \\---/",
+                m.toString());
+        m.tick();
+        assertEquals(
+                "/---\\  \n" +
+                "|   |  \n" +
+                "| /-+-\\\n" +
+                "| | | |\n" +
+                "\\-+-/ I\n" +
+                "  |   |\n" +
+                "  \\---/",
+                m.toString());
+    }
 }

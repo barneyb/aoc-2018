@@ -67,38 +67,55 @@ class Map {
     }
 
     void tick() {
-        TreeSet<Cart> nextCarts = new TreeSet<>();
         TreeSet<Character> boom = new TreeSet<>();
         for (Cart c : carts) {
-            if (boom.contains(c.label())) continue;
-            grid[c.y()].setCharAt(c.x(), c.on());
+            erase(c);
             Point p = c.next();
             char at = charAt(p);
             switch (at) {
                 case '/':
                 case '\\':
                     c.update(p, at, c.dir().curve(at));
-                    nextCarts.add(c);
                     break;
                 case '-':
                 case '|':
                     c.update(p, at);
-                    nextCarts.add(c);
                     break;
                 case '+':
                     c.update(p, at, c.dir().turn(c.turn()), c.turn().next());
-                    nextCarts.add(c);
                     break;
                 case ' ':
                     throw new RuntimeException("Um, carts can't go on spaces");
                 default:
-                    crashes.enqueue(new Crash(p, c.label(), at));
-                    boom.add(at);
+                    Crash cr = new Crash(p, c.label(), at);
+                    crashes.enqueue(cr);
+                    boom.add(cr.a);
+                    boom.add(cr.b);
                     break;
             }
-            grid[p.y].setCharAt(p.x, c.label());
+            draw(p, c.label());
+        }
+        TreeSet<Cart> nextCarts = new TreeSet<>();
+        for (Cart c : carts) {
+            if (boom.contains(c.label())) {
+                erase(c);
+            } else {
+                nextCarts.add(c);
+            }
         }
         carts = nextCarts;
+    }
+
+    private void erase(Cart c) {
+        draw(c.pos(), c.on());
+    }
+
+    private void draw(Point p, char on) {
+        draw(p.x, p.y, on);
+    }
+
+    private void draw(int x, int y, char on) {
+        grid[y].setCharAt(x, on);
     }
 
     private char charAt(Point p) {
@@ -111,6 +128,14 @@ class Map {
 
     Point locationOfFirstCrash() {
         return crashes.iterator().next().loc;
+    }
+
+    public int cartCount() {
+        return carts.size();
+    }
+
+    public Point locationOfFinalCart() {
+        return carts.min().pos();
     }
 
     @Override

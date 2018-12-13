@@ -13,9 +13,17 @@ public class Day13 extends OneShotDay {
         while (m.crashCount() == 0) {
             m.tick();
         }
-        Point p = m.locationOfFirstCrash();
+        Point a = m.locationOfFirstCrash();
+        if (m.cartCount() == 0) {
+            return new Answers(a.x + "," + a.y);
+        }
+        while (m.cartCount() > 1) {
+            m.tick();
+        }
+        Point b = m.locationOfFinalCart();
         return new Answers(
-                p.x + "," + p.y
+                a.x + "," + a.y,
+                b.x + "," + b.y
         );
     }
 
