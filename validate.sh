@@ -20,12 +20,8 @@ diff=${dir}/validate.diff
 
 mvn clean package
 cat ./completion.log | egrep -v '^[0-9]+ ms' > ${expected}
-./solve.sh --all | egrep -v '^[0-9]+ ms' > ${actual}
-diff ${expected} ${actual} > ${diff}
-
-echo
-shasum ${expected} ${actual}
-cat ${diff}
+./solve.sh --all | tee ${actual}
+cat ${actual} | egrep -v '^[0-9]+ ms' | diff ${expected} - | tee ${diff}
 
 echo
 if [ -s $diff ]; then
