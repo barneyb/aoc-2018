@@ -11,7 +11,7 @@ class Sim {
     private class Elf {
         int pos;
 
-        public Elf(int pos) {
+        Elf(int pos) {
             this.pos = pos;
         }
 
@@ -23,7 +23,7 @@ class Sim {
             pos = (pos + score() + 1) % board.size();
         }
 
-        public boolean at(int i) {
+        boolean at(int i) {
             return pos == i;
         }
     }
