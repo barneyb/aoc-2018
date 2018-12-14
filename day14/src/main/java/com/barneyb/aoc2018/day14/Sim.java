@@ -1,7 +1,6 @@
 package com.barneyb.aoc2018.day14;
 
 import com.barneyb.aoc2018.util.List;
-import com.barneyb.aoc2018.util.Stack;
 
 class Sim {
 
@@ -39,15 +38,11 @@ class Sim {
 
     void tick() {
         int sum = elfOne.score() + elfTwo.score();
-        Stack<Integer> stack = new Stack<>();
-        if (sum == 0) {
-            stack.push(sum);
-        } else while (sum > 0) {
-            stack.push(sum % 10);
-            sum = sum / 10;
-        }
-        for (Integer i : stack) {
-            board.add(i);
+        if (sum < 10) {
+            board.add(sum);
+        } else {
+            board.add(sum / 10); // tens
+            board.add(sum % 10); // ones
         }
         elfOne.tick();
         elfTwo.tick();
