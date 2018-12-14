@@ -18,7 +18,7 @@ expected=${dir}/expected.log
 actual=${dir}/actual.log
 diff=${dir}/validate.diff
 
-# mvn clean package
+mvn clean package
 cat ./completion.log | egrep -v '^[0-9]+ ms' > ${expected}
 ./solve.sh --all | egrep -v '^[0-9]+ ms' > ${actual}
 diff ${expected} ${actual} > ${diff}
