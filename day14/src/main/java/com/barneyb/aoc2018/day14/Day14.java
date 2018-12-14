@@ -21,18 +21,20 @@ public class Day14 extends OneShotDay {
         for (int i = 0, l = input.length(); i < l; i++) {
             tgt[i] = Character.digit(input.charAt(i), 10);
         }
-        int[] cmp = new int[tgt.length];
         Sim s = new Sim();
+        // get these over with
+        while (s.recipeCount() < tgt.length) s.tick();
+        // start checking
+        int[] cmp = new int[tgt.length];
+        int lenMinusOne = cmp.length - 1;
+        int cutoff = 0;
         while (true) {
             s.tick();
-            int rc = s.recipeCount();
-            if (rc < tgt.length) continue;
-            // this will redo a check on a single-digit "next" score, but meh.
-            for (int d = Math.min(1, rc - input.length()); d >= 0; d--) {
-                int cutoff = rc - input.length() - d;
-                for (int i = 0; i < tgt.length; i++) {
-                    cmp[i] = s.scoreAt(i + cutoff);
-                }
+            for (int l = s.recipeCount() - tgt.length; cutoff < l; cutoff++) {
+                // slide over by one
+                System.arraycopy(cmp, 1, cmp, 0, lenMinusOne);
+                // update the final slot
+                cmp[lenMinusOne] = s.scoreAt(cutoff + lenMinusOne);
                 if (Arrays.equals(tgt, cmp)) {
                     return cutoff;
                 }
