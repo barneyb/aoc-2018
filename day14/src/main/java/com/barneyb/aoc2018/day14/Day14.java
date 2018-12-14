@@ -8,7 +8,35 @@ public class Day14 extends OneShotDay {
 
     @Override
     public Answers solve(String input) {
-        int goal = Integer.parseInt(input.trim());
+        input = input.trim();
+        return new Answers(
+                partOne(input),
+                partTwo(input)
+        );
+    }
+
+    static int partTwo(String input) {
+        Sim s = new Sim();
+        while (true) {
+            s.tick();
+            int rc = s.recipeCount();
+            if (rc < input.length()) continue;
+            // this will redo a check on a single-digit "next" score, but meh.
+            for (int d = 0, l = Math.min(2, rc - input.length() + 1); d < l; d++) {
+                StringBuilder sb = new StringBuilder();
+                for (int i = rc - input.length() - d; sb.length() < input.length(); i++) {
+                    sb.append(s.scoreAt(i));
+                }
+                if (sb.toString().equals(input)) {
+                    return rc - input.length() - d;
+                }
+            }
+
+        }
+    }
+
+    static String partOne(String input) {
+        int goal = Integer.parseInt(input);
         Sim s = new Sim();
         while (s.recipeCount() < goal + 11) {
             s.tick();
@@ -17,10 +45,7 @@ public class Day14 extends OneShotDay {
         for (int i = 0; i < 10; i++) {
             sb.append(s.scoreAt(goal + i));
         }
-        return new Answers(
-                sb
-//                , input.trim().length()
-        );
+        return sb.toString();
     }
 
     public static void main(String[] args)  {
