@@ -10,16 +10,24 @@ public class Day10 extends OneShotDay {
     public Answers solve(String input) {
         Light[] lights = parse(input);
         Pattern p = new Pattern(lights);
-        long priorArea = p.bounds().area();
+        Bounds b = p.bounds();
+        long priorArea = b.area();
+        int stepSize = Math.max(1, (int) (b.height() / 100));
         while (true) {
-            p.tick(1);
+            p.tick(stepSize);
             long area = p.bounds().area();
             if (area > priorArea) {
                 // getting bigger
-                p.tick(-1);
-                break;
+                p.tick(-stepSize);
+                if (stepSize == 1) {
+                    break;
+                }
+                p.tick(-stepSize);
+                stepSize = Math.max(1, stepSize / 4);
+                priorArea = p.bounds().area();
+            } else {
+                priorArea = area;
             }
-            priorArea = area;
         }
         return new Answers(
                 p.toString(),
