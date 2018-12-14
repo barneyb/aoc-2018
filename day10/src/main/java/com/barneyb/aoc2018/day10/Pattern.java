@@ -5,17 +5,24 @@ import com.barneyb.aoc2018.util.Point;
 public class Pattern {
 
     private final Light[] lights;
-    private int tickCount = 0;
+    private Light sentinel;
+    private Point sentinelStart;
 
     public Pattern(Light[] lights) {
         this.lights = lights;
+        for (Light l : lights) {
+            if (l.vel.x != 0) {
+                sentinel = l;
+                sentinelStart = l.pos;
+                break;
+            }
+        }
     }
 
     public void tick(int steps) {
         for (Light l : lights) {
             l.tick(steps);
         }
-        tickCount += steps;
     }
 
     public Bounds bounds() {
@@ -36,7 +43,7 @@ public class Pattern {
     }
 
     public int tickCount() {
-        return tickCount;
+        return (sentinel.pos.x - sentinelStart.x) / sentinel.vel.x;
     }
 
     @Override
