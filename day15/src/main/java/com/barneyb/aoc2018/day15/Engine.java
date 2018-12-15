@@ -51,35 +51,40 @@ class Engine {
         // find adjacent open points
         TreeSet<Point> candidatePoints = new TreeSet<>();
         for (Unit e : enemies) {
-            Point p;
-            for (Dir d : Dir.values()) {
-                p = e.location().plus(d.delta());
-                if (map.isOpen(p)) {
-                    candidatePoints.add(p);
-                }
-            }
+            addOpenAdjacent(e.location(), candidatePoints);
         }
-        // find the target to move towards
-        Point targetPoint = getTarget(u.location(), candidatePoints);
         // if no open points, return
+        if (candidatePoints.isEmpty()) return;
+        // find the target to move towards
+        Point targetPoint = getClosestPoint( u.location(), candidatePoints);
+        // if no reachable points, return
         if (targetPoint == null) return;
         assert map.isOpen(targetPoint);
         // find the first step towards it
-        TreeSet<Point> candidateSteps = new TreeSet<>();
-        for (Dir d : Dir.values()) {
-            Point p = u.location().plus(d.delta());
-            if (map.isOpen(p)) {
-                candidateSteps.add(p);
-            }
-        }
-        Point firstStep = getTarget(targetPoint, candidateSteps);
+        TreeSet<Point> candidateSteps = getOpenAdjacent(u.location());
+        Point firstStep = getClosestPoint(targetPoint, candidateSteps);
         assert firstStep != null : "we got there, but can't get back?!";
-        assert firstStep.adjacent(u.location());
+        assert firstStep.adjacent( u.location());
         assert map.isOpen(firstStep);
         map.move(u, firstStep);
     }
 
-    private Point getTarget(Point start, TreeSet<Point> candidates) {
+    private TreeSet<Point> getOpenAdjacent(Point start) {
+        TreeSet<Point> col = new TreeSet<>();
+        addOpenAdjacent(start, col);
+        return col;
+    }
+
+    private void addOpenAdjacent(Point start, TreeSet<Point> collector) {
+        for (Dir d : Dir.values()) {
+            Point p = start.plus(d.delta());
+            if (map.isOpen(p)) {
+                collector.add(p);
+            }
+        }
+    }
+
+    private Point getClosestPoint(Point start, TreeSet<Point> candidates) {
         int[][] g = map.gridToPaint();
         Queue<Paint> paintQueue = new Queue<>();
         paintQueue.enqueue(new Paint(start, 0));
@@ -88,18 +93,14 @@ class Engine {
             if (candidates.contains(p.point)) {
                 return p.point;
             }
-            for (Dir d : Dir.values()) {
-                Point q = p.point.plus(d.delta());
-//                if (candidates.contains(q)) {
-//                    return q;
-//                }
-                if (map.isOpen(q) && g[q.y][q.x] == 0) {
+            for (Point q : getOpenAdjacent(p.point)) {
+                if (g[q.y][q.x] == 0) {
                     g[q.y][q.x] = p.n + 1;
                     paintQueue.enqueue(new Paint(q, p.n + 1));
                 }
             }
         }
-        return null; // couldn't find a suitable route
+        return null; // none are reachable, i guess?
     }
 
     static class Paint {
