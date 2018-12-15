@@ -1,8 +1,9 @@
 package com.barneyb.aoc2018.day15;
 
 import com.barneyb.aoc2018.util.BST;
-import com.barneyb.aoc2018.util.Bag;
+import com.barneyb.aoc2018.util.Point;
 import com.barneyb.aoc2018.util.Queue;
+import com.barneyb.aoc2018.util.TreeSet;
 
 class Map {
 
@@ -31,7 +32,7 @@ class Map {
                 } else {
                     continue;
                 }
-                units.put(l, new Unit(l));
+                units.put(l, new Unit(l, new Point(x, y)));
                 row[x] = l;
             }
         }

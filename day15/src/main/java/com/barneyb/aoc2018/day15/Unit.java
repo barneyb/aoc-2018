@@ -1,13 +1,17 @@
 package com.barneyb.aoc2018.day15;
 
-class Unit {
+import com.barneyb.aoc2018.util.Point;
+
+class Unit implements Comparable<Unit> {
 
     private final char label;
+    private Point loc;
     private int hitPoints = 300;
     private int attack = 3;
 
-    Unit(char label) {
+    Unit(char label, Point loc) {
         this.label = label;
+        this.loc = loc;
     }
 
     void attack(Unit attacker) {
@@ -41,20 +45,21 @@ class Unit {
 
         Unit unit = (Unit) o;
 
-        return label == unit.label;
+        return loc.equals(unit.loc);
     }
 
     @Override
     public int hashCode() {
-        return (int) label;
+        return loc.hashCode();
     }
 
     @Override
     public String toString() {
-        return "Unit{" +
-                "label=" + label +
-                ", hitPoints=" + hitPoints +
-                '}';
+        return String.format("Unit{%s (%d) %s}", label, hitPoints, loc);
     }
 
+    @Override
+    public int compareTo(Unit o) {
+        return loc.compareTo(o.loc);
+    }
 }
