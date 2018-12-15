@@ -30,12 +30,20 @@ class Unit implements Comparable<Unit> {
         return hitPoints;
     }
 
+    Point location() {
+        return loc;
+    }
+
     boolean isGoblin() {
         return label < 'a';
     }
 
     boolean isElf() {
         return ! isGoblin();
+    }
+
+    boolean adjacent(Unit u) {
+        return loc.adjacent(u.loc);
     }
 
     @Override
@@ -61,5 +69,10 @@ class Unit implements Comparable<Unit> {
     @Override
     public int compareTo(Unit o) {
         return loc.compareTo(o.loc);
+    }
+
+    public void update(Point p) {
+        assert loc.adjacent(p);
+        loc = p;
     }
 }

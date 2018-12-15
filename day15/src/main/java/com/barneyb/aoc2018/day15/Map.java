@@ -51,11 +51,26 @@ class Map {
         this.units = units;
     }
 
+    int[][] gridToPaint() {
+        int[][] g = new int[grid.length][];
+        for (int y = 0; y < grid.length; y++) {
+            int[] dest = g[y] = new int[grid[y].length];
+            for (int x = 0; x < dest.length; x++) {
+                dest[x] = 0;
+            }
+        }
+        return g;
+    }
+
+    boolean isOpen(Point p) {
+        return grid[p.y][p.x] == SPACE;
+    }
+
     boolean isOver() {
         boolean foundGoblin = false;
         boolean foundElf = false;
-        for (Character c : this.units.keys()) {
-            if (this.units.get(c).isGoblin()) {
+        for (Unit u : livingUnits()) {
+            if (u.isGoblin()) {
                 if (foundElf) return false;
                 foundGoblin = true;
             } else {
@@ -104,4 +119,12 @@ class Map {
         return sb.toString();
     }
 
+    public void move(Unit u, Point p) {
+        assert isOpen(p);
+        Point l = u.location();
+        assert p.adjacent(l);
+        grid[l.y][l.x] = SPACE;
+        grid[p.y][p.x] = u.label();
+        u.update(p);
+    }
 }

@@ -10,6 +10,7 @@ public class Day15 extends OneShotDay {
     public Answers solve(String input) {
         Map m = Map.parse(input);
         Engine s = new Engine(m);
+        s.run();
         int hp = 0;
         for (Unit u : m.livingUnits()) {
             hp += u.hitPoints();
