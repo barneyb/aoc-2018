@@ -34,6 +34,12 @@ public class Point implements Comparable<Point> {
         );
     }
 
+    public boolean adjacent(Point p) {
+        if (p.x == x) return Math.abs(p.y - y) == 1;
+        if (p.y == y) return Math.abs(p.x - x) == 1;
+        return false;
+    }
+
     public int index(int width) {
         return y * width + x;
     }

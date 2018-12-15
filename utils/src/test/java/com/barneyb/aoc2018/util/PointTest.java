@@ -47,4 +47,17 @@ public class PointTest {
         assertTrue(new Point(1, -1).compareTo(origin) < 0);
     }
 
+    @Test
+    public void adjacent() {
+        Point p = new Point(0, 0);
+        assertTrue(p.adjacent(new Point(0, -1)));
+        assertTrue(p.adjacent(new Point(0, 1)));
+        assertTrue(p.adjacent(new Point(1, 0)));
+        assertTrue(p.adjacent(new Point(-1, 0)));
+
+        assertFalse(p.adjacent(new Point(-1, -1)));
+        assertFalse(p.adjacent(new Point(-1, 1)));
+        assertFalse(p.adjacent(new Point(1, -1)));
+        assertFalse(p.adjacent(new Point(-1, -1)));
+    }
 }
