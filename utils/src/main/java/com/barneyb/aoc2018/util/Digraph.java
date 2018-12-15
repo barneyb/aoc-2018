@@ -1,8 +1,6 @@
 package com.barneyb.aoc2018.util;
 
-import com.barneyb.aoc2018.api.Graph;
-
-public class Digraph implements Graph {
+public class Digraph {
 
     private final int siteCount;
     private int edgeCount = 0;
