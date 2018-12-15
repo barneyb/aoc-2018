@@ -18,9 +18,9 @@ class Engine {
     void run() {
         while (! map.isOver()) {
             doRound();
-//            System.out.printf("After %d rounds%n", rounds);
-//            System.out.println(map.toString(true));
         }
+        System.out.printf("After %d rounds%n", rounds);
+        System.out.println(map.toString(true));
     }
 
     void doRound() {
@@ -39,9 +39,12 @@ class Engine {
             }
         }
         for (Unit u : allUnits) {
-            Iterable<Unit> enemies = u.isGoblin() ? elves : goblins;
             if (! u.alive()) continue; // killed earlier this round?
             if (map.isOver()) return; // nothing to target
+            Queue<Unit> enemies = new Queue<>();
+            for (Unit ce : u.isGoblin() ? elves : goblins) {
+                if (ce.alive()) enemies.enqueue(ce);
+            }
             doMove(u, enemies);
             if (performAttacks) {
                 doAttack(u, enemies);
@@ -81,8 +84,7 @@ class Engine {
             }
         }
         Point firstStep = getTarget(targetPoint, candidateSteps);
-        if (firstStep == null)
-            throw new AssertionError("we got there, but can't get back?!");
+        assert firstStep != null : "we got there, but can't get back?!";
         assert firstStep.adjacent(u.location());
         assert map.isOpen(firstStep);
         map.move(u, firstStep);
@@ -123,6 +125,7 @@ class Engine {
 
     private void doAttack(Unit u, Iterable<Unit> enemies) {
         // find all adjacent enemies
+        // find one with fewest hit points
         TreeSet<Unit> candidates = new TreeSet<>();
         int minHp = Integer.MAX_VALUE;
         for (Unit e : enemies) {
@@ -134,9 +137,8 @@ class Engine {
                 candidates.add(e);
             }
         }
-        // find one with fewest hit points
-        // break ties with reading order
         if (candidates.isEmpty()) return;
+        // break ties with reading order
         // carry out attack
         map.attack(u, candidates.min());
     }
