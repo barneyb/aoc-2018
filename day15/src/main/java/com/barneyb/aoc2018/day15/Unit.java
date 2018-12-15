@@ -6,7 +6,7 @@ class Unit implements Comparable<Unit> {
 
     private final char label;
     private Point loc;
-    private int hitPoints = 300;
+    private int hitPoints = 200;
     private int attack = 3;
 
     Unit(char label, Point loc) {
