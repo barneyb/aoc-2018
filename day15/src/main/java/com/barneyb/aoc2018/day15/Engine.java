@@ -28,22 +28,12 @@ class Engine {
     }
 
     boolean doRound(boolean performAttacks) {
-        Iterable<Unit> allUnits = map.livingUnits();
-        Queue<Unit> goblins = new Queue<>();
-        Queue<Unit> elves = new Queue<>();
-        for (Unit u : allUnits) {
-            if (u.isGoblin()) {
-                goblins.enqueue(u);
-            } else {
-                elves.enqueue(u);
-            }
-        }
-        for (Unit u : allUnits) {
+        for (Unit u : map.livingUnits()) {
             if (! u.alive()) continue; // killed earlier this round?
             if (map.isOver()) return false; // nothing to target
             Queue<Unit> enemies = new Queue<>();
-            for (Unit ce : u.isGoblin() ? elves : goblins) {
-                if (ce.alive()) enemies.enqueue(ce);
+            for (Unit ce : map.livingUnits()) {
+                if (u.isGoblin() != ce.isGoblin()) enemies.enqueue(ce);
             }
             doMove(u, enemies);
             if (performAttacks) {
