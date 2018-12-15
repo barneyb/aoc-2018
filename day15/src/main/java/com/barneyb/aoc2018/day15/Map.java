@@ -1,6 +1,7 @@
 package com.barneyb.aoc2018.day15;
 
 import com.barneyb.aoc2018.util.BST;
+import com.barneyb.aoc2018.util.Bag;
 import com.barneyb.aoc2018.util.Queue;
 
 class Map {
@@ -47,6 +48,30 @@ class Map {
         this.width = width;
         this.grid = grid;
         this.units = units;
+    }
+
+    boolean isOver() {
+        boolean foundGoblin = false;
+        boolean foundElf = false;
+        for (Character c : this.units.keys()) {
+            if (this.units.get(c).isGoblin()) {
+                if (foundElf) return false;
+                foundGoblin = true;
+            } else {
+                if (foundGoblin) return false;
+                foundElf = true;
+            }
+        }
+        return true;
+    }
+
+    Bag<Unit> units() {
+        Bag<Unit> units = new Bag<>();
+        for (Character c : this.units.keys()) {
+            Unit u = this.units.get(c);
+            if (u.alive()) units.add(u);
+        }
+        return units;
     }
 
     @Override

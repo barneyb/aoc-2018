@@ -26,6 +26,14 @@ class Unit {
         return hitPoints;
     }
 
+    boolean isGoblin() {
+        return label >= 'a';
+    }
+
+    boolean isElf() {
+        return ! isGoblin();
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

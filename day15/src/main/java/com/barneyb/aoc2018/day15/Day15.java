@@ -8,8 +8,14 @@ public class Day15 extends OneShotDay {
 
     @Override
     public Answers solve(String input) {
+        Map m = Map.parse(input);
+        Engine s = new Engine(m);
+        int hp = 0;
+        for (Unit u : m.units()) {
+            hp += u.hitPoints();
+        }
         return new Answers(
-                input.length()
+                s.rounds() * hp
 //                , input.trim().length()
         );
     }
