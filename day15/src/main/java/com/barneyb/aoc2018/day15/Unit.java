@@ -31,7 +31,7 @@ class Unit implements Comparable<Unit> {
     }
 
     boolean isGoblin() {
-        return label >= 'a';
+        return label < 'a';
     }
 
     boolean isElf() {

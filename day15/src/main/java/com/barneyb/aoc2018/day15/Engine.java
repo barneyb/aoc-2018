@@ -20,7 +20,7 @@ class Engine {
      * @return whether combat is ongoing.
      */
     boolean doRound() {
-        for (Unit u : map.units()) {
+        for (Unit u : map.livingUnits()) {
             if (! u.alive()) continue;
             // move, if needed
             // attack, if possible

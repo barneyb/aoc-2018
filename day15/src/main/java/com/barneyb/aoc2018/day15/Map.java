@@ -26,9 +26,9 @@ class Map {
                 char c = row[x];
                 char l;
                 if (c == GOBLIN) {
-                    l = (char) ('a' + goblinCount++);
+                    l = (char) ('A' + goblinCount++);
                 } else if (c == ELF) {
-                    l = (char) ('A' + elfCount++);
+                    l = (char) ('a' + elfCount++);
                 } else {
                     continue;
                 }
@@ -66,8 +66,8 @@ class Map {
         return true;
     }
 
-    Bag<Unit> units() {
-        Bag<Unit> units = new Bag<>();
+    Iterable<Unit> livingUnits() {
+        TreeSet<Unit> units = new TreeSet<>();
         for (Character c : this.units.keys()) {
             Unit u = this.units.get(c);
             if (u.alive()) units.add(u);
@@ -77,6 +77,10 @@ class Map {
 
     @Override
     public String toString() {
+        return toString(false);
+    }
+
+    public String toString(boolean withStats) {
         StringBuilder sb = new StringBuilder();
         Queue<Unit> us = new Queue<>();
         for (int y = 0; y < height; y++) {
@@ -84,7 +88,7 @@ class Map {
             sb.append(grid[y]);
             for (int x = 0; x < width; x++) {
                 char c = grid[y][x];
-                if (c != SPACE && c != WALL) {
+                if (withStats && c != SPACE && c != WALL) {
                     us.enqueue(units.get(c));
                 }
             }

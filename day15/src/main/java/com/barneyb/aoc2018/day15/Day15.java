@@ -11,7 +11,7 @@ public class Day15 extends OneShotDay {
         Map m = Map.parse(input);
         Engine s = new Engine(m);
         int hp = 0;
-        for (Unit u : m.units()) {
+        for (Unit u : m.livingUnits()) {
             hp += u.hitPoints();
         }
         return new Answers(
