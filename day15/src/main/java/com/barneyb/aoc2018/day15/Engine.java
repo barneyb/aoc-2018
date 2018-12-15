@@ -48,7 +48,6 @@ class Engine {
             doMove(u, enemies);
             if (performAttacks) {
                 doAttack(u, enemies);
-                if (map.isOver()) return; // this unit won it all!
             }
         }
         rounds += 1;
