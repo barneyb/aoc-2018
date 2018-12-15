@@ -24,19 +24,18 @@ class Map {
         return new Map(grid);
     }
 
-    private final StringBuilder[] grid;
+    private final char[][] grid;
     private TreeSet<Cart> carts;
     private final Queue<Crash> crashes = new Queue<>();
 
     Map(String[] grid) {
-        this.grid = new StringBuilder[grid.length];
+        this.grid = new char[grid.length][];
         this.carts = new TreeSet<>();
         char cartIndex = 'A';
         for (int y = 0; y < grid.length; y++) {
-            StringBuilder sb = new StringBuilder(grid[y]);
-            this.grid[y] = sb;
-            for (int x = 0, l = sb.length(); x < l; x++) {
-                char c = sb.charAt(x);
+            char[] row = this.grid[y] = grid[y].toCharArray();
+            for (int x = 0, l = row.length; x < l; x++) {
+                char c = row[x];
                 for (Dir d : Dir.values()) {
                     if (c == d.indicator) {
                         char on;
@@ -44,7 +43,7 @@ class Map {
                             if (x == 0) {
                                 on = '|';
                             } else {
-                                char n = sb.charAt(x - 1);
+                                char n = row[x - 1];
                                 on = n == '-' || n == '+' ? '+' : '|';
                             }
                         }
@@ -52,11 +51,11 @@ class Map {
                             if (y == 0) {
                                 on = '-';
                             } else {
-                                char n = this.grid[y - 1].charAt(x);
+                                char n = this.grid[y - 1][x];
                                 on = n == '|' || n == '+' ? '+' : '-';
                             }
                         }
-                        sb.setCharAt(x, cartIndex);
+                        row[x] = cartIndex;
                         carts.add(new Cart(cartIndex, new Point(x, y), on, d));
                         cartIndex += 1;
                         break;
@@ -115,11 +114,11 @@ class Map {
     }
 
     private void draw(int x, int y, char on) {
-        grid[y].setCharAt(x, on);
+        grid[y][x] = on;
     }
 
     private char charAt(Point p) {
-        return grid[p.y].charAt(p.x);
+        return grid[p.y][p.x];
     }
 
     int crashCount() {
@@ -147,15 +146,18 @@ class Map {
         StringBuilder sb = new StringBuilder();
         for (int y = 0; y < grid.length; y++) {
             if (y > 0) sb.append("\n");
-            StringBuilder it = grid[y];
-            if (! includeCarts) {
-                it = new StringBuilder(it);
+            char[] it = grid[y];
+            if (includeCarts) {
+                sb.append(it);
+            } else {
+                char[] clean = new char[it.length];
+                System.arraycopy(it, 0, clean, 0, it.length);
                 for (Cart c : carts) {
                     if (c.y() != y) continue;
-                    it.setCharAt(c.x(), c.on());
+                    clean[c.x()] = c.on();
                 }
+                sb.append(clean);
             }
-            sb.append(it);
         }
         return sb.toString();
     }
