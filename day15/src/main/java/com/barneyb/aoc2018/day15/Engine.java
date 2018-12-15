@@ -16,18 +16,18 @@ class Engine {
     }
 
     void run() {
-        while (! map.isOver()) {
-            doRound();
+        while (doRound()) {
+            rounds += 1;
         }
         System.out.printf("After %d rounds%n", rounds);
         System.out.println(map.toString(true));
     }
 
-    void doRound() {
-        doRound(true);
+    boolean doRound() {
+        return doRound(true);
     }
 
-    void doRound(boolean performAttacks) {
+    boolean doRound(boolean performAttacks) {
         Iterable<Unit> allUnits = map.livingUnits();
         Queue<Unit> goblins = new Queue<>();
         Queue<Unit> elves = new Queue<>();
@@ -40,7 +40,7 @@ class Engine {
         }
         for (Unit u : allUnits) {
             if (! u.alive()) continue; // killed earlier this round?
-            if (map.isOver()) return; // nothing to target
+            if (map.isOver()) return false; // nothing to target
             Queue<Unit> enemies = new Queue<>();
             for (Unit ce : u.isGoblin() ? elves : goblins) {
                 if (ce.alive()) enemies.enqueue(ce);
@@ -50,7 +50,7 @@ class Engine {
                 doAttack(u, enemies);
             }
         }
-        rounds += 1;
+        return true;
     }
 
     private void doMove(Unit u, Iterable<Unit> enemies) {
