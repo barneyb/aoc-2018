@@ -15,7 +15,7 @@ public class Bag<E> implements Iterable<E> {
     }
 
     public void add(E element) {
-        deque.push(element);
+        deque.addFirst(element);
     }
 
     public int size() {

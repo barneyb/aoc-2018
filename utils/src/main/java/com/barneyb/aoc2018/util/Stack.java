@@ -15,11 +15,11 @@ public class Stack<E> implements Iterable<E> {
     }
 
     public void push(E element) {
-        deque.push(element);
+        deque.addFirst(element);
     }
 
     public E pop() {
-        return deque.pop();
+        return deque.removeFirst();
     }
 
     public int size() {

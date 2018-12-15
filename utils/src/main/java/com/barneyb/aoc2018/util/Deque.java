@@ -22,7 +22,7 @@ public class Deque<E> implements Iterable<E> {
     private Link tail;
     private int size = 0;
 
-    public void push(E element) {
+    public void addFirst(E element) {
         head = new Link(element, head);
         if (tail == null) {
             tail = head;
@@ -30,7 +30,7 @@ public class Deque<E> implements Iterable<E> {
         size += 1;
     }
 
-    public E pop() {
+    public E removeFirst() {
         Link l = head;
         head = l.next;
         if (head == null) {
@@ -40,19 +40,15 @@ public class Deque<E> implements Iterable<E> {
         return l.element;
     }
 
-    public void enqueue(E element) {
+    public void addLast(E element) {
         if (isEmpty()) { // no "direction" yet
-            push(element);
+            addFirst(element);
         } else {
             Link l = new Link(element);
             tail.next = l;
             tail = l;
             size += 1;
         }
-    }
-
-    public E dequeue() {
-        return pop();
     }
 
     public int size() {

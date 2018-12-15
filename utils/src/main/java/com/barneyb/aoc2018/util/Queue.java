@@ -15,11 +15,11 @@ public class Queue<E> implements Iterable<E> {
     }
 
     public void enqueue(E element) {
-        deque.enqueue(element);
+        deque.addLast(element);
     }
 
     public E dequeue() {
-        return deque.dequeue();
+        return deque.removeFirst();
     }
 
     public int size() {
