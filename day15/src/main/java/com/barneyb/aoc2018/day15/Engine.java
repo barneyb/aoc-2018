@@ -18,9 +18,8 @@ class Engine {
     void run() {
         while (! map.isOver()) {
             doRound();
-            rounds += 1;
-            System.out.printf("After %d rounds%n", rounds);
-            System.out.println(map.toString(true));
+//            System.out.printf("After %d rounds%n", rounds);
+//            System.out.println(map.toString(true));
         }
     }
 
@@ -46,9 +45,10 @@ class Engine {
             doMove(u, enemies);
             if (performAttacks) {
                 doAttack(u, enemies);
-                if (map.isOver()) return; // this unit won!
+                if (map.isOver()) return; // this unit won it all!
             }
         }
+        rounds += 1;
     }
 
     private void doMove(Unit u, Iterable<Unit> enemies) {
