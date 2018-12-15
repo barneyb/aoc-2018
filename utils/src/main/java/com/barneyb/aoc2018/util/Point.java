@@ -34,6 +34,14 @@ public class Point implements Comparable<Point> {
         );
     }
 
+    public int index(int width) {
+        return y * width + x;
+    }
+
+    public static Point fromIndex(int i, int width) {
+        return new Point(i % width, i / width);
+    }
+
     /**
      * I provide "english reading" ordering of points. Origin is at the top
      * left corner, x increases to the right, and y increases downward.
@@ -42,6 +50,7 @@ public class Point implements Comparable<Point> {
     public int compareTo(Point p) {
         if (y < p.y) return -1;
         if (y > p.y) return 1;
+        //noinspection UseCompareMethod
         if (x < p.x) return -1;
         if (x > p.x) return 1;
         return 0;
