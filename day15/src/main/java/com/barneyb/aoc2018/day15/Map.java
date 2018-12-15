@@ -57,12 +57,8 @@ class Map {
         units.add(new Unit(label, point));
     }
 
-    boolean isGoblin(Unit u) {
-        return u.label() >= 'a' && u.label() <= 'z';
-    }
-
-    boolean isElf(Unit u) {
-        return u.label() >= 'A' && u.label() <= 'Z';
+    TreeSet<Unit> units() {
+        return units;
     }
 
     @Override
@@ -84,7 +80,7 @@ class Map {
             Point p = u.at();
             lines[p.y][p.x] = labelUnits
                     ? u.label()
-                    : isElf(u) ? ELF : GOBLIN;
+                    : u.isElf() ? ELF : GOBLIN;
         }
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < lines.length; i++) {
