@@ -95,7 +95,7 @@ class Map {
         return toString(false);
     }
 
-    public String toString(boolean withStats) {
+    String toString(boolean withStats) {
         StringBuilder sb = new StringBuilder();
         Queue<Unit> us = new Queue<>();
         for (int y = 0; y < height; y++) {
@@ -119,7 +119,7 @@ class Map {
         return sb.toString();
     }
 
-    public void move(Unit u, Point p) {
+    void move(Unit u, Point p) {
         assert isOpen(p);
         Point l = u.location();
         assert p.adjacent(l);
@@ -127,4 +127,14 @@ class Map {
         grid[p.y][p.x] = u.label();
         u.update(p);
     }
+
+    void attack(Unit attacker, Unit victim) {
+        victim.defend(attacker);
+        if (! victim.alive()) {
+            System.out.println(victim + " died :(");
+            Point l = victim.location();
+            grid[l.y][l.x] = SPACE;
+        }
+    }
+
 }

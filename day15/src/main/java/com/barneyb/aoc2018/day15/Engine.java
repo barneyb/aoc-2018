@@ -12,14 +12,15 @@ class Engine {
 
     Engine(Map map) {
         this.map = map;
+        System.out.println(map.toString(true));
     }
 
     void run() {
         while (! map.isOver()) {
             doRound();
-
-            if (rounds > 50) break; // todo: go away!
-
+            rounds += 1;
+            System.out.printf("After %d rounds%n", rounds);
+            System.out.println(map.toString(true));
         }
     }
 
@@ -48,7 +49,6 @@ class Engine {
                 if (map.isOver()) return; // this unit won!
             }
         }
-        rounds += 1;
     }
 
     private void doMove(Unit u, Iterable<Unit> enemies) {
@@ -81,7 +81,8 @@ class Engine {
             }
         }
         Point firstStep = getTarget(targetPoint, candidateSteps);
-        assert firstStep != null : "we got there, but can't get back?!";
+        if (firstStep == null)
+            throw new AssertionError("we got there, but can't get back?!");
         assert firstStep.adjacent(u.location());
         assert map.isOpen(firstStep);
         map.move(u, firstStep);
@@ -93,11 +94,14 @@ class Engine {
         paintQueue.enqueue(new Paint(start, 0));
         while (! paintQueue.isEmpty()) {
             Paint p = paintQueue.dequeue();
+            if (candidates.contains(p.point)) {
+                return p.point;
+            }
             for (Dir d : Dir.values()) {
                 Point q = p.point.plus(d.delta());
-                if (candidates.contains(q)) {
-                    return q;
-                }
+//                if (candidates.contains(q)) {
+//                    return q;
+//                }
                 if (map.isOpen(q) && g[q.y][q.x] == 0) {
                     g[q.y][q.x] = p.n + 1;
                     paintQueue.enqueue(new Paint(q, p.n + 1));
@@ -118,7 +122,23 @@ class Engine {
     }
 
     private void doAttack(Unit u, Iterable<Unit> enemies) {
-
+        // find all adjacent enemies
+        TreeSet<Unit> candidates = new TreeSet<>();
+        int minHp = Integer.MAX_VALUE;
+        for (Unit e : enemies) {
+            if (u.adjacent(e)) {
+                if (e.hitPoints() < minHp) {
+                    minHp = e.hitPoints();
+                    candidates.clear();
+                }
+                candidates.add(e);
+            }
+        }
+        // find one with fewest hit points
+        // break ties with reading order
+        if (candidates.isEmpty()) return;
+        // carry out attack
+        map.attack(u, candidates.min());
     }
 
     int rounds() {

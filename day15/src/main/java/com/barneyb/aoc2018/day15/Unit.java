@@ -14,7 +14,7 @@ class Unit implements Comparable<Unit> {
         this.loc = loc;
     }
 
-    void attack(Unit attacker) {
+    void defend(Unit attacker) {
         hitPoints -= attacker.attack;
     }
 
@@ -75,4 +75,5 @@ class Unit implements Comparable<Unit> {
         assert loc.adjacent(p);
         loc = p;
     }
+
 }
