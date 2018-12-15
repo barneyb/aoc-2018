@@ -131,7 +131,7 @@ class Map {
     void attack(Unit attacker, Unit victim) {
         victim.defend(attacker);
         if (! victim.alive()) {
-            System.out.println(victim + " died :(");
+            System.out.println(victim + " died (by " + attacker.label() + "'s hand)");
             Point l = victim.location();
             grid[l.y][l.x] = SPACE;
         }

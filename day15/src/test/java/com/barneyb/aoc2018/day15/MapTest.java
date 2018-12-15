@@ -4,7 +4,7 @@ import org.junit.Test;
 
 import java.util.Iterator;
 
-import static com.barneyb.aoc2018.day15.Day15Test.EXAMPLE_INPUT;
+import static com.barneyb.aoc2018.day15.Day15Test.DEMO_INPUT;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 
@@ -12,7 +12,7 @@ public class MapTest {
 
     @Test
     public void strings() {
-        Map m = Map.parse(EXAMPLE_INPUT);
+        Map m = Map.parse(DEMO_INPUT);
         assertEquals(
                 "#######\n" +
                 "#.A...#\n" +
