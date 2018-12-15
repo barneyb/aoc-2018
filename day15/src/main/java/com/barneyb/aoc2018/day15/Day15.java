@@ -1,8 +1,8 @@
 package com.barneyb.aoc2018.day15;
 
 import com.barneyb.aoc2018.util.Answers;
-import com.barneyb.aoc2018.util.OneShotDay;
 import com.barneyb.aoc2018.util.FileUtils;
+import com.barneyb.aoc2018.util.OneShotDay;
 
 public class Day15 extends OneShotDay {
 
@@ -10,7 +10,7 @@ public class Day15 extends OneShotDay {
     public Answers solve(String input) {
         return new Answers(
                 input.length()
-                , input.trim().length()
+//                , input.trim().length()
         );
     }
 
