@@ -2,6 +2,7 @@ package com.barneyb.aoc2018.runner;
 
 import com.barneyb.aoc2018.api.Day;
 import com.barneyb.aoc2018.util.FileUtils;
+import com.barneyb.aoc2018.util.Stopwatch;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -117,7 +118,7 @@ public class Main {
     }
 
     private static void doSolve(int day, File inputFile, Day solver) {
-        long startedAt = System.currentTimeMillis();
+        Stopwatch watch = new Stopwatch();
         String input;
         try {
             input = readInput(inputFile);
@@ -128,8 +129,8 @@ public class Main {
         solver.setInput(input);
         renderPart("One", solver.getPartOne());
         renderPart("Two", solver.getPartTwo());
-        long elapsed = System.currentTimeMillis() - startedAt;
-        System.out.printf("%d ms%n", elapsed);
+        watch.stop();
+        System.out.printf("%d ms%n", watch.elapsed());
     }
 
     private static void renderPart(String label, String answer) {
