@@ -45,6 +45,10 @@ public class Sample {
         return instruction;
     }
 
+    int opcode() {
+        return instruction[0];
+    }
+
     int[] after() {
         return after;
     }
