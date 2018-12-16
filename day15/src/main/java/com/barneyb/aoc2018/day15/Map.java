@@ -43,7 +43,6 @@ class Map {
     private final int width;
     private final char[][] grid;
     private final BST<Character, Unit> units;
-    private boolean disallowDeadElves;
 
     Map(int width, int height, char[][] grid, BST<Character, Unit> units) {
         this.height = height;
@@ -57,10 +56,6 @@ class Map {
             Unit u = this.units.get(c);
             if (u.isElf()) u.updateArmament(attack);
         }
-    }
-
-    void disallowDeadElves() {
-        disallowDeadElves = true;
     }
 
     int[][] gridToPaint() {
@@ -152,9 +147,6 @@ class Map {
     void attack(Unit attacker, Unit victim) {
         victim.defend(attacker);
         if (! victim.alive()) {
-            if (disallowDeadElves && victim.isElf()) {
-                throw new DeadElfException();
-            }
             Point l = victim.location();
             grid[l.y][l.x] = SPACE;
         }
