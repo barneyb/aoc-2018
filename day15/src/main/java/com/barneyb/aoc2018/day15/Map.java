@@ -43,6 +43,8 @@ class Map {
     private final int width;
     private final char[][] grid;
     private final BST<Character, Unit> units;
+    private boolean elfKilled;
+    private boolean noDeadElves;
 
     Map(int width, int height, char[][] grid, BST<Character, Unit> units) {
         this.height = height;
@@ -56,6 +58,10 @@ class Map {
             Unit u = this.units.get(c);
             if (u.isElf()) u.updateArmament(attack);
         }
+    }
+
+    void noDeadElves() {
+        noDeadElves = true;
     }
 
     int[][] gridToPaint() {
@@ -74,6 +80,7 @@ class Map {
     }
 
     boolean isOver() {
+        if (noDeadElves && elfKilled) return true;
         boolean foundGoblin = false;
         boolean foundElf = false;
         for (Unit u : survivors()) {
@@ -147,6 +154,7 @@ class Map {
     void attack(Unit attacker, Unit victim) {
         victim.defend(attacker);
         if (! victim.alive()) {
+            if (victim.isElf()) elfKilled = true;
             Point l = victim.location();
             grid[l.y][l.x] = SPACE;
         }

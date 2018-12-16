@@ -51,6 +51,7 @@ public class Day15 extends OneShotDay {
         for (int attack = 4; ; attack++) {
             Map m = Map.parse(input);
             m.armElves(attack);
+            m.noDeadElves();
             Result r = partOne(m);
             for (Unit u : r.casualties()) {
                 if (u.isElf()) continue rampLoop;
