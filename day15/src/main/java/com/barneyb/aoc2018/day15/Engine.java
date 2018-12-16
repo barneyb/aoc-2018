@@ -64,7 +64,7 @@ class Engine {
         TreeSet<Point> candidateSteps = getOpenAdjacent(u.location());
         Point firstStep = getClosestPoint(targetPoint, candidateSteps);
         assert firstStep != null : "we got there, but can't get back?!";
-        assert firstStep.adjacent( u.location());
+        assert firstStep.adjacent(u.location());
         assert map.isOpen(firstStep);
         map.move(u, firstStep);
     }
@@ -91,7 +91,19 @@ class Engine {
         while (! paintQueue.isEmpty()) {
             Paint p = paintQueue.dequeue();
             if (candidates.contains(p.point)) {
-                return p.point;
+                // we found one, need to empty the queue of all other paints
+                // with the same number. Dir order is insufficient at enqueue
+                // time, as it only orders paints adjacent to the same point. If
+                // there are multiple points with adjacent paints of the same
+                // number, they'll be in an undefined order in the queue. Whee.
+                Point best = p.point;
+                while (! paintQueue.isEmpty()) {
+                    Paint c = paintQueue.dequeue();
+                    if (c.n != p.n) break;
+                    if (! candidates.contains(c.point)) continue;
+                    if (c.point.compareTo(best) < 0) best = c.point;
+                }
+                return best;
             }
             for (Point q : getOpenAdjacent(p.point)) {
                 if (g[q.y][q.x] == 0) {
@@ -110,6 +122,11 @@ class Engine {
         Paint(Point point, int n) {
             this.point = point;
             this.n = n;
+        }
+
+        @Override
+        public String toString() {
+            return String.format("{%d,%d,%d}", n, point.x, point.y);
         }
     }
 
