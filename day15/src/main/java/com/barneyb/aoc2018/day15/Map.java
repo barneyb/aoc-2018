@@ -51,6 +51,13 @@ class Map {
         this.units = units;
     }
 
+    void armElves(int extraAttack) {
+        for (Character c : this.units.keys()) {
+            Unit u = this.units.get(c);
+            if (u.isElf()) u.increaseAttack(extraAttack);
+        }
+    }
+
     int[][] gridToPaint() {
         int[][] g = new int[grid.length][];
         for (int y = 0; y < grid.length; y++) {
@@ -86,6 +93,15 @@ class Map {
         for (Character c : this.units.keys()) {
             Unit u = this.units.get(c);
             if (u.alive()) units.add(u);
+        }
+        return units;
+    }
+
+    Iterable<Unit> deadUnits() {
+        TreeSet<Unit> units = new TreeSet<>();
+        for (Character c : this.units.keys()) {
+            Unit u = this.units.get(c);
+            if (! u.alive()) units.add(u);
         }
         return units;
     }
@@ -131,7 +147,6 @@ class Map {
     void attack(Unit attacker, Unit victim) {
         victim.defend(attacker);
         if (! victim.alive()) {
-            System.out.println(victim + " died (by " + attacker.label() + "'s hand)");
             Point l = victim.location();
             grid[l.y][l.x] = SPACE;
         }

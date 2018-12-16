@@ -13,22 +13,37 @@ public class Day15 extends OneShotDay {
     public Answers solve(String input) {
         return new Answers(
                 partOne(input).result()
-//                , input.trim().length()
+                , partTwo(input)
         );
+    }
+
+    static int partTwo(String input) {
+        rampLoop:
+        for (int extra = 1; ; extra++) {
+            Map m = Map.parse(input);
+            m.armElves(extra);
+            Result r = partOne(m);
+            for (Unit u : r.casualties) {
+                if (u.isElf()) continue rampLoop;
+            }
+            return r.result();
+        }
     }
 
     static class Result {
         private final char winner;
         private final int rounds;
-        private Iterable<Unit> units;
+        private Iterable<Unit> survivors;
+        private Iterable<Unit> casualties;
         private final int hitPoints;
 
-        public Result(int rounds, Iterable<Unit> units) {
-            this.winner = units.iterator().next().isGoblin() ? GOBLIN : ELF;
+        public Result(int rounds, Iterable<Unit> survivors, Iterable<Unit> casualties) {
+            this.winner = survivors.iterator().next().isGoblin() ? GOBLIN : ELF;
             this.rounds = rounds;
-            this.units = units;
+            this.survivors = survivors;
+            this.casualties = casualties;
             int hp = 0;
-            for (Unit u : units) {
+            for (Unit u : survivors) {
                 hp += u.hitPoints();
             }
             this.hitPoints = hp;
@@ -42,8 +57,12 @@ public class Day15 extends OneShotDay {
             return rounds;
         }
 
-        Iterable<Unit> units() {
-            return units;
+        Iterable<Unit> survivors() {
+            return survivors;
+        }
+
+        Iterable<Unit> casualties() {
+            return casualties;
         }
 
         int hitPoints() {
@@ -63,11 +82,14 @@ public class Day15 extends OneShotDay {
     static Result partOne(Map m) {
         Engine s = new Engine(m);
         s.run();
-        return new Result(s.rounds(), m.livingUnits());
+        return new Result(s.rounds(), m.livingUnits(), m.deadUnits());
     }
 
+    // part one
     // 203931 is too high!
     // 198855 is too high!
+    // part two
+    // 93666 is too high
 
     public static void main(String[] args)  {
         Day15 d = new Day15();

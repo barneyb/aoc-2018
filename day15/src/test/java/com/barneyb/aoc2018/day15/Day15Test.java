@@ -24,7 +24,7 @@ public class Day15Test {
         Answers a = d.solve(DEMO_INPUT);
         // 47 rounds, goblins win w/ 200+131+59+200 = 590 HP
         assertEquals("27730", a.getPartOne());
-        assertEquals("-", a.getPartTwo());
+        assertEquals("4988", a.getPartTwo());
     }
 
     private String nextTo(String a, String b) {
@@ -91,14 +91,15 @@ public class Day15Test {
 
     @Test
     public void exampleTwo() {
-        Map m = Map.parse(
+        String input =
                 "#######\n" +
                 "#E..EG#\n" +
                 "#.#G.E#\n" +
                 "#E.##E#\n" +
                 "#G..#.#\n" +
                 "#..E#.#\n" +
-                "#######");
+                "#######";
+        Map m = Map.parse(input);
         Day15.Result r = Day15.partOne(m);
         System.out.println(nextTo(
                 "#######\n" +
@@ -113,18 +114,20 @@ public class Day15Test {
         assertEquals(46, r.rounds());
         assertEquals(859, r.hitPoints());
         assertEquals(39514, r.result());
+        assertEquals(31284, Day15.partTwo(input));
     }
 
     @Test
     public void exampleThree() {
-        Map m = Map.parse(
+        String input =
                 "#######\n" +
                 "#E.G#.#\n" +
                 "#.#G..#\n" +
                 "#G.#.G#\n" +
                 "#G..#.#\n" +
                 "#...E.#\n" +
-                "#######");
+                "#######";
+        Map m = Map.parse(input);
         Day15.Result r = Day15.partOne(m);
         System.out.println(nextTo(
                 "#######\n" +
@@ -139,18 +142,20 @@ public class Day15Test {
         assertEquals(35, r.rounds());
         assertEquals(793, r.hitPoints());
         assertEquals(27755, r.result());
+        assertEquals(3478, Day15.partTwo(input));
     }
 
     @Test
     public void exampleFour() {
-        Map m = Map.parse(
+        String input =
                 "#######\n" +
                 "#.E...#\n" +
                 "#.#..G#\n" +
                 "#.###.#\n" +
                 "#E#G#G#\n" +
                 "#...#G#\n" +
-                "#######");
+                "#######";
+        Map m = Map.parse(input);
         Day15.Result r = Day15.partOne(m);
         System.out.println(nextTo(
                 "#######\n" +
@@ -165,11 +170,12 @@ public class Day15Test {
         assertEquals(54, r.rounds());
         assertEquals(536, r.hitPoints());
         assertEquals(28944, r.result());
+        assertEquals(6474, Day15.partTwo(input));
     }
 
     @Test
     public void exampleFive() {
-        Map m = Map.parse(
+        String input =
                 "#########\n" +
                 "#G......#\n" +
                 "#.E.#...#\n" +
@@ -178,7 +184,8 @@ public class Day15Test {
                 "#...#...#\n" +
                 "#.G...G.#\n" +
                 "#.....G.#\n" +
-                "#########");
+                "#########";
+        Map m = Map.parse(input);
         Day15.Result r = Day15.partOne(m);
         System.out.println(nextTo(
                 "#########\n" +
@@ -195,6 +202,7 @@ public class Day15Test {
         assertEquals(20, r.rounds());
         assertEquals(937, r.hitPoints());
         assertEquals(18740, r.result());
+        assertEquals(1140, Day15.partTwo(input));
     }
 
 }

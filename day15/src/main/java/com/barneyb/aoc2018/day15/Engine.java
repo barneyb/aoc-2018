@@ -12,15 +12,12 @@ class Engine {
 
     Engine(Map map) {
         this.map = map;
-        System.out.println(map.toString(true));
     }
 
     void run() {
         while (doRound()) {
             rounds += 1;
         }
-        System.out.printf("After %d rounds%n", rounds);
-        System.out.println(map.toString(true));
     }
 
     boolean doRound() {
