@@ -4,23 +4,27 @@ import com.barneyb.aoc2018.util.Answers;
 import com.barneyb.aoc2018.util.FileUtils;
 import com.barneyb.aoc2018.util.OneShotDay;
 
+import static com.barneyb.aoc2018.day15.Map.ELF;
+import static com.barneyb.aoc2018.day15.Map.GOBLIN;
+
 public class Day15 extends OneShotDay {
 
     @Override
     public Answers solve(String input) {
-        Map m = Map.parse(input);
         return new Answers(
-                partOne(m).result()
+                partOne(input).result()
 //                , input.trim().length()
         );
     }
 
-    static class PartOneResult {
+    static class Result {
+        private final char winner;
         private final int rounds;
         private Iterable<Unit> units;
         private final int hitPoints;
 
-        public PartOneResult(int rounds, Iterable<Unit> units) {
+        public Result(int rounds, Iterable<Unit> units) {
+            this.winner = units.iterator().next().isGoblin() ? GOBLIN : ELF;
             this.rounds = rounds;
             this.units = units;
             int hp = 0;
@@ -28,6 +32,10 @@ public class Day15 extends OneShotDay {
                 hp += u.hitPoints();
             }
             this.hitPoints = hp;
+        }
+
+        char winner() {
+            return winner;
         }
 
         int rounds() {
@@ -48,10 +56,14 @@ public class Day15 extends OneShotDay {
 
     }
 
-    static PartOneResult partOne(Map m) {
+    static Result partOne(String input) {
+        return partOne(Map.parse(input));
+    }
+
+    static Result partOne(Map m) {
         Engine s = new Engine(m);
         s.run();
-        return new PartOneResult(s.rounds(), m.livingUnits());
+        return new Result(s.rounds(), m.livingUnits());
     }
 
     // 203931 is too high!

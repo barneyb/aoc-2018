@@ -71,7 +71,7 @@ class Unit implements Comparable<Unit> {
         return loc.compareTo(o.loc);
     }
 
-    public void update(Point p) {
+    void update(Point p) {
         assert loc.adjacent(p);
         loc = p;
     }

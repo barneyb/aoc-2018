@@ -3,6 +3,8 @@ package com.barneyb.aoc2018.day15;
 import com.barneyb.aoc2018.util.Answers;
 import org.junit.Test;
 
+import static com.barneyb.aoc2018.day15.Map.ELF;
+import static com.barneyb.aoc2018.day15.Map.GOBLIN;
 import static org.junit.Assert.assertEquals;
 
 public class Day15Test {
@@ -45,7 +47,7 @@ public class Day15Test {
     @Test
     public void demo() {
         Map m = Map.parse(DEMO_INPUT);
-        Day15.PartOneResult r = Day15.partOne(m);
+        Day15.Result r = Day15.partOne(m);
         System.out.println(nextTo(
                 "#######   \n" +
                 "#G....#   G(200)\n" +
@@ -55,6 +57,7 @@ public class Day15Test {
                 "#....G#   G(200)\n" +
                 "#######   ",
                 m.toString(true)));
+        assertEquals(GOBLIN, r.winner());
         assertEquals(47, r.rounds());
         assertEquals(590, r.hitPoints());
         assertEquals(27730, r.result());
@@ -70,7 +73,7 @@ public class Day15Test {
                 "#...#E#\n" +
                 "#...E.#\n" +
                 "#######");
-        Day15.PartOneResult r = Day15.partOne(m);
+        Day15.Result r = Day15.partOne(m);
         System.out.println(nextTo(
                 "#######\n" +
                 "#...#E# E(200)\n" +
@@ -80,6 +83,7 @@ public class Day15Test {
                 "#.....#\n" +
                 "#######",
                 m.toString(true)));
+        assertEquals(ELF, r.winner());
         assertEquals(37, r.rounds());
         assertEquals(982, r.hitPoints());
         assertEquals(36334, r.result());
@@ -95,7 +99,7 @@ public class Day15Test {
                 "#G..#.#\n" +
                 "#..E#.#\n" +
                 "#######");
-        Day15.PartOneResult r = Day15.partOne(m);
+        Day15.Result r = Day15.partOne(m);
         System.out.println(nextTo(
                 "#######\n" +
                 "#.E.E.#   E(164), E(197)\n" +
@@ -105,6 +109,7 @@ public class Day15Test {
                 "#...#.#\n" +
                 "#######",
                 m.toString(true)));
+        assertEquals(ELF, r.winner());
         assertEquals(46, r.rounds());
         assertEquals(859, r.hitPoints());
         assertEquals(39514, r.result());
@@ -120,7 +125,7 @@ public class Day15Test {
                 "#G..#.#\n" +
                 "#...E.#\n" +
                 "#######");
-        Day15.PartOneResult r = Day15.partOne(m);
+        Day15.Result r = Day15.partOne(m);
         System.out.println(nextTo(
                 "#######\n" +
                 "#G.G#.#   G(200), G(98)\n" +
@@ -130,6 +135,7 @@ public class Day15Test {
                 "#...G.#   G(200)\n" +
                 "#######",
                 m.toString(true)));
+        assertEquals(GOBLIN, r.winner());
         assertEquals(35, r.rounds());
         assertEquals(793, r.hitPoints());
         assertEquals(27755, r.result());
@@ -145,7 +151,7 @@ public class Day15Test {
                 "#E#G#G#\n" +
                 "#...#G#\n" +
                 "#######");
-        Day15.PartOneResult r = Day15.partOne(m);
+        Day15.Result r = Day15.partOne(m);
         System.out.println(nextTo(
                 "#######\n" +
                 "#.....#\n" +
@@ -155,6 +161,7 @@ public class Day15Test {
                 "#G.G#G#   G(98), G(38), G(200)\n" +
                 "#######",
                 m.toString(true)));
+        assertEquals(GOBLIN, r.winner());
         assertEquals(54, r.rounds());
         assertEquals(536, r.hitPoints());
         assertEquals(28944, r.result());
@@ -172,7 +179,7 @@ public class Day15Test {
                 "#.G...G.#\n" +
                 "#.....G.#\n" +
                 "#########");
-        Day15.PartOneResult r = Day15.partOne(m);
+        Day15.Result r = Day15.partOne(m);
         System.out.println(nextTo(
                 "#########\n" +
                 "#.G.....#   G(137)\n" +
@@ -184,6 +191,7 @@ public class Day15Test {
                 "#.......#\n" +
                 "#########",
                 m.toString(true)));
+        assertEquals(GOBLIN, r.winner());
         assertEquals(20, r.rounds());
         assertEquals(937, r.hitPoints());
         assertEquals(18740, r.result());
