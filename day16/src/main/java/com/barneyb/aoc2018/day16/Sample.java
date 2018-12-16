@@ -5,14 +5,9 @@ import com.barneyb.aoc2018.util.Scanner;
 public class Sample {
 
     static Sample parse(String before, String ins, String after) {
-        int[] in = new int[4];
-        Scanner s = new Scanner(ins);
-        for (int i = 0; i < in.length; i++) {
-            in[i] = s.skipWS().readInt();
-        }
         return new Sample(
                 parseState("Before", before),
-                in,
+                Instruction.parse(ins),
                 parseState("After", after));
     }
 
@@ -28,10 +23,10 @@ public class Sample {
     }
 
     private final int[] before;
-    private final int[] instruction;
+    private final Instruction instruction;
     private final int[] after;
 
-    public Sample(int[] before, int[] instruction, int[] after) {
+    public Sample(int[] before, Instruction instruction, int[] after) {
         this.before = before;
         this.instruction = instruction;
         this.after = after;
@@ -41,12 +36,8 @@ public class Sample {
         return before;
     }
 
-    int[] instruction() {
+    Instruction instruction() {
         return instruction;
-    }
-
-    int opcode() {
-        return instruction[0];
     }
 
     int[] after() {
@@ -56,7 +47,7 @@ public class Sample {
     boolean test(Op op) {
         int[] r = new int[4];
         System.arraycopy(before, 0, r, 0, 4);
-        op.execute(r, instruction[1], instruction[2], instruction[3]);
+        op.execute(r, instruction);
         return r[0] == after[0] &&
                 r[1] == after[1] &&
                 r[2] == after[2] &&

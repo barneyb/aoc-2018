@@ -9,7 +9,7 @@ public class SampleTest {
 
     static final Sample EXAMPLE = new Sample(
             new int[] {3, 2, 1, 1},
-            new int[] {9, 2, 1, 2},
+            new Instruction(9, 2, 1, 2),
             new int[] {3, 2, 2, 1}
     );
 
@@ -18,7 +18,7 @@ public class SampleTest {
         String[] lines = EXAMPLE_INPUT.trim().split("\n");
         Sample s = Sample.parse(lines[0], lines[1], lines[2]);
         assertArrayEquals(EXAMPLE.before(), s.before());
-        assertArrayEquals(EXAMPLE.instruction(), s.instruction());
+        assertEquals(EXAMPLE.instruction(), s.instruction());
         assertArrayEquals(EXAMPLE.after(), s.after());
     }
 

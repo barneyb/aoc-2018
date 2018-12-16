@@ -65,7 +65,7 @@ public class Day16 extends OneShotDay {
             map[i] = new TreeSet<>(OPS);
         // exclude anything that is illegal
         for (Sample s : samples) {
-            TreeSet<Op> candidates = map[s.opcode()];
+            TreeSet<Op> candidates = map[s.instruction().opcode];
             for (Op op : candidates) {
                 if (! s.test(op)) candidates.delete(op);
             }
