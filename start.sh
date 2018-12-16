@@ -111,7 +111,7 @@ import static org.junit.Assert.*;
 
 public class Day${day}Test {
 
-    private static final String EXAMPLE_INPUT = "  cat  ";
+    static final String EXAMPLE_INPUT = "  cat  ";
 
     @Test
     public void solve() {
