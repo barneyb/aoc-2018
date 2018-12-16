@@ -3,3 +3,4 @@
 target
 input.txt
 completion.log
+.attach_pid*
