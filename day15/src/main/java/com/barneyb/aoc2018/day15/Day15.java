@@ -30,6 +30,10 @@ public class Day15 extends OneShotDay {
             return elvishAttack;
         }
 
+        int rounds() {
+            return result.rounds();
+        }
+
         int result() {
             return result.result();
         }
@@ -109,6 +113,7 @@ public class Day15 extends OneShotDay {
     // 198855 is too high!
     // part two
     // 93666 is too high
+    // 95546 is too high
 
     public static void main(String[] args)  {
         Day15 d = new Day15();
