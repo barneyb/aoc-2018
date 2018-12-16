@@ -51,6 +51,7 @@ public class Day16 extends OneShotDay {
         if (partOneOnly) return new Answers(partOne);
 
         BST<Integer, Op> table = buildTable(samples);
+        //noinspection StatementWithEmptyBody
         while (lines[i++].length() == 0) {}
         int[] registers = new int[4];
         for  (;i < lines.length; i++) {

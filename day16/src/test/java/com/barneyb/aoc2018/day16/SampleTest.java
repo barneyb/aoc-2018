@@ -27,8 +27,6 @@ public class SampleTest {
         assertFalse(EXAMPLE.test((registers, a, b, c) -> {
             // no op
         }));
-        assertTrue(EXAMPLE.test((registers, a, b, c) -> {
-            registers[2] = 2;
-        }));
+        assertTrue(EXAMPLE.test((registers, a, b, c) -> registers[2] = 2));
     }
 }

@@ -10,7 +10,7 @@ public enum Dir {
 
     private final Point delta;
 
-    private Dir(Point delta) {
+    Dir(Point delta) {
         this.delta = delta;
     }
 
