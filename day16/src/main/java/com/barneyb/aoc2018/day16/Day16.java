@@ -1,5 +1,6 @@
 package com.barneyb.aoc2018.day16;
 
+import com.barneyb.aoc2018.day16.op.*;
 import com.barneyb.aoc2018.util.Answers;
 import com.barneyb.aoc2018.util.FileUtils;
 import com.barneyb.aoc2018.util.List;
@@ -30,11 +31,30 @@ public class Day16 extends OneShotDay {
     }
 
     private int partOne(List<Sample> samples) {
+        Op[] ops = {
+                new addr(),
+                new addi(),
+                new mulr(),
+                new muli(),
+                new banr(),
+                new bani(),
+                new borr(),
+                new bori(),
+                new setr(),
+                new seti(),
+                new gtir(),
+                new gtri(),
+                new gtrr(),
+                new eqir(),
+                new eqri(),
+                new eqrr(),
+        };
         int sampleCount = 0;
         for (Sample s : samples) {
             int opCount = 0;
-            // for each op
-            //    if it matches, add to opCount
+            for (Op op : ops) {
+                if (s.test(op)) opCount += 1;
+            }
             if (opCount >= 3) {
                 sampleCount += 1;
             }
