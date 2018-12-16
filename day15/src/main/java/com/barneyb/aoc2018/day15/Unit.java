@@ -76,8 +76,8 @@ class Unit implements Comparable<Unit> {
         loc = p;
     }
 
-    void increaseAttack(int n) {
-        attack += n;
+    void updateArmament(int attack) {
+        this.attack = attack;
     }
 
 }

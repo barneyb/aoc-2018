@@ -13,20 +13,39 @@ public class Day15 extends OneShotDay {
     public Answers solve(String input) {
         return new Answers(
                 partOne(input).result()
-                , partTwo(input)
+                , partTwo(input).result()
         );
     }
 
-    static int partTwo(String input) {
+    static class ArmedResult {
+        private final Result result;
+        private final int elvishAttack;
+
+        ArmedResult(Result result, int elvishAttack) {
+            this.result = result;
+            this.elvishAttack = elvishAttack;
+        }
+
+        int elvishAttack() {
+            return elvishAttack;
+        }
+
+        int result() {
+            return result.result();
+        }
+
+    }
+
+    static ArmedResult partTwo(String input) {
         rampLoop:
-        for (int extra = 1; ; extra++) {
+        for (int attack = 4; ; attack++) {
             Map m = Map.parse(input);
-            m.armElves(extra);
+            m.armElves(attack);
             Result r = partOne(m);
-            for (Unit u : r.casualties) {
+            for (Unit u : r.casualties()) {
                 if (u.isElf()) continue rampLoop;
             }
-            return r.result();
+            return new ArmedResult(r, attack);
         }
     }
 
@@ -82,7 +101,7 @@ public class Day15 extends OneShotDay {
     static Result partOne(Map m) {
         Engine s = new Engine(m);
         s.run();
-        return new Result(s.rounds(), m.livingUnits(), m.deadUnits());
+        return new Result(s.rounds(), m.survivors(), m.casualties());
     }
 
     // part one

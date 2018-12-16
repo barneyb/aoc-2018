@@ -51,10 +51,10 @@ class Map {
         this.units = units;
     }
 
-    void armElves(int extraAttack) {
+    void armElves(int attack) {
         for (Character c : this.units.keys()) {
             Unit u = this.units.get(c);
-            if (u.isElf()) u.increaseAttack(extraAttack);
+            if (u.isElf()) u.updateArmament(attack);
         }
     }
 
@@ -76,7 +76,7 @@ class Map {
     boolean isOver() {
         boolean foundGoblin = false;
         boolean foundElf = false;
-        for (Unit u : livingUnits()) {
+        for (Unit u : survivors()) {
             if (u.isGoblin()) {
                 if (foundElf) return false;
                 foundGoblin = true;
@@ -88,7 +88,7 @@ class Map {
         return true;
     }
 
-    Iterable<Unit> livingUnits() {
+    Iterable<Unit> survivors() {
         TreeSet<Unit> units = new TreeSet<>();
         for (Character c : this.units.keys()) {
             Unit u = this.units.get(c);
@@ -97,7 +97,7 @@ class Map {
         return units;
     }
 
-    Iterable<Unit> deadUnits() {
+    Iterable<Unit> casualties() {
         TreeSet<Unit> units = new TreeSet<>();
         for (Character c : this.units.keys()) {
             Unit u = this.units.get(c);

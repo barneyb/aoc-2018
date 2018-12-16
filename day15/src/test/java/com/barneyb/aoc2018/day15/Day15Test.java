@@ -114,7 +114,9 @@ public class Day15Test {
         assertEquals(46, r.rounds());
         assertEquals(859, r.hitPoints());
         assertEquals(39514, r.result());
-        assertEquals(31284, Day15.partTwo(input));
+        Day15.ArmedResult ar = Day15.partTwo(input);
+        assertEquals(4 , ar.elvishAttack());
+        assertEquals(31284, ar.result());
     }
 
     @Test
@@ -142,7 +144,9 @@ public class Day15Test {
         assertEquals(35, r.rounds());
         assertEquals(793, r.hitPoints());
         assertEquals(27755, r.result());
-        assertEquals(3478, Day15.partTwo(input));
+        Day15.ArmedResult ar = Day15.partTwo(input);
+        assertEquals(15 , ar.elvishAttack());
+        assertEquals(3478, ar.result());
     }
 
     @Test
@@ -170,7 +174,9 @@ public class Day15Test {
         assertEquals(54, r.rounds());
         assertEquals(536, r.hitPoints());
         assertEquals(28944, r.result());
-        assertEquals(6474, Day15.partTwo(input));
+        Day15.ArmedResult ar = Day15.partTwo(input);
+        assertEquals(12 , ar.elvishAttack());
+        assertEquals(6474, ar.result());
     }
 
     @Test
@@ -202,7 +208,9 @@ public class Day15Test {
         assertEquals(20, r.rounds());
         assertEquals(937, r.hitPoints());
         assertEquals(18740, r.result());
-        assertEquals(1140, Day15.partTwo(input));
+        Day15.ArmedResult ar = Day15.partTwo(input);
+        assertEquals(34 , ar.elvishAttack());
+        assertEquals(1140, ar.result());
     }
 
 }

@@ -49,7 +49,7 @@ public class MapTest {
                 "#######",
                 m.toString()
         );
-        Iterator<Unit> itr = m.livingUnits().iterator();
+        Iterator<Unit> itr = m.survivors().iterator();
         assertEquals('A', itr.next().label());
         assertEquals('a', itr.next().label());
         assertEquals('b', itr.next().label());
