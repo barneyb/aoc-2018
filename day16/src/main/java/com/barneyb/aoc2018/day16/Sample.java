@@ -49,4 +49,14 @@ public class Sample {
         return after;
     }
 
+    boolean test(Op op) {
+        int[] r = new int[4];
+        System.arraycopy(before, 0, r, 0, 4);
+        op.execute(r, instruction[1], instruction[2], instruction[3]);
+        return r[0] == after[0] &&
+                r[1] == after[1] &&
+                r[2] == after[2] &&
+                r[3] == after[3];
+    }
+
 }
