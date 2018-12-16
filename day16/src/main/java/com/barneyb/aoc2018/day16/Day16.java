@@ -51,10 +51,16 @@ public class Day16 extends OneShotDay {
         if (partOneOnly) return new Answers(partOne);
 
         BST<Integer, Op> table = buildTable(samples);
-        // this is where the sample program parser goes
+        while (lines[i++].length() == 0) {}
+        int[] registers = new int[4];
+        for  (;i < lines.length; i++) {
+            Instruction in = Instruction.parse(lines[i]);
+            Op op = table.get(in.opcode);
+            op.execute(registers, in);
+        }
         return new Answers(
-                partOne
-//                , input.trim().length()
+                partOne,
+                registers[0]
         );
     }
 
