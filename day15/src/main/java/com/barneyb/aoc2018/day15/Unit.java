@@ -53,12 +53,15 @@ class Unit implements Comparable<Unit> {
 
         Unit unit = (Unit) o;
 
+        if (label != unit.label) return false;
         return loc.equals(unit.loc);
     }
 
     @Override
     public int hashCode() {
-        return loc.hashCode();
+        int result = (int) label;
+        result = 31 * result + loc.hashCode();
+        return result;
     }
 
     @Override
@@ -68,7 +71,9 @@ class Unit implements Comparable<Unit> {
 
     @Override
     public int compareTo(Unit o) {
-        return loc.compareTo(o.loc);
+        int c = loc.compareTo(o.loc);
+        if (c != 0) return c;
+        return label - o.label;
     }
 
     void update(Point p) {
