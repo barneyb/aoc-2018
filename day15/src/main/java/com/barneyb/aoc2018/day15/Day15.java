@@ -20,10 +20,12 @@ public class Day15 extends OneShotDay {
     static class ArmedResult {
         private final Result result;
         private final int elvishAttack;
+        private final Map map;
 
-        ArmedResult(Result result, int elvishAttack) {
+        ArmedResult(Result result, int elvishAttack, Map map) {
             this.result = result;
             this.elvishAttack = elvishAttack;
+            this.map = map;
         }
 
         int elvishAttack() {
@@ -38,6 +40,10 @@ public class Day15 extends OneShotDay {
             return result.result();
         }
 
+        Map map() {
+            return map;
+        }
+
     }
 
     static ArmedResult partTwo(String input) {
@@ -49,7 +55,7 @@ public class Day15 extends OneShotDay {
             for (Unit u : r.casualties()) {
                 if (u.isElf()) continue rampLoop;
             }
-            return new ArmedResult(r, attack);
+            return new ArmedResult(r, attack, m);
         }
     }
 

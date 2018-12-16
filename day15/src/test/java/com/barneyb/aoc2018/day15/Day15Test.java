@@ -118,6 +118,15 @@ public class Day15Test {
         assertEquals(4, ar.elvishAttack());
         assertEquals(33, ar.rounds());
         assertEquals(31284, ar.result());
+        System.out.println(nextTo(
+                "#######\n" +
+                "#.E.E.#   E(200), E(23)\n" +
+                "#.#E..#   E(200)\n" +
+                "#E.##E#   E(125), E(200)\n" +
+                "#.E.#.#   E(200)\n" +
+                "#...#.#\n" +
+                "#######",
+                ar.map().toString(true)));
     }
 
     @Test
@@ -149,6 +158,15 @@ public class Day15Test {
         assertEquals(15, ar.elvishAttack());
         assertEquals(37, ar.rounds());
         assertEquals(3478, ar.result());
+        System.out.println(nextTo(
+                "#######\n" +
+                "#.E.#.#   E(8)\n" +
+                "#.#E..#   E(86)\n" +
+                "#..#..#\n" +
+                "#...#.#\n" +
+                "#.....#\n" +
+                "#######",
+                ar.map().toString(true)));
     }
 
     @Test
@@ -180,6 +198,15 @@ public class Day15Test {
         assertEquals(12, ar.elvishAttack());
         assertEquals(39, ar.rounds());
         assertEquals(6474, ar.result());
+        System.out.println(nextTo(
+                "#######\n" +
+                "#...E.#   E(14)\n" +
+                "#.#..E#   E(152)\n" +
+                "#.###.#\n" +
+                "#.#.#.#\n" +
+                "#...#.#\n" +
+                "#######",
+                ar.map().toString(true)));
     }
 
     @Test
@@ -215,6 +242,17 @@ public class Day15Test {
         assertEquals(34, ar.elvishAttack());
         assertEquals(30, ar.rounds());
         assertEquals(1140, ar.result());
+        System.out.println(nextTo(
+                "#########   \n" +
+                "#.......#   \n" +
+                "#.E.#...#   E(38)\n" +
+                "#..##...#   \n" +
+                "#...##..#   \n" +
+                "#...#...#   \n" +
+                "#.......#   \n" +
+                "#.......#   \n" +
+                "#########   ",
+                ar.map().toString(true)));
     }
 
 }
