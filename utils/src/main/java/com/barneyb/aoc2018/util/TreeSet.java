@@ -10,6 +10,14 @@ public class TreeSet<E extends Comparable<E>> implements Set<E> {
 
     private final BST<E, Object> tree = new BST<>();
 
+    public TreeSet() {}
+
+    public TreeSet(E[] elements) {
+        for (E e : elements) {
+            add(e);
+        }
+    }
+
     public void add(E element) {
         tree.put(element, VALUE);
     }
