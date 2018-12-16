@@ -45,7 +45,7 @@ public class Scanner {
                     throw new NoMatchException("End of stream reached, expected '" + s.charAt(i) + "'");
                 }
                 if (c != s.charAt(i)) {
-                    throw new NoMatchException("Found '" + c + "', expected '" + s.charAt(i) + "'");
+                    throw new NoMatchException("Found '" + (char) c + "', expected '" + s.charAt(i) + "'");
                 }
             }
         } catch (IOException e) {
