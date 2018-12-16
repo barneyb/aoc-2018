@@ -47,15 +47,16 @@ public class Day15 extends OneShotDay {
     }
 
     static ArmedResult partTwo(String input) {
-        rampLoop:
         for (int attack = 4; ; attack++) {
             Map m = Map.parse(input);
             m.armElves(attack);
-            Result r = partOne(m);
-            for (Unit u : r.casualties()) {
-                if (u.isElf()) continue rampLoop;
+            m.disallowDeadElves();
+            // todo: this is a stupid approach, but it does work.
+            try {
+                return new ArmedResult(partOne(m), attack, m);
+            } catch (DeadElfException ignored) {
+                // and on to the next!
             }
-            return new ArmedResult(r, attack, m);
         }
     }
 
