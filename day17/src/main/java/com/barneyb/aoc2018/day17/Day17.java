@@ -13,8 +13,8 @@ public class Day17 extends OneShotDay {
         for (int i = 0; i < lines.length; i++) {
             veins[i] = Vein.parse(lines[i]);
         }
-        Scan s = new Scan(veins);
-        System.out.printf("%s%n", s);
+        Earth e = new Earth(veins);
+        System.out.printf("%s%n", e);
         return new Answers(
                 veins.length
 //                , input.trim().length()
