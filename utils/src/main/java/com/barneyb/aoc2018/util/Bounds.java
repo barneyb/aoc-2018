@@ -50,6 +50,11 @@ public class Bounds {
         return p.within(this);
     }
 
+    public Bounds plus(Point p) {
+        if (contains(p)) return this;
+        return plus(new Bounds(p, p));
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
