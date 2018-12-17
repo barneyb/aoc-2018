@@ -10,7 +10,7 @@ public class EarthTest {
     @Test
     public void strings() {
         Earth e = new Earth(Day17.parse(EXAMPLE_INPUT));
-        assertEquals(
+        String expected =
                 "......+.......\n" +
                 "............#.\n" +
                 ".#..#.......#.\n" +
@@ -24,8 +24,10 @@ public class EarthTest {
                 "....#.....#...\n" +
                 "....#.....#...\n" +
                 "....#.....#...\n" +
-                "....#######...",
-                e.toString());
+                "....#######...";
+        assertEquals(expected, e.toString());
+        e = Earth.parse(e.toString());
+        assertEquals(expected, e.toString());
     }
 
     @Test
@@ -47,6 +49,27 @@ public class EarthTest {
                 "...|#~~~~~#|..\n" +
                 "...|#~~~~~#|..\n" +
                 "...|#######|..",
+                e.toString());
+    }
+
+    @Test
+    public void innerContainer() {
+        Earth e = Earth.parse(
+                "...........+........\n" +
+                "....................\n" +
+                "..................#.\n" +
+                ".#................#.\n" +
+                ".#~~~~~~~~#.#~~~~~#.\n" +
+                ".##################."
+        );
+        e.runWater();
+        assertEquals(
+                "...........+........\n" +
+                "...........|........\n" +
+                "||||||||||||||||||#.\n" +
+                "|#~~~~~~~~~~~~~~~~#.\n" +
+                "|#~~~~~~~~#~#~~~~~#.\n" +
+                "|##################.",
                 e.toString());
     }
 }
