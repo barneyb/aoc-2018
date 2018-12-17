@@ -30,6 +30,22 @@ public class Bounds {
         return width() * height();
     }
 
+    public Bounds plus(Bounds b) {
+        Point n = b.min.x > min.x && b.min.y > min.y
+                ? min
+                : new Point(
+                        Math.min(min.x, b.min.x),
+                        Math.min(min.y, b.min.y)
+                );
+        Point x = b.max.x < max.x && b.max.y < max.y
+                ? max
+                : new Point(
+                        Math.max(max.x, b.max.x),
+                        Math.max(max.y, b.max.y)
+                );
+        return min == n && max == x ? this : new Bounds(n, x);
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
