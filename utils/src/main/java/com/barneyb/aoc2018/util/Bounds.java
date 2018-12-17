@@ -46,6 +46,10 @@ public class Bounds {
         return min == n && max == x ? this : new Bounds(n, x);
     }
 
+    public boolean contains(Point p) {
+        return p.within(this);
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

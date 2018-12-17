@@ -40,6 +40,11 @@ public class Point implements Comparable<Point> {
         return false;
     }
 
+    public boolean within(Bounds b) {
+        return x >= b.min().x && x <= b.max().x
+                && y >= b.min().y && y <= b.max().y;
+    }
+
     public int index(int width) {
         return y * width + x;
     }
