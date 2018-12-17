@@ -1,15 +1,21 @@
-package com.barneyb.aoc2018.day10;
-
-import com.barneyb.aoc2018.util.Point;
+package com.barneyb.aoc2018.util;
 
 public class Bounds {
 
-    final Point min;
-    final Point max;
+    private final Point min;
+    private final Point max;
 
     public Bounds(Point min, Point max) {
         this.min = min;
         this.max = max;
+    }
+
+    public Point min() {
+        return min;
+    }
+
+    public Point max() {
+        return max;
     }
 
     public long width() {

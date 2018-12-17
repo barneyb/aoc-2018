@@ -1,5 +1,6 @@
 package com.barneyb.aoc2018.day10;
 
+import com.barneyb.aoc2018.util.Bounds;
 import com.barneyb.aoc2018.util.Point;
 
 public class Pattern {
@@ -57,7 +58,7 @@ public class Pattern {
             grid[y] = new boolean[w];
         }
         for (Light l : lights) {
-            Point p = l.pos.minus(b.min);
+            Point p = l.pos.minus(b.min());
             grid[p.y][p.x] = true;
         }
         StringBuilder sb = new StringBuilder();
