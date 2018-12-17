@@ -77,32 +77,29 @@ public class Day16 extends OneShotDay {
             }
         }
         // comb out single options
+        BST<Integer, Op> table = new BST<>();
         boolean changed;
         do {
             changed = false;
             for (int i = 0; i < map.length; i++) {
                 TreeSet<Op> ops = map[i];
+                if (ops == null) continue;
                 if (ops.size() == 1) {
+                    // add it to the table
                     Op op = ops.min();
-                    for (int j = 0; j < map.length; j++) {
-                        if (i == j) continue;
-                        if (map[j].contains(op)) {
-                            map[j].delete(op);
+                    map[i] = null;
+                    table.put(i, op);
+                    // remove it from all other candidate lists
+                    for (TreeSet<Op> toComb : map) {
+                        if (toComb == null) continue;
+                        if (toComb.contains(op)) {
+                            toComb.delete(op);
                             changed = true;
                         }
                     }
                 }
             }
         } while (changed);
-        // convert to table
-        BST<Integer, Op> table = new BST<>();
-        for (int i = 0; i < map.length; i++) {
-            TreeSet<Op> ops = map[i];
-            if (ops.size() != 1) {
-                throw new AssertionError("Failed to unique opcode mapping. :(");
-            }
-            table.put(i, ops.min());
-        }
         return table;
     }
 
