@@ -1,27 +1,26 @@
 package com.barneyb.aoc2018.day16;
 
-import com.barneyb.aoc2018.day16.op.*;
 import com.barneyb.aoc2018.util.*;
 
 public class Day16 extends OneShotDay {
 
     private static final Op[] OPS = {
-            new addr(),
-            new addi(),
-            new mulr(),
-            new muli(),
-            new banr(),
-            new bani(),
-            new borr(),
-            new bori(),
-            new setr(),
-            new seti(),
-            new gtir(),
-            new gtri(),
-            new gtrr(),
-            new eqir(),
-            new eqri(),
-            new eqrr(),
+            (int[] rs, Instruction i) -> rs[i.a] + rs[i.b],
+            (int[] rs, Instruction i) -> rs[i.a] + i.b,
+            (int[] rs, Instruction i) -> rs[i.a] * rs[i.b],
+            (int[] rs, Instruction i) -> rs[i.a] * i.b,
+            (int[] rs, Instruction i) -> rs[i.a] & rs[i.b],
+            (int[] rs, Instruction i) -> rs[i.a] & i.b,
+            (int[] rs, Instruction i) -> rs[i.a] | rs[i.b],
+            (int[] rs, Instruction i) -> rs[i.a] | i.b,
+            (int[] rs, Instruction i) -> rs[i.a],
+            (int[] rs, Instruction i) -> i.a,
+            (int[] rs, Instruction i) -> i.a > rs[i.b] ? 1 : 0,
+            (int[] rs, Instruction i) -> rs[i.a] > i.b ? 1 : 0,
+            (int[] rs, Instruction i) -> rs[i.a] > rs[i.b] ? 1 : 0,
+            (int[] rs, Instruction i) -> i.a == rs[i.b] ? 1 : 0,
+            (int[] rs, Instruction i) -> rs[i.a] == i.b ? 1 : 0,
+            (int[] rs, Instruction i) -> rs[i.a] == rs[i.b] ? 1 : 0,
     };
 
     @Override

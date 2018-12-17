@@ -2,10 +2,10 @@ package com.barneyb.aoc2018.day16;
 
 public interface Op extends Comparable<Op> {
 
-    void execute(int[] registers, int a, int b, int c);
+    int result(int[] rs, Instruction i);
 
     default void execute(int[] rs, Instruction i) {
-        execute(rs, i.a, i.b, i.c);
+        rs[i.c] = result(rs, i);
     }
 
     default int compareTo(Op o) {

@@ -24,9 +24,7 @@ public class SampleTest {
 
     @Test
     public void test() {
-        assertFalse(EXAMPLE.test((registers, a, b, c) -> {
-            // no op
-        }));
-        assertTrue(EXAMPLE.test((registers, a, b, c) -> registers[2] = 2));
+        assertFalse(EXAMPLE.test((rs, i) -> 99999));
+        assertTrue(EXAMPLE.test((rs, i) -> 2));
     }
 }
