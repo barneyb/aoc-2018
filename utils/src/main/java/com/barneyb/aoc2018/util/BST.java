@@ -83,6 +83,20 @@ public class BST<K extends Comparable<K>, V> implements ST<K, V> {
         return keys().iterator().next();
     }
 
+    public void deleteMax() {
+        // todo: this is also stupid
+        delete(max());
+    }
+
+    public K max() {
+        // todo: this is _stupid_
+        K last = null;
+        for (K k : keys()) {
+            last = k;
+        }
+        return last;
+    }
+
     private boolean isRed(Node n) {
         if (n == null) {
             // null links are black (by fiat)
