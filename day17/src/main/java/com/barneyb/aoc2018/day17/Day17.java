@@ -8,17 +8,23 @@ public class Day17 extends OneShotDay {
 
     @Override
     public Answers solve(String input) {
+        Vein[] veins = parse(input);
+        Earth e = new Earth(veins);
+        e.runWater();
+        System.out.println(e);
+        return new Answers(
+                e.wetTiles()
+//                , input.trim().length()
+        );
+    }
+
+    static Vein[] parse(String input) {
         String[] lines = input.trim().split("\n");
         Vein[] veins = new Vein[lines.length];
         for (int i = 0; i < lines.length; i++) {
             veins[i] = Vein.parse(lines[i]);
         }
-        Earth e = new Earth(veins);
-        System.out.printf("%s%n", e);
-        return new Answers(
-                veins.length
-//                , input.trim().length()
-        );
+        return veins;
     }
 
     public static void main(String[] args)  {
