@@ -35,7 +35,7 @@ public class Day18Test {
     public void solve() {
         Answers a = new Day18().solve(EXAMPLE_INPUT);
         assertEquals("1147", a.getPartOne());
-        assertEquals("-", a.getPartTwo());
+        assertEquals("0", a.getPartTwo());
     }
 
 }

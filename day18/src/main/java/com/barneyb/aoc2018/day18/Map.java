@@ -20,6 +20,7 @@ public class Map {
 
     private char[][] grid;
     private final int width, height;
+    private int tickCount = 0;
 
     Map(char[][] grid) {
         this.grid = grid;
@@ -36,6 +37,7 @@ public class Map {
             }
         }
         grid = next;
+        tickCount += 1;
     }
 
     void tick(int steps) {
@@ -71,7 +73,7 @@ public class Map {
         return h;
     }
 
-    public int resourceValue() {
+    int resourceValue() {
         int treeCount = 0;
         int yardCount = 0;
         for (int y = 0; y < height; y++) {
@@ -81,6 +83,10 @@ public class Map {
             }
         }
         return treeCount * yardCount;
+    }
+
+    int tickCount() {
+        return tickCount;
     }
 
     @Override
