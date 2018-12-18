@@ -84,8 +84,10 @@ class Earth {
     }
 
     private void set(Point p, char c) {
-        if (scan.contains(p) && (scan.get(p) != RUNNING || c != POOL) && scan.get(p) != c) {
-            throw new IllegalArgumentException(p + " is already '" + scan.get(p) + "'");
+        if (scan.contains(p)) {
+            if (scan.get(p) == c) return;
+            if (scan.get(p) != RUNNING || c != POOL)
+                throw new IllegalArgumentException(p + " is already '" + scan.get(p) + "'");
         }
         scan.put(p, c);
     }
@@ -132,7 +134,13 @@ class Earth {
             Point p = new Point(x, start.y);
             char c = get(p);
             if (c == SAND || c == RUNNING) {
-                set(p, RUNNING);
+                if (c == RUNNING) {
+                    if (get(new Point(x, start.y + 1)) == RUNNING) {
+                        return UNBOUNDED;
+                    }
+                } else {
+                    set(p, RUNNING);
+                }
                 Point q = new Point(x, start.y + 1);
                 if (get(q) == SAND) {
                     runWater(q);

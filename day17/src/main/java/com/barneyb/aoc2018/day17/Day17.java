@@ -32,12 +32,6 @@ public class Day17 extends OneShotDay {
     // 31851 is too low
     // 31864 is wrong
 
-
-
-
-    // todo: autocorrected by 3 for the shit at x=416 y=1464..1466
-
-
     public static void main(String[] args)  {
         Day17 d = new Day17();
         String input = FileUtils.readFile("day17/input.txt");
