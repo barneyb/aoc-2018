@@ -50,6 +50,14 @@ public class TreeSet<E extends Comparable<E>> implements Set<E> {
         tree.deleteMin();
     }
 
+    public E max() {
+        return tree.max();
+    }
+
+    public void deleteMax() {
+        tree.deleteMax();
+    }
+
     @Override
     public Iterator<E> iterator() {
         return tree.keys().iterator();

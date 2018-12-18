@@ -1,6 +1,7 @@
 package com.barneyb.aoc2018.day10;
 
 import com.barneyb.aoc2018.util.Answers;
+import com.barneyb.aoc2018.util.Bounds;
 import com.barneyb.aoc2018.util.FileUtils;
 import com.barneyb.aoc2018.util.OneShotDay;
 

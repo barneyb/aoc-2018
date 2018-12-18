@@ -1,15 +1,21 @@
-package com.barneyb.aoc2018.day10;
-
-import com.barneyb.aoc2018.util.Point;
+package com.barneyb.aoc2018.util;
 
 public class Bounds {
 
-    final Point min;
-    final Point max;
+    private final Point min;
+    private final Point max;
 
     public Bounds(Point min, Point max) {
         this.min = min;
         this.max = max;
+    }
+
+    public Point min() {
+        return min;
+    }
+
+    public Point max() {
+        return max;
     }
 
     public long width() {
@@ -22,6 +28,31 @@ public class Bounds {
 
     public long area() {
         return width() * height();
+    }
+
+    public Bounds plus(Bounds b) {
+        Point n = b.min.x > min.x && b.min.y > min.y
+                ? min
+                : new Point(
+                        Math.min(min.x, b.min.x),
+                        Math.min(min.y, b.min.y)
+                );
+        Point x = b.max.x < max.x && b.max.y < max.y
+                ? max
+                : new Point(
+                        Math.max(max.x, b.max.x),
+                        Math.max(max.y, b.max.y)
+                );
+        return min == n && max == x ? this : new Bounds(n, x);
+    }
+
+    public boolean contains(Point p) {
+        return p.within(this);
+    }
+
+    public Bounds plus(Point p) {
+        if (contains(p)) return this;
+        return plus(new Bounds(p, p));
     }
 
     @Override

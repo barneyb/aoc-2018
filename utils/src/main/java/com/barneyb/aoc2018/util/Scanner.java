@@ -54,6 +54,17 @@ public class Scanner {
         return this;
     }
 
+    public boolean probe(char c) {
+        try {
+            int glerg = in.read();
+            boolean result = c == glerg;
+            in.unread(glerg);
+            return result;
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     public Scanner skipWS() {
         readWhile(Character::isWhitespace);
         return this;
