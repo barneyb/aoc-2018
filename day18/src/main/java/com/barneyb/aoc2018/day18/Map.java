@@ -91,7 +91,7 @@ public class Map {
 
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder();
+        StringBuilder sb = new StringBuilder(height * width + height - 1);
         for (int y = 0; y < height; y++) {
             if (y > 0) sb.append('\n');
             sb.append(grid[y]);
