@@ -154,6 +154,11 @@ public class BST<K extends Comparable<K>, V> implements ST<K, V> {
         return get(root, key);
     }
 
+    public V get(K key, V defaultValue) {
+        V v = get(key);
+        return v == null ? defaultValue : v;
+    }
+
     private V get(Node curr, K key) {
         if (curr == null) {
             return null; // miss
