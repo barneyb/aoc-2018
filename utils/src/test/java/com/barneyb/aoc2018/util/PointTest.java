@@ -60,4 +60,22 @@ public class PointTest {
         assertFalse(p.adjacent(new Point(1, -1)));
         assertFalse(p.adjacent(new Point(-1, -1)));
     }
+
+    @Test
+    public void within() {
+        Bounds b = new Bounds(
+                new Point(1, 2),
+                new Point(3, 4)
+        );
+        assertFalse(new Point(0, 3).within(b));
+        assertTrue(new Point(1, 3).within(b));
+        assertTrue(new Point(2, 3).within(b));
+        assertTrue(new Point(3, 3).within(b));
+        assertFalse(new Point(4, 3).within(b));
+        assertFalse(new Point(2, 0).within(b));
+        assertFalse(new Point(2, 1).within(b));
+        assertTrue(new Point(2, 2).within(b));
+        assertTrue(new Point(2, 3).within(b));
+        assertTrue(new Point(2, 4).within(b));
+    }
 }

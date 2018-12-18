@@ -11,7 +11,7 @@ public class Day17 extends OneShotDay {
         Vein[] veins = parse(input);
         Earth e = new Earth(veins);
         e.runWater();
-        System.out.println(e);
+        System.out.println(e.toString(true));
         return new Answers(
                 e.wetTiles()
 //                , input.trim().length()
@@ -26,6 +26,11 @@ public class Day17 extends OneShotDay {
         }
         return veins;
     }
+
+    // 163925 is too high
+    // 31848 is too low
+    // 31851 is too low
+    // 31864 is wrong
 
     public static void main(String[] args)  {
         Day17 d = new Day17();

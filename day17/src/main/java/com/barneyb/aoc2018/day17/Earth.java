@@ -76,61 +76,82 @@ class Earth {
     }
 
     void runWater() {
-        runWater(spring);
+        runWater(new Point(spring.x, spring.y + 1));
+    }
+
+    private char get(Point p) {
+        return scan.get(p, SAND);
+    }
+
+    private void set(Point p, char c) {
+        if (scan.contains(p) && (scan.get(p) != RUNNING || c != POOL) && scan.get(p) != c) {
+            throw new IllegalArgumentException(p + " is already '" + scan.get(p) + "'");
+        }
+        scan.put(p, c);
     }
 
     private void runWater(Point src) {
-        int level = src.y;
-        while (true) {
-            Point p = new Point(src.x, level);
-            Character c = scan.get(p);
-            if (c == null) {
-                scan.put(p, RUNNING);
-            } else if (c == CLAY || c == POOL) {
-                level -= 1;
-                break;
-            }
-            if (level++ == maxY) return;
+        char c = get(src);
+        if (c != SAND) {
+            // nothing to do
+            return;
         }
-        int leftEdge = flood(src.x, level, -1);
-        int rightEdge = flood(src.x, level, 1);
-        if (leftEdge != UNBOUNDED && rightEdge != UNBOUNDED) {
-            // this level is bounded
-            for (int x = leftEdge; x <= rightEdge; x++) {
-                scan.put(new Point(x, level), POOL);
+        int level = src.y;
+        while (level <= maxY) {
+            Point p = new Point(src.x, level);
+            c = get(p);
+            if (c == SAND) {
+                // fall some more
+                set(p, RUNNING);
+                level += 1;
+            } else if (c == RUNNING) {
+                // already did this part
+                return;
+            } else if (c == POOL || c == CLAY) {
+                flood(new Point(src.x, level - 1));
+                return;
             }
-            // run some more water in it!
-            runWater(new Point(src.x, level - 1));
         }
     }
 
-    // i return either the dir-most edge of the pool or UNBOUNDED if it spills
-    private int flood(int x, final int level, final int dx) {
-        x += dx; // don't want to process the "dripped" tile
-        for (; true; x += dx) {
-            // check for bound
-            Point p = new Point(x, level);
-            Character c = scan.get(p);
-            if (c != null && c == CLAY) {
-                return x - dx;
-            }
-            scan.put(p, RUNNING);
+    private void flood(Point start) {
+//        System.out.println(toString(true));
+        int left = search(start, -1);
+        int right = search(start, 1);
+        if (left == UNBOUNDED || right == UNBOUNDED) return;
+        for (int x = left; x <= right; x++) {
+            set(new Point(x, start.y), POOL);
+        }
+        flood(new Point(start.x, start.y - 1));
+    }
 
-            // check for floor
-            p = new Point(x, level + 1);
-            c = scan.get(p);
-            if (c == null) {
-                // we can drip!
-                runWater(p);
-                return UNBOUNDED;
+    private int search(Point start, int dx) {
+        if (get(start) == SAND) set(start, RUNNING);
+        int x = start.x + dx;
+        while (true) {
+            Point p = new Point(x, start.y);
+            char c = get(p);
+            if (c == SAND || c == RUNNING) {
+                set(p, RUNNING);
+                Point q = new Point(x, start.y + 1);
+                if (get(q) == SAND) {
+                    runWater(q);
+                    return UNBOUNDED;
+                } else {
+                    x += dx;
+                }
+            } else {
+                return x - dx;
             }
         }
     }
 
     int wetTiles() {
         int n = 0;
+        int minY = bounds.min().y;
+        System.out.printf("wet tiles where y >= %d %n", minY);
         for (Point p : scan.keys()) {
-            if (! p.within(bounds)) continue;
+            if (p.y < minY) continue;
             char c = scan.get(p);
             if (c == RUNNING || c == POOL) {
                 n += 1;
@@ -141,14 +162,42 @@ class Earth {
 
     @Override
     public String toString() {
+        return toString(false);
+    }
+
+    String toString(boolean coords) {
         StringBuilder sb = new StringBuilder();
-        int mx = bounds.max().x + 1;
+        int minX = bounds.min().x - 1;
+        int maxX = bounds.max().x + 1;
+        if (coords) {
+            if (maxX >= 100) {
+                for (int x = minX; x <= maxX; x++) {
+                    int i = x / 100;
+                    if (i == 0) sb.append(' ');
+                    else sb.append(i);
+                }
+                sb.append('\n');
+            }
+            for (int x = minX; x <= maxX; x++) {
+                int i = x % 100 / 10;
+                if (i == 0) sb.append(maxX >= 100 ? '0' : ' ');
+                else sb.append(i);
+            }
+            sb.append('\n');
+            for (int x = minX; x <= maxX; x++) {
+                sb.append(x % 10);
+            }
+            sb.append('\n');
+        }
         for (int y = 0; y <= maxY; y++) {
             if (y > 0) sb.append('\n');
-            for (int x = bounds.min().x - 1; x <= mx; x++) {
+            for (int x = minX; x <= maxX; x++) {
                 Point p = new Point(x, y);
                 Character c = scan.get(p);
                 sb.append(c == null ? p.equals(spring) ? SPRING : SAND : c);
+            }
+            if (coords) {
+                sb.append(' ').append(y);
             }
         }
         return sb.toString();
