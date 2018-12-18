@@ -5,6 +5,8 @@ import com.barneyb.aoc2018.util.Bounds;
 import com.barneyb.aoc2018.util.Point;
 import com.barneyb.aoc2018.util.TreeSet;
 
+import java.util.function.Predicate;
+
 class Earth {
 
     static Earth parse(String input) {
@@ -37,9 +39,11 @@ class Earth {
     private static final int UNBOUNDED = 9999999;
 
     private final BST<Point, Character> scan;
-    final Point spring;
-    private final Bounds bounds;
-    private final int maxY;
+    private final Point spring;
+    private int minX;
+    private int maxX;
+    private int minY;
+    private int maxY;
 
     Earth(Vein[] clays) {
         this(clays, new Point(500, 0));
@@ -56,8 +60,11 @@ class Earth {
                 scan.put(p, CLAY);
             }
         }
-        this.bounds = b;
+        Bounds bounds = b;
         assert bounds != null;
+        this.minX = bounds.min().x - 1;
+        this.maxX = bounds.max().x + 1;
+        this.minY = bounds.min().y;
         this.maxY = bounds.max().y;
     }
 
@@ -70,8 +77,11 @@ class Earth {
             b = b == null ? new Bounds(p, p) : b.plus(p);
             scan.put(p, CLAY);
         }
-        this.bounds = b;
+        Bounds bounds = b;
         assert bounds != null;
+        this.minX = bounds.min().x - 1;
+        this.maxX = bounds.max().x + 1;
+        this.minY = bounds.min().y;
         this.maxY = bounds.max().y;
     }
 
@@ -117,7 +127,6 @@ class Earth {
     }
 
     private void flood(Point start) {
-//        System.out.println(toString(true));
         int left = search(start, -1);
         int right = search(start, 1);
         if (left == UNBOUNDED || right == UNBOUNDED) return;
@@ -155,32 +164,24 @@ class Earth {
     }
 
     int wetTiles() {
+        return countTiles(c -> c == RUNNING || c == POOL);
+    }
+
+    int resTiles() {
+        return countTiles(c -> c == POOL);
+    }
+
+    private int countTiles(Predicate<Character> test) {
         int n = 0;
-        int minY = bounds.min().y;
-        System.out.printf("wet tiles where y >= %d %n", minY);
         for (Point p : scan.keys()) {
             if (p.y < minY) continue;
             char c = scan.get(p);
-            if (c == RUNNING || c == POOL) {
+            if (test.test(c)) {
                 n += 1;
             }
         }
         return n;
     }
-
-    int resTiles() {
-        int n = 0;
-        int minY = bounds.min().y;
-        System.out.printf("res tiles where y >= %d %n", minY);
-        for (Point p : scan.keys()) {
-            if (p.y < minY) continue;
-            char c = scan.get(p);
-            if (c == POOL) {
-                n += 1;
-            }
-        }
-        return n;}
-
 
     @Override
     public String toString() {
@@ -189,8 +190,6 @@ class Earth {
 
     String toString(boolean coords) {
         StringBuilder sb = new StringBuilder();
-        int minX = bounds.min().x - 1;
-        int maxX = bounds.max().x + 1;
         if (coords) {
             if (maxX >= 100) {
                 for (int x = minX; x <= maxX; x++) {
