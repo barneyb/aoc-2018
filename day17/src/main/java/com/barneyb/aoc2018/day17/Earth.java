@@ -160,6 +160,20 @@ class Earth {
         return n;
     }
 
+    int resTiles() {
+        int n = 0;
+        int minY = bounds.min().y;
+        System.out.printf("res tiles where y >= %d %n", minY);
+        for (Point p : scan.keys()) {
+            if (p.y < minY) continue;
+            char c = scan.get(p);
+            if (c == POOL) {
+                n += 1;
+            }
+        }
+        return n;}
+
+
     @Override
     public String toString() {
         return toString(false);
