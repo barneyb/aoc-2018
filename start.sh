@@ -76,9 +76,7 @@ EOF
 cat << EOF > ${main}/Day${day}.java
 package com.barneyb.aoc2018.day${day};
 
-import com.barneyb.aoc2018.util.Answers;
-import com.barneyb.aoc2018.util.OneShotDay;
-import com.barneyb.aoc2018.util.FileUtils;
+import com.barneyb.aoc2018.util.*;
 
 public class Day${day} extends OneShotDay {
 
@@ -93,8 +91,10 @@ public class Day${day} extends OneShotDay {
     public static void main(String[] args)  {
         Day${day} d = new Day${day}();
         String input = FileUtils.readFile("day${day}/input.txt");
+        Stopwatch watch = new Stopwatch();
         Answers a = d.solve(input);
-        System.out.println(a);
+        long e = watch.stop();
+        System.out.printf("%s in %d ms%n", a, e);
     }
 
 }
