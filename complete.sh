@@ -34,5 +34,5 @@ fi
 
 git checkout master
 git merge --no-ff -m "Merge branch '$branch'" ${branch}
-git branch -d ${branch}
 git push
+git branch -d ${branch}
