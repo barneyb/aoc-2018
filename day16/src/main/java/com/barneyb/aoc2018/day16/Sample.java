@@ -1,5 +1,7 @@
 package com.barneyb.aoc2018.day16;
 
+import com.barneyb.aoc2018.isa.Instruction;
+import com.barneyb.aoc2018.isa.Op;
 import com.barneyb.aoc2018.util.Scanner;
 
 public class Sample {

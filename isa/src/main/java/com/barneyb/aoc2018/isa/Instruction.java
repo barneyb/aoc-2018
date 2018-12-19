@@ -1,4 +1,4 @@
-package com.barneyb.aoc2018.day16;
+package com.barneyb.aoc2018.isa;
 
 import com.barneyb.aoc2018.util.Scanner;
 
@@ -14,7 +14,7 @@ public class Instruction {
         );
     }
 
-    final int opcode, a, b, c;
+    public final int opcode, a, b, c;
 
     public Instruction(int opcode, int a, int b, int c) {
         this.opcode = opcode;
