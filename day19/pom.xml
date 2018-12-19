@@ -9,7 +9,7 @@
         <version>0.1.0-SNAPSHOT</version>
         <relativePath>../parent/pom.xml</relativePath>
     </parent>
-    <artifactId>day16</artifactId>
+    <artifactId>day19</artifactId>
     <dependencies>
         <dependency>
             <groupId>com.barneyb.aoc-2018</groupId>

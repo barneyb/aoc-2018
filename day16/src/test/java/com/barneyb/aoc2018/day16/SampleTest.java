@@ -1,5 +1,6 @@
 package com.barneyb.aoc2018.day16;
 
+import com.barneyb.aoc2018.isa.Instruction;
 import org.junit.Test;
 
 import static com.barneyb.aoc2018.day16.Day16Test.EXAMPLE_INPUT;

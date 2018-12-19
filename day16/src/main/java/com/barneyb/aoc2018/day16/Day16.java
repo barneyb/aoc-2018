@@ -1,27 +1,12 @@
 package com.barneyb.aoc2018.day16;
 
+import com.barneyb.aoc2018.isa.Instruction;
+import com.barneyb.aoc2018.isa.Op;
 import com.barneyb.aoc2018.util.*;
 
-public class Day16 extends OneShotDay {
+import static com.barneyb.aoc2018.isa.Op.OPS;
 
-    private static final Op[] OPS = {
-            (int[] rs, Instruction i) -> rs[i.a] + rs[i.b],
-            (int[] rs, Instruction i) -> rs[i.a] + i.b,
-            (int[] rs, Instruction i) -> rs[i.a] * rs[i.b],
-            (int[] rs, Instruction i) -> rs[i.a] * i.b,
-            (int[] rs, Instruction i) -> rs[i.a] & rs[i.b],
-            (int[] rs, Instruction i) -> rs[i.a] & i.b,
-            (int[] rs, Instruction i) -> rs[i.a] | rs[i.b],
-            (int[] rs, Instruction i) -> rs[i.a] | i.b,
-            (int[] rs, Instruction i) -> rs[i.a],
-            (int[] rs, Instruction i) -> i.a,
-            (int[] rs, Instruction i) -> i.a > rs[i.b] ? 1 : 0,
-            (int[] rs, Instruction i) -> rs[i.a] > i.b ? 1 : 0,
-            (int[] rs, Instruction i) -> rs[i.a] > rs[i.b] ? 1 : 0,
-            (int[] rs, Instruction i) -> i.a == rs[i.b] ? 1 : 0,
-            (int[] rs, Instruction i) -> rs[i.a] == i.b ? 1 : 0,
-            (int[] rs, Instruction i) -> rs[i.a] == rs[i.b] ? 1 : 0,
-    };
+public class Day16 extends OneShotDay {
 
     @Override
     public Answers solve(String input) {
