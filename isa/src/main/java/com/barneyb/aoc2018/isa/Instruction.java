@@ -1,5 +1,6 @@
 package com.barneyb.aoc2018.isa;
 
+import com.barneyb.aoc2018.util.BST;
 import com.barneyb.aoc2018.util.Scanner;
 
 public class Instruction {
@@ -8,6 +9,16 @@ public class Instruction {
         Scanner s = new Scanner(input);
         return new Instruction(
                 s.skipWS().readInt(),
+                s.skipWS().readInt(),
+                s.skipWS().readInt(),
+                s.skipWS().readInt()
+        );
+    }
+
+    public static Instruction parseMapped(String input, BST<String, Integer> opMap) {
+        Scanner s = new Scanner(input);
+        return new Instruction(
+                opMap.get(s.skipWS().readWord()),
                 s.skipWS().readInt(),
                 s.skipWS().readInt(),
                 s.skipWS().readInt()
