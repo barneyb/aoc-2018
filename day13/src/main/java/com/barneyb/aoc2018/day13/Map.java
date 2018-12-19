@@ -25,16 +25,19 @@ class Map {
     }
 
     private final char[][] grid;
+    private final int height, width;
     private TreeSet<Cart> carts;
     private final Queue<Crash> crashes = new Queue<>();
 
     Map(String[] grid) {
-        this.grid = new char[grid.length][];
+        this.height = grid.length;
+        this.width = grid[0].length();
+        this.grid = new char[height][];
         this.carts = new TreeSet<>();
         char cartIndex = 'A';
-        for (int y = 0; y < grid.length; y++) {
+        for (int y = 0; y < height; y++) {
             char[] row = this.grid[y] = grid[y].toCharArray();
-            for (int x = 0, l = row.length; x < l; x++) {
+            for (int x = 0; x < width; x++) {
                 char c = row[x];
                 for (Dir d : Dir.values()) {
                     if (c == d.indicator) {
@@ -135,6 +138,14 @@ class Map {
 
     public Point locationOfFinalCart() {
         return carts.min().pos();
+    }
+
+    int height() {
+        return height;
+    }
+
+    int width() {
+        return width;
     }
 
     @Override
