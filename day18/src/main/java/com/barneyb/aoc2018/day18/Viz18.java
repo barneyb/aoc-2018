@@ -20,6 +20,7 @@ public class Viz18 {
         vl.setFont(FONT);
         JTextArea ta = new JTextArea(m.toString(), 50, 50);
         ta.setFont(FONT);
+        ta.setEditable(false);
         Container cp = f.getContentPane();
         cp.setLayout(new BorderLayout());
         JPanel sb = new JPanel();
