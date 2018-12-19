@@ -5,6 +5,7 @@ import com.barneyb.aoc2018.util.Bounds;
 import com.barneyb.aoc2018.util.Point;
 import com.barneyb.aoc2018.util.TreeSet;
 
+import java.util.function.BiConsumer;
 import java.util.function.Predicate;
 
 class Earth {
@@ -44,6 +45,7 @@ class Earth {
     private int maxX;
     private int minY;
     private int maxY;
+    private BiConsumer<Point, Character> observer;
 
     Earth(Vein[] clays) {
         this(clays, new Point(500, 0));
@@ -100,6 +102,7 @@ class Earth {
                 throw new IllegalArgumentException(p + " is already '" + scan.get(p) + "'");
         }
         scan.put(p, c);
+        if (observer != null) observer.accept(p, c);
     }
 
     private void runWater(Point src) {
@@ -185,10 +188,14 @@ class Earth {
 
     @Override
     public String toString() {
-        return toString(false);
+        return toString(0, maxY, false);
     }
 
     String toString(boolean coords) {
+        return toString(0, maxY, coords);
+    }
+
+    String toString(int minY, int maxY, boolean coords) {
         StringBuilder sb = new StringBuilder();
         if (coords) {
             if (maxX >= 100) {
@@ -210,8 +217,8 @@ class Earth {
             }
             sb.append('\n');
         }
-        for (int y = 0; y <= maxY; y++) {
-            if (y > 0) sb.append('\n');
+        for (int y = minY; y <= maxY; y++) {
+            if (y > minY) sb.append('\n');
             for (int x = minX; x <= maxX; x++) {
                 Point p = new Point(x, y);
                 Character c = scan.get(p);
@@ -223,4 +230,17 @@ class Earth {
         }
         return sb.toString();
     }
+
+    public void setObserver(BiConsumer<Point, Character> observer) {
+        this.observer = observer;
+    }
+
+    int height() {
+        return maxY - minY;
+    }
+
+    int width() {
+        return maxX - minX;
+    }
+
 }
