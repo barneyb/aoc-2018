@@ -9,6 +9,8 @@ cd `dirname $0`
 # `java.util.function` package are special cases because they're language
 # features (foreach loop and method references, respectively), but not in the
 # `java.lang` package. `java.util.Comparator` may join them at some point.
+#
+# Swing and AWT are allowed in VizNN classes.
 find . -name "*.java" \
     | grep -v '/test/' \
     | xargs grep 'import' \
@@ -16,6 +18,7 @@ find . -name "*.java" \
     | egrep -v 'java.(n?)io\.*' \
     | egrep -v 'java\.util\.Iterator' \
     | egrep -v 'java\.util\.function.*' \
+    | egrep -v '/Viz[0-9]+\.java.*(java.awt|javax.swing).*;' \
     > ${TEMP_FILE} \
     || true # `grep` exits non-zero if nothing is found
 
