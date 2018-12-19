@@ -40,18 +40,15 @@ public class Working {
             a = 0;
         }
         // setup complete!
-        c = 1;
-        do {
-            f = 1;
-            do {
+
+        for (c = 1; c <= b; c++) {
+            for (f = 1; f <= b; f++) {
                 d = c * f;
                 if (d == b) {
-                    a = c + a;
+                    a += c;
                 }
-                f = f + 1;
-            } while (f <= b);
-            c = c + 1;
-        } while (c <= b);
+            }
+        }
 
         // end
         System.out.println(a);
