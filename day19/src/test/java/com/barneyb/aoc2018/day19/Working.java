@@ -1,30 +1,21 @@
 package com.barneyb.aoc2018.day19;
 
-import com.barneyb.aoc2018.util.FileUtils;
+import com.barneyb.aoc2018.util.Resources;
 import org.junit.Test;
+
+import static com.barneyb.aoc2018.day19.Day19.sumOfFactorPairs;
 
 public class Working {
 
     @Test
     public void refactor() {
-        String input = FileUtils.readFile("formatted.txt");
+        String input = Resources.asText("formatted.txt");
         Program p = Program.parse(input);
         Interpreter first = new Interpreter(p);
         first.run();
-        int one = first.registerZero();
+        int one = first.register(0);
         System.out.println(one);
         assert 912 == one;
-    }
-
-    int sumOfFactors(int b) {
-        int a = 0;
-        for (int c = 1, f = (int) Math.sqrt(b); c <= f; c++) {
-            if (b % c == 0) {
-                a += c;
-                a += b / c;
-            }
-        }
-        return a;
     }
 
     @Test
@@ -62,7 +53,7 @@ public class Working {
         }
 
         System.out.printf("sum of factors of %d: %d%n", b, a);
-        System.out.printf("sum of factors of %d: %d%n", b, sumOfFactors(b));
+        System.out.printf("sum of factors of %d: %d%n", b, sumOfFactorPairs(b));
         a = 0;
 
 

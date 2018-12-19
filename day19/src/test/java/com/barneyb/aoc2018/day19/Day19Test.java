@@ -21,7 +21,12 @@ public class Day19Test {
     public void solve() {
         Answers a = new Day19().solve(EXAMPLE_INPUT);
         assertEquals("6", a.getPartOne());
-        assertEquals("-", a.getPartTwo());
+        assertEquals("6", a.getPartTwo());
     }
 
+    @Test
+    public void sumOfFactors() {
+        assertEquals(1 + 2 + 3 + 6, Day19.sumOfFactorPairs(6));
+        assertEquals(1 + 5 + 5 + 25, Day19.sumOfFactorPairs(25));
+    }
 }
