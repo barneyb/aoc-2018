@@ -38,8 +38,10 @@ public class Day18 extends OneShotDay {
     public static void main(String[] args)  {
         Day18 d = new Day18();
         String input = FileUtils.readFile("day18/input.txt");
+        Stopwatch watch = new Stopwatch();
         Answers a = d.solve(input);
-        System.out.println(a);
+        long e = watch.stop();
+        System.out.printf("%s in %d ms%n", a, e);
     }
 
 }
