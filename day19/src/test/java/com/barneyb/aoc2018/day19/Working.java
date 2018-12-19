@@ -16,6 +16,17 @@ public class Working {
         assert 912 == one;
     }
 
+    int sumOfFactors(int b) {
+        int a = 0;
+        for (int c = 1, f = (int) Math.sqrt(b); c <= f; c++) {
+            if (b % c == 0) {
+                a += c;
+                a += b / c;
+            }
+        }
+        return a;
+    }
+
     @Test
     public void reversed() {
         int a=0, b=0, c=0, d=0, f=0;
@@ -41,18 +52,33 @@ public class Working {
         }
         // setup complete!
 
+
+
+        for (c = 1, f = (int) Math.sqrt(b); c <= f; c++) {
+            if (b % c == 0) {
+                a += c;
+                a += b / c;
+            }
+        }
+
+        System.out.printf("sum of factors of %d: %d%n", b, a);
+        System.out.printf("sum of factors of %d: %d%n", b, sumOfFactors(b));
+        a = 0;
+
+
         for (c = 1; c <= b; c++) {
             for (f = 1; f <= b; f++) {
                 d = c * f;
                 if (d == b) {
+                    System.out.println(c);
                     a += c;
                 }
             }
         }
 
         // end
-        System.out.println(a);
-        assert 912 == a;
+        System.out.printf("sum of factors of %d: %d%n", b, a);
+//        assert 912 == a;
     }
 
 }
