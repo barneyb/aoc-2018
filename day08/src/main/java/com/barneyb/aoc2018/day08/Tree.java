@@ -1,6 +1,6 @@
 package com.barneyb.aoc2018.day08;
 
-import java.util.Iterator;
+import com.barneyb.aoc2018.util.IntDigest;
 
 public class Tree {
 
@@ -34,37 +34,17 @@ public class Tree {
 
     }
 
-    private static class Digest implements Iterator<Integer> {
-        private final int[] ns;
-        private int i;
-
-        public Digest(int[] ns, int i) {
-            this.ns = ns;
-            this.i = i;
-        }
-
-        @Override
-        public boolean hasNext() {
-            return i < ns.length;
-        }
-
-        @Override
-        public Integer next() {
-            return ns[i++];
-        }
-    }
-
     private Node root;
 
     Tree(int[] ns) {
-        Digest d = new Digest(ns, 0);
+        IntDigest d = new IntDigest(ns);
         this.root = readNode(d);
         if (d.hasNext()) {
             throw new RuntimeException("Failed to consume all input");
         }
     }
 
-    private Node readNode(Digest d) {
+    private Node readNode(IntDigest d) {
         Node n = new Node();
         int childCount = d.next();
         int metaCount = d.next();
