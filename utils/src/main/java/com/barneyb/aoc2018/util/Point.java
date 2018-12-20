@@ -53,6 +53,14 @@ public class Point implements Comparable<Point> {
         return new Point(i % width, i / width);
     }
 
+    public Point go(Dir d) {
+        return go(d, 1);
+    }
+
+    public Point go(Dir d, int n) {
+        return plus(d.delta(n));
+    }
+
     /**
      * I provide "english reading" ordering of points. Origin is at the top
      * left corner, x increases to the right, and y increases downward.
