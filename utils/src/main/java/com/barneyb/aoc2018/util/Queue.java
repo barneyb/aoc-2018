@@ -14,6 +14,10 @@ public class Queue<E> implements Iterable<E> {
         }
     }
 
+    public E peek() {
+        return deque.peekFirst();
+    }
+
     public void enqueue(E element) {
         deque.addLast(element);
     }
