@@ -12,6 +12,7 @@
         <module>parent</module>
         <module>api</module>
         <module>utils</module>
+        <module>day20</module>
         <module>day19</module>
         <module>day18</module>
         <module>day17</module>

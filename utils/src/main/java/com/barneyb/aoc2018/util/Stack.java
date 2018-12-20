@@ -14,6 +14,10 @@ public class Stack<E> implements Iterable<E> {
         }
     }
 
+    public E peek() {
+        return deque.peekFirst();
+    }
+
     public void push(E element) {
         deque.addFirst(element);
     }

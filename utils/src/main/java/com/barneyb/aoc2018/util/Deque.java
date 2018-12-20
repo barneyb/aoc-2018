@@ -22,6 +22,10 @@ public class Deque<E> implements Iterable<E> {
     private Link tail;
     private int size = 0;
 
+    public E peekFirst() {
+        return head.element;
+    }
+
     public void addFirst(E element) {
         head = new Link(element, head);
         if (tail == null) {
@@ -38,6 +42,10 @@ public class Deque<E> implements Iterable<E> {
         }
         size -= 1;
         return l.element;
+    }
+
+    public E peekLast() {
+        return tail.element;
     }
 
     public void addLast(E element) {

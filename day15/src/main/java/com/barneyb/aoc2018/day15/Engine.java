@@ -74,7 +74,7 @@ class Engine {
 
     private void addOpenAdjacent(Point start, TreeSet<Point> collector) {
         for (Dir d : Dir.values()) {
-            Point p = start.plus(d.delta());
+            Point p = start.go(d);
             if (map.isOpen(p)) {
                 collector.add(p);
             }
