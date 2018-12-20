@@ -16,12 +16,8 @@ public class Day20 extends OneShotDay {
     }
 
     static int partOne(String input) {
-        return partOne(Map.parse(input));
-    }
-
-    static int partOne(Map m) {
-        System.out.println(m.toString(true));
-        return -1;
+        Map m = Map.parse(input);
+        return m.distanceTo(m.farthestPoint());
     }
 
     public static void main(String[] args)  {
