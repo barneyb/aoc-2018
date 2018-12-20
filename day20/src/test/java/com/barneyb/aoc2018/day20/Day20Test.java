@@ -18,94 +18,27 @@ public class Day20Test {
 
     @Test
     public void exampleOne_a() {
-        String input = "^WNE$";
-        assertEquals(
-                "#####\n" +
-                "#.|.#\n" +
-                "#-###\n" +
-                "#.|X#\n" +
-                "#####",
-                Day20.plotDoors(Day20.findDoors(input)));
-//        assertEquals(3, Day20.partOne(input));
+        assertEquals(3, Day20.partOne("^WNE$"));
     }
 
     @Test
     public void exampleOne_b() {
-        String input = "^ENWWW(NEEE|SSE(EE|N))$";
-        assertEquals(
-                "#########\n" +
-                "#.|.|.|.#\n" +
-                "#-#######\n" +
-                "#.|.|.|.#\n" +
-                "#-#####-#\n" +
-                "#.#.#X|.#\n" +
-                "#-#-#####\n" +
-                "#.|.|.|.#\n" +
-                "#########",
-                Day20.plotDoors(Day20.findDoors(input)));
-//        assertEquals(10, Day20.partOne(input));
+        assertEquals(10, Day20.partOne("^ENWWW(NEEE|SSE(EE|N))$"));
     }
 
     @Test
     public void exampleOne_c() {
-        String input = "^ENNWSWW(NEWS|)SSSEEN(WNSE|)EE(SWEN|)NNN$";
-        assertEquals(
-                "###########\n" +
-                "#.|.#.|.#.#\n" +
-                "#-###-#-#-#\n" +
-                "#.|.|.#.#.#\n" +
-                "#-#####-#-#\n" +
-                "#.#.#X|.#.#\n" +
-                "#-#-#####-#\n" +
-                "#.#.|.|.|.#\n" +
-                "#-###-###-#\n" +
-                "#.|.|.#.|.#\n" +
-                "###########",
-                Day20.plotDoors(Day20.findDoors(input)));
-//        assertEquals(18, Day20.partOne(input));
+        assertEquals(18, Day20.partOne("^ENNWSWW(NEWS|)SSSEEN(WNSE|)EE(SWEN|)NNN$"));
     }
 
     @Test
     public void exampleOne_d() {
-        String input = "^ESSWWN(E|NNENN(EESS(WNSE|)SSS|WWWSSSSE(SW|NNNE)))$";
-        assertEquals(
-                "#############\n" +
-                "#.|.|.|.|.|.#\n" +
-                "#-#####-###-#\n" +
-                "#.#.|.#.#.#.#\n" +
-                "#-#-###-#-#-#\n" +
-                "#.#.#.|.#.|.#\n" +
-                "#-#-#-#####-#\n" +
-                "#.#.#.#X|.#.#\n" +
-                "#-#-#-###-#-#\n" +
-                "#.|.#.|.#.#.#\n" +
-                "###-#-###-#-#\n" +
-                "#.|.#.|.|.#.#\n" +
-                "#############",
-                Day20.plotDoors(Day20.findDoors(input)));
-//        assertEquals(23, Day20.partOne(input));
+        assertEquals(23, Day20.partOne("^ESSWWN(E|NNENN(EESS(WNSE|)SSS|WWWSSSSE(SW|NNNE)))$"));
     }
 
     @Test
     public void exampleOne_e() {
-        String input = "^WSSEESWWWNW(S|NENNEEEENN(ESSSSW(NWSW|SSEN)|WSWWN(E|WWS(E|SS))))$";
-        assertEquals(
-                "###############\n" +
-                "#.|.|.|.#.|.|.#\n" +
-                "#-###-###-#-#-#\n" +
-                "#.|.#.|.|.#.#.#\n" +
-                "#-#########-#-#\n" +
-                "#.#.|.|.|.|.#.#\n" +
-                "#-#-#########-#\n" +
-                "#.#.#.|X#.|.#.#\n" +
-                "###-#-###-#-#-#\n" +
-                "#.|.#.#.|.#.|.#\n" +
-                "#-###-#####-###\n" +
-                "#.|.#.|.|.#.#.#\n" +
-                "#-#-#####-#-#-#\n" +
-                "#.#.|.|.|.#.|.#\n" +
-                "###############",
-                Day20.plotDoors(Day20.findDoors(input)));
-//        assertEquals(31, Day20.partOne(input));
+        assertEquals(31, Day20.partOne("^WSSEESWWWNW(S|NENNEEEENN(ESSSSW(NWSW|SSEN)|WSWWN(E|WWS(E|SS))))$"));
     }
+
 }
