@@ -66,5 +66,28 @@ public class Histogram<T extends Comparable<T>> extends BST<T, Integer> {
         return true;
     }
 
+    public String toBarChart() {
+        return toBarChart(70);
+    }
 
+    public String toBarChart(int width) {
+        StringBuilder sb = new StringBuilder();
+        int maxFreq = get(mostFrequent());
+        int ll = 0;
+        int fl = 0;
+        for (T key : keys()) {
+            ll = Math.max(ll, key.toString().length());
+            fl = Math.max(fl, get(key).toString().length());
+        }
+        for (T key : keys()) {
+            Integer v = get(key);
+            int l = (int) (1.0 * v / maxFreq * (width - ll - fl - 4));
+            sb.append(String.format("%" + ll + "s (%" + fl + "d) ", key, l));
+            for (int i = 0; i < l; i++) {
+                sb.append('#');
+            }
+            sb.append('\n');
+        }
+        return sb.toString();
+    }
 }
