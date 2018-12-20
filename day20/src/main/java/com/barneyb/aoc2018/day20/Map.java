@@ -51,6 +51,10 @@ class Map {
 
     @Override
     public String toString() {
+        return toString(false);
+    }
+
+    public String toString(boolean withSpaces) {
         Bounds b = new Bounds(new Point(0, 0), new Point(0, 0));
         for (Point p : doors) {
             b = b.plus(p);
@@ -66,9 +70,9 @@ class Map {
                 if (x == 0 && y == 0) {
                     sb.append('X');
                 } else if (doors.contains(new Point(x, y))) {
-                    sb.append(x % 2 == 0 ? '-' : '|');
+                    sb.append(withSpaces ? ' ' : x % 2 == 0 ? '-' : '|');
                 } else if (x % 2 == 0 && y % 2 == 0) {
-                    sb.append('.');
+                    sb.append(withSpaces ? ' ' : '.');
                 } else {
                     sb.append('#');
                 }

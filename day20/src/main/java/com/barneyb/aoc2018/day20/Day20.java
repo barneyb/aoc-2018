@@ -10,13 +10,17 @@ public class Day20 extends OneShotDay {
     @Override
     public Answers solve(String input) {
         return new Answers(
-                input.length()
+                partOne(input)
 //                , input.trim().length()
         );
     }
 
-    static int partOne(String regex) {
-        Map m = Map.parse(regex);
+    static int partOne(String input) {
+        return partOne(Map.parse(input));
+    }
+
+    static int partOne(Map m) {
+        System.out.println(m.toString(true));
         return -1;
     }
 

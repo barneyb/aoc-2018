@@ -7,12 +7,12 @@ import static org.junit.Assert.assertEquals;
 
 public class Day20Test {
 
-    static final String EXAMPLE_INPUT = "  cat  ";
+    static final String EXAMPLE_INPUT = "^WSSEESWWWNW(S|NENNEEEENN(ESSSSW(NWSW|SSEN)|WSWWN(E|WWS(E|SS))))$";
 
     @Test
     public void solve() {
         Answers a = new Day20().solve(EXAMPLE_INPUT);
-        assertEquals("7", a.getPartOne());
+        assertEquals("31", a.getPartOne());
         assertEquals("-", a.getPartTwo());
     }
 
@@ -34,11 +34,6 @@ public class Day20Test {
     @Test
     public void exampleOne_d() {
         assertEquals(23, Day20.partOne("^ESSWWN(E|NNENN(EESS(WNSE|)SSS|WWWSSSSE(SW|NNNE)))$"));
-    }
-
-    @Test
-    public void exampleOne_e() {
-        assertEquals(31, Day20.partOne("^WSSEESWWWNW(S|NENNEEEENN(ESSSSW(NWSW|SSEN)|WSWWN(E|WWS(E|SS))))$"));
     }
 
 }
