@@ -9,15 +9,24 @@ public class Day20 extends OneShotDay {
 
     @Override
     public Answers solve(String input) {
+        Map m = Map.parse(input);
         return new Answers(
-                partOne(input)
-//                , input.trim().length()
+                partOne(m),
+                partTwo(m)
         );
     }
 
     static int partOne(String input) {
         Map m = Map.parse(input);
+        return partOne(m);
+    }
+
+    private static int partOne(Map m) {
         return m.distanceTo(m.farthestPoint());
+    }
+
+    private int partTwo(Map m) {
+        return m.roomCount(1000);
     }
 
     public static void main(String[] args)  {

@@ -69,6 +69,16 @@ class Map {
         return distances.get(p);
     }
 
+    int roomCount(int minDistance) {
+        int count = 0;
+        for (Point p : distances.keys()) {
+            if (distances.get(p) >= minDistance) {
+                count += 1;
+            }
+        }
+        return count;
+    }
+
     private boolean isDoor(Point p) {
         return doors.contains(p);
     }
