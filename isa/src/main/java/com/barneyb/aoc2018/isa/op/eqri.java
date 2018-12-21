@@ -10,7 +10,11 @@ public class eqri extends BaseOp {
     }
 
     @Override
-    public String disassemble(int ipr, int a, int b) {
-        return Disassemble.registerName(ipr, a) + " == " + b + " ? 1 : 0";
+    public String disassemble(int ipr, int a, int b, int c) {
+        return String.format(
+                "%2s  = %s == %d ? 1 : 0",
+                Disassemble.registerName(ipr, c),
+                Disassemble.registerName(ipr, a),
+                b);
     }
 }

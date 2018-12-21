@@ -10,7 +10,15 @@ public class mulr extends BaseOp {
     }
 
     @Override
-    public String disassemble(int ipr, int a, int b) {
-        return Disassemble.registerName(ipr, a) + " * " + Disassemble.registerName(ipr, b);
+    public String disassemble(int ipr, int a, int b, int c) {
+        if (a == c) return String.format(
+                "%2s *= %s",
+                Disassemble.registerName(ipr, c),
+                Disassemble.registerName(ipr, b));
+        return String.format(
+                "%2s  = %s * %s",
+                Disassemble.registerName(ipr, c),
+                Disassemble.registerName(ipr, a),
+                Disassemble.registerName(ipr, b));
     }
 }

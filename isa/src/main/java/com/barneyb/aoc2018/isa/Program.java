@@ -63,9 +63,8 @@ public class Program {
         for (int i = 0; i < instructions.length; i++) {
             Instruction ins = instructions[i];
             out.printf(
-                    "%" + il + "d  %4s %" + al + "d %" + bl + "d %" + cl + "d  | ",
-                    i, ins.opName(), ins.a(), ins.b(), ins.c());
-            out.println(ins.disassemble(ipr));
+                    "%" + il + "d  %4s %" + al + "d %" + bl + "d %" + cl + "d  | %s%n",
+                    i, ins.opName(), ins.a(), ins.b(), ins.c(), ins.disassemble(ipr));
         }
         return sw.toString();
     }

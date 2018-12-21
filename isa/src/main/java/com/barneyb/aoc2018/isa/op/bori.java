@@ -10,7 +10,15 @@ public class bori extends BaseOp {
     }
 
     @Override
-    public String disassemble(int ipr, int a, int b) {
-        return Disassemble.registerName(ipr, a) + " | " + b;
+    public String disassemble(int ipr, int a, int b, int c) {
+        if (a == c) return String.format(
+                "%2s |= %d",
+                Disassemble.registerName(ipr, c),
+                b);
+        return String.format(
+                "%2s  = %s | %d",
+                Disassemble.registerName(ipr, c),
+                Disassemble.registerName(ipr, a),
+                b);
     }
 }

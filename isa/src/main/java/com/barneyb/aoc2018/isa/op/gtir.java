@@ -10,7 +10,11 @@ public class gtir extends BaseOp {
     }
 
     @Override
-    public String disassemble(int ipr, int a, int b) {
-        return a + " > " + Disassemble.registerName(ipr, b) + " ? 1 : 0";
+    public String disassemble(int ipr, int a, int b, int c) {
+        return String.format(
+                "%2s  = %d > %s ? 1 : 0",
+                Disassemble.registerName(ipr, c),
+                a,
+                Disassemble.registerName(ipr, b));
     }
 }
