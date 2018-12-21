@@ -13,14 +13,13 @@ public class Day21 extends OneShotDay {
     public Answers solve(String input) {
         Program p = Program.parse(input);
         Interpreter interpreter = new Interpreter(p);
-//        interpreter.runToInstruction(28);
-        int one = 4;//interpreter.register(4);
-//        System.out.println(one);
+        interpreter.runToInstruction(28);
+        int one = interpreter.register(4);
         interpreter = new Interpreter(p);
         interpreter.run();
         return new Answers(
-                one
-//                , input.trim().length()
+                one,
+                interpreter.prev
         );
     }
 

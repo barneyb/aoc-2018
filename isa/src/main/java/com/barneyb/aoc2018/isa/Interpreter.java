@@ -21,15 +21,13 @@ public class Interpreter {
     }
 
     TreeSet<Integer> es = new TreeSet<>();
-    int prev = -1;
+    public int prev = -1;
     private void run(BiPredicate<Instruction, Integer> until) {
         for (int ip = 0; ip >= 0 && ip < p.instructions.length; ip++) {
             registers[p.ipr] = ip;
             Instruction i = p.instructions[ip];
             if (ip == 28) {
                 if (es.contains(registers[4])) {
-                    System.out.println(prev);
-                    System.out.println(registers[4]);
                     break;
                 }
                 es.add(prev = registers[4]);
