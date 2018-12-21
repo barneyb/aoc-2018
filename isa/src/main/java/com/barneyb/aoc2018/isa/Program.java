@@ -1,6 +1,7 @@
 package com.barneyb.aoc2018.isa;
 
 import com.barneyb.aoc2018.util.BST;
+import com.barneyb.aoc2018.util.List;
 import com.barneyb.aoc2018.util.Scanner;
 
 import java.io.PrintWriter;
@@ -42,8 +43,11 @@ public class Program {
 
     @Override
     public String toString() {
-        StringWriter sw = new StringWriter();
-        PrintWriter out = new PrintWriter(sw);
+        List<String> lines = new List<>();
+        BST<Integer, Integer> position = new BST<>();
+        for (int i = 0; i < instructions.length; i++) {
+            position.put(i, i + 1); // for the header row
+        }
         int il = ("" + instructions.length).length();
         int al = 0, bl = 0, cl = 0, dl = 0;
         String[] dis = new String[instructions.length];
@@ -56,6 +60,8 @@ public class Program {
             dis[i] = di;
             dl = Math.max(dl, di.length());
         }
+        StringWriter sw = new StringWriter();
+        PrintWriter out = new PrintWriter(sw);
         out.printf("%" + il + "s  #ip %d %" + (-1 + al + bl + cl + 2 + dl + 3) + "s  | ", "", ipr, "");
         boolean started = false;
         for (int i = 0; i < 6; i++) {
@@ -64,14 +70,18 @@ public class Program {
             started = true;
             out.printf("%s=0", (char) ('a' + i));
         }
-        out.println();
+        lines.add(sw.toString());
         for (int i = 0; i < instructions.length; i++) {
             Instruction ins = instructions[i];
-            out.printf(
-                    "%" + il + "d  %4s %" + al + "d %" + bl + "d %" + cl + "d  | %-" + dl + "s |%n",
-                    i, ins.opName(), ins.a(), ins.b(), ins.c(), dis[i]);
+            lines.add(String.format(
+                    "%" + il + "d  %4s %" + al + "d %" + bl + "d %" + cl + "d  | %-" + dl + "s |",
+                    i, ins.opName(), ins.a(), ins.b(), ins.c(), dis[i]));
         }
-        return sw.toString();
+        StringBuilder sb = new StringBuilder();
+        for (String s : lines) {
+            sb.append(s).append('\n');
+        }
+        return sb.toString();
     }
 
 }
