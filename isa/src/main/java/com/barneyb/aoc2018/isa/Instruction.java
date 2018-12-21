@@ -1,5 +1,6 @@
 package com.barneyb.aoc2018.isa;
 
+import com.barneyb.aoc2018.isa.util.Disassemble;
 import com.barneyb.aoc2018.util.BST;
 import com.barneyb.aoc2018.util.Scanner;
 
@@ -60,6 +61,10 @@ public class Instruction {
 
     public final void execute(int[] rs) {
         op().execute(rs, this);
+    }
+
+    public String disassemble(int ipr) {
+        return String.format("%2s = %s", Disassemble.registerName(ipr, c), op().disassemble(ipr, a, b));
     }
 
     @Override

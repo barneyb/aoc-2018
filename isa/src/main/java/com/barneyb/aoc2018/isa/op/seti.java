@@ -7,4 +7,9 @@ public class seti extends BaseOp {
     public int result(int[] rs, Instruction i) {
         return i.a();
     }
+
+    @Override
+    public String disassemble(int ipr, int a, int b) {
+        return "" + a;
+    }
 }

@@ -27,4 +27,6 @@ public interface Op extends Comparable<Op> {
 
     void execute(int[] rs, Instruction i);
 
+    String disassemble(int ipr, int a, int b);
+
 }

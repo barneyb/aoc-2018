@@ -3,6 +3,9 @@ package com.barneyb.aoc2018.isa;
 import com.barneyb.aoc2018.util.BST;
 import com.barneyb.aoc2018.util.Scanner;
 
+import java.io.PrintWriter;
+import java.io.StringWriter;
+
 import static com.barneyb.aoc2018.isa.Op.OPS;
 
 public class Program {
@@ -35,6 +38,36 @@ public class Program {
 
     public Instruction instruction(int i) {
         return instructions[i];
+    }
+
+    @Override
+    public String toString() {
+        StringWriter sw = new StringWriter();
+        PrintWriter out = new PrintWriter(sw);
+        int il = ("" + instructions.length).length();
+        int al = 0, bl = 0, cl = 0;
+        for (Instruction i : instructions) {
+            al = Math.max(al, ("" + i.a()).length());
+            bl = Math.max(bl, ("" + i.b()).length());
+            cl = Math.max(cl, ("" + i.c()).length());
+        }
+        out.printf("%" + il + "s  #ip %d %" + (-1 + al + bl + cl + 2) + "s  | ", "", ipr, "");
+        boolean started = false;
+        for (int i = 0; i < 6; i++) {
+            if (i == ipr) continue;
+            out.print(started ? ", " : "int ");
+            started = true;
+            out.printf("%s=0", (char) ('a' + i));
+        }
+        out.println();
+        for (int i = 0; i < instructions.length; i++) {
+            Instruction ins = instructions[i];
+            out.printf(
+                    "%" + il + "d  %4s %" + al + "d %" + bl + "d %" + cl + "d  | ",
+                    i, ins.opName(), ins.a(), ins.b(), ins.c());
+            out.println(ins.disassemble(ipr));
+        }
+        return sw.toString();
     }
 
 }
