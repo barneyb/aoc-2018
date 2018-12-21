@@ -6,7 +6,7 @@ public class Day18 extends OneShotDay {
 
     @Override
     public Answers solve(String input) {
-        System.out.println("Day 18 takes 2-3 seconds to solve...");
+        System.out.println("Day 18 takes ~2 seconds to solve...");
         Map m = Map.parse(input);
         m.tick(10);
         return new Answers(
