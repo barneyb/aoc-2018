@@ -42,6 +42,10 @@ public class Instruction {
         return Op.OPS[opcode];
     }
 
+    public final String opName() {
+        return op().name();
+    }
+
     public final int a() {
         return a;
     }
@@ -52,6 +56,10 @@ public class Instruction {
 
     public final int c() {
         return c;
+    }
+
+    public final void execute(int[] rs) {
+        op().execute(rs, this);
     }
 
     @Override
