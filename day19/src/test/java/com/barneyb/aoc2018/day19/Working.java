@@ -1,5 +1,7 @@
 package com.barneyb.aoc2018.day19;
 
+import com.barneyb.aoc2018.isa.Interpreter;
+import com.barneyb.aoc2018.isa.Program;
 import com.barneyb.aoc2018.util.Resources;
 import org.junit.Test;
 

@@ -1,5 +1,7 @@
 package com.barneyb.aoc2018.day19;
 
+import com.barneyb.aoc2018.isa.Interpreter;
+import com.barneyb.aoc2018.isa.Program;
 import com.barneyb.aoc2018.util.Answers;
 import com.barneyb.aoc2018.util.FileUtils;
 import com.barneyb.aoc2018.util.OneShotDay;

@@ -1,14 +1,13 @@
-package com.barneyb.aoc2018.day19;
+package com.barneyb.aoc2018.isa;
 
-import com.barneyb.aoc2018.isa.Instruction;
 import com.barneyb.aoc2018.util.BST;
 import com.barneyb.aoc2018.util.Scanner;
 
 import static com.barneyb.aoc2018.isa.Op.OP_NAMES;
 
-class Program {
+public class Program {
 
-    static Program parse(String input) {
+    public static Program parse(String input) {
         String[] lines = input.trim().split("\n");
         BST<String, Integer> opMap = new BST<>();
         for (int i = 0; i < OP_NAMES.length; i++) {

@@ -1,22 +1,20 @@
-package com.barneyb.aoc2018.day19;
-
-import com.barneyb.aoc2018.isa.Instruction;
+package com.barneyb.aoc2018.isa;
 
 import java.util.function.Predicate;
 
 import static com.barneyb.aoc2018.isa.Op.OPS;
 import static com.barneyb.aoc2018.isa.Op.OP_NAMES;
 
-class Interpreter {
+public class Interpreter {
 
     private final Program p;
     private final int[] registers = new int[6];
 
-    Interpreter(Program p) {
+    public Interpreter(Program p) {
         this.p = p;
     }
 
-    void run() {
+    public void run() {
         run(i -> false);
     }
 
@@ -30,19 +28,19 @@ class Interpreter {
         }
     }
 
-    void runToFirstGt() {
+    public void runToFirstGt() {
         run(i -> OP_NAMES[i.opcode].startsWith("gt"));
     }
 
-    int registerCount() {
+    public int registerCount() {
         return registers.length;
     }
 
-    int register(int n) {
+    public int register(int n) {
         return registers[n];
     }
 
-    void register(int n, int v) {
+    public void register(int n, int v) {
         registers[n] = v;
     }
 
