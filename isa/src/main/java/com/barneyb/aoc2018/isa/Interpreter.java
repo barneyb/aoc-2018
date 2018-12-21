@@ -1,5 +1,7 @@
 package com.barneyb.aoc2018.isa;
 
+import com.barneyb.aoc2018.util.TreeSet;
+
 import java.util.function.BiPredicate;
 
 import static com.barneyb.aoc2018.isa.Op.OPS;
@@ -18,10 +20,20 @@ public class Interpreter {
         run((ins, ip) -> false);
     }
 
+    TreeSet<Integer> es = new TreeSet<>();
+    int prev = -1;
     private void run(BiPredicate<Instruction, Integer> until) {
         for (int ip = 0; ip >= 0 && ip < p.instructions.length; ip++) {
             registers[p.ipr] = ip;
             Instruction i = p.instructions[ip];
+            if (ip == 28) {
+                if (es.contains(registers[4])) {
+                    System.out.println(prev);
+                    System.out.println(registers[4]);
+                    break;
+                }
+                es.add(prev = registers[4]);
+            }
             if (until.test(i, ip)) break;
             OPS[i.opcode].execute(registers, i);
             ip = registers[p.ipr];
