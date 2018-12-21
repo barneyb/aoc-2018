@@ -29,4 +29,12 @@ public class Program {
         this.instructions = instructions;
     }
 
+    public Instruction[] instructions() {
+        return instructions;
+    }
+
+    public Instruction instruction(int i) {
+        return instructions[i];
+    }
+
 }
