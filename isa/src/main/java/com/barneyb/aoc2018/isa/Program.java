@@ -45,13 +45,18 @@ public class Program {
         StringWriter sw = new StringWriter();
         PrintWriter out = new PrintWriter(sw);
         int il = ("" + instructions.length).length();
-        int al = 0, bl = 0, cl = 0;
-        for (Instruction i : instructions) {
-            al = Math.max(al, ("" + i.a()).length());
-            bl = Math.max(bl, ("" + i.b()).length());
-            cl = Math.max(cl, ("" + i.c()).length());
+        int al = 0, bl = 0, cl = 0, dl = 0;
+        String[] dis = new String[instructions.length];
+        for (int i = 0; i < instructions.length; i++) {
+            Instruction ins = instructions[i];
+            al = Math.max(al, ("" + ins.a()).length());
+            bl = Math.max(bl, ("" + ins.b()).length());
+            cl = Math.max(cl, ("" + ins.c()).length());
+            String di = ins.disassemble(ipr);
+            dis[i] = di;
+            dl = Math.max(dl, di.length());
         }
-        out.printf("%" + il + "s  #ip %d %" + (-1 + al + bl + cl + 2) + "s  | ", "", ipr, "");
+        out.printf("%" + il + "s  #ip %d %" + (-1 + al + bl + cl + 2 + dl + 3) + "s  | ", "", ipr, "");
         boolean started = false;
         for (int i = 0; i < 6; i++) {
             if (i == ipr) continue;
@@ -63,8 +68,8 @@ public class Program {
         for (int i = 0; i < instructions.length; i++) {
             Instruction ins = instructions[i];
             out.printf(
-                    "%" + il + "d  %4s %" + al + "d %" + bl + "d %" + cl + "d  | %s%n",
-                    i, ins.opName(), ins.a(), ins.b(), ins.c(), ins.disassemble(ipr));
+                    "%" + il + "d  %4s %" + al + "d %" + bl + "d %" + cl + "d  | %-" + dl + "s |%n",
+                    i, ins.opName(), ins.a(), ins.b(), ins.c(), dis[i]);
         }
         return sw.toString();
     }
