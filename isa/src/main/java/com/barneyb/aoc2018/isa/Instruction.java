@@ -25,13 +25,33 @@ public class Instruction {
         );
     }
 
-    public final int opcode, a, b, c;
+    private final int opcode, a, b, c;
 
     public Instruction(int opcode, int a, int b, int c) {
         this.opcode = opcode;
         this.a = a;
         this.b = b;
         this.c = c;
+    }
+
+    public final int opcode() {
+        return opcode;
+    }
+
+    public final Op op() {
+        return Op.OPS[opcode];
+    }
+
+    public final int a() {
+        return a;
+    }
+
+    public final int b() {
+        return b;
+    }
+
+    public final int c() {
+        return c;
     }
 
     @Override

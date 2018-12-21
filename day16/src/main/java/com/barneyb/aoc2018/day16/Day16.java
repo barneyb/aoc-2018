@@ -40,7 +40,8 @@ public class Day16 extends OneShotDay {
         int[] registers = new int[4];
         for  (;i < lines.length; i++) {
             Instruction in = Instruction.parse(lines[i]);
-            Op op = table.get(in.opcode);
+            // don't use in.op(), as this problem is about finding a mapping
+            Op op = table.get(in.opcode());
             op.execute(registers, in);
         }
         return new Answers(
@@ -56,7 +57,7 @@ public class Day16 extends OneShotDay {
             map[i] = new TreeSet<>(OPS);
         // exclude anything that is illegal
         for (Sample s : samples) {
-            TreeSet<Op> candidates = map[s.instruction().opcode];
+            TreeSet<Op> candidates = map[s.instruction().opcode()];
             for (Op op : candidates) {
                 if (! s.test(op)) candidates.delete(op);
             }

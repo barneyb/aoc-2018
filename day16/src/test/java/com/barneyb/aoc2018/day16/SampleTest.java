@@ -1,6 +1,8 @@
 package com.barneyb.aoc2018.day16;
 
 import com.barneyb.aoc2018.isa.Instruction;
+import com.barneyb.aoc2018.isa.op.borr;
+import com.barneyb.aoc2018.isa.op.mulr;
 import org.junit.Test;
 
 import static com.barneyb.aoc2018.day16.Day16Test.EXAMPLE_INPUT;
@@ -25,7 +27,7 @@ public class SampleTest {
 
     @Test
     public void test() {
-        assertFalse(EXAMPLE.test((rs, i) -> 99999));
-        assertTrue(EXAMPLE.test((rs, i) -> 2));
+        assertFalse(EXAMPLE.test(new borr()));
+        assertTrue(EXAMPLE.test(new mulr()));
     }
 }

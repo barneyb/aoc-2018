@@ -3,15 +3,15 @@ package com.barneyb.aoc2018.isa;
 import com.barneyb.aoc2018.util.BST;
 import com.barneyb.aoc2018.util.Scanner;
 
-import static com.barneyb.aoc2018.isa.Op.OP_NAMES;
+import static com.barneyb.aoc2018.isa.Op.OPS;
 
 public class Program {
 
     public static Program parse(String input) {
         String[] lines = input.trim().split("\n");
         BST<String, Integer> opMap = new BST<>();
-        for (int i = 0; i < OP_NAMES.length; i++) {
-            opMap.put(OP_NAMES[i], i);
+        for (int i = 0; i < OPS.length; i++) {
+            opMap.put(OPS[i].name(), i);
         }
         int ipr = new Scanner(lines[0]).skip("#ip").skipWS().readInt();
         Instruction[] ins = new Instruction[lines.length - 1];

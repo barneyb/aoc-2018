@@ -4,9 +4,6 @@ import com.barneyb.aoc2018.util.TreeSet;
 
 import java.util.function.BiPredicate;
 
-import static com.barneyb.aoc2018.isa.Op.OPS;
-import static com.barneyb.aoc2018.isa.Op.OP_NAMES;
-
 public class Interpreter {
 
     private final Program p;
@@ -33,13 +30,13 @@ public class Interpreter {
                 es.add(prev = registers[4]);
             }
             if (until.test(i, ip)) break;
-            OPS[i.opcode].execute(registers, i);
+            i.op().execute(registers, i);
             ip = registers[p.ipr];
         }
     }
 
     public void runToFirstGt() {
-        run((ins, ip) -> OP_NAMES[ins.opcode].startsWith("gt"));
+        run((ins, ip) -> ins.op().name().startsWith("gt"));
     }
     public void runToInstruction(int idx) {
         run((ins, ip) -> ip == idx);
