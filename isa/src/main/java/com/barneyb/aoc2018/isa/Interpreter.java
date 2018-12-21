@@ -1,6 +1,6 @@
 package com.barneyb.aoc2018.isa;
 
-import java.util.function.Predicate;
+import java.util.function.BiPredicate;
 
 import static com.barneyb.aoc2018.isa.Op.OPS;
 import static com.barneyb.aoc2018.isa.Op.OP_NAMES;
@@ -15,21 +15,24 @@ public class Interpreter {
     }
 
     public void run() {
-        run(i -> false);
+        run((ins, ip) -> false);
     }
 
-    private void run(Predicate<Instruction> until) {
+    private void run(BiPredicate<Instruction, Integer> until) {
         for (int ip = 0; ip >= 0 && ip < p.instructions.length; ip++) {
             registers[p.ipr] = ip;
             Instruction i = p.instructions[ip];
-            if (until.test(i)) break;
+            if (until.test(i, ip)) break;
             OPS[i.opcode].execute(registers, i);
             ip = registers[p.ipr];
         }
     }
 
     public void runToFirstGt() {
-        run(i -> OP_NAMES[i.opcode].startsWith("gt"));
+        run((ins, ip) -> OP_NAMES[ins.opcode].startsWith("gt"));
+    }
+    public void runToInstruction(int idx) {
+        run((ins, ip) -> ip == idx);
     }
 
     public int registerCount() {
