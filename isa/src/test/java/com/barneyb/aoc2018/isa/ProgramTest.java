@@ -9,10 +9,9 @@ public class ProgramTest {
 
     @Test
     public void strings() {
-        Program p = Program.parse(Resources.asText("input.txt"));
-        String s = p.toString();
-        System.out.println(s);
-        assertEquals(Resources.asText("formatted.txt"), s);
+        String text = Resources.asText("input.txt");
+        Program p = Program.parse(text);
+        assertEquals(text, p.toString());
     }
 
 }
