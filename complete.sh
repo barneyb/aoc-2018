@@ -15,7 +15,7 @@ if [ `git status --porcelain | wc -l` != "0" ]; then
 fi
 
 ./check_rules.sh
-mvn package
+mvn clean package
 
 if [ ${#day} -eq 1 ]; then
     day="0$day"

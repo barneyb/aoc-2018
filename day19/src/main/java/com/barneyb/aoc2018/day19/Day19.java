@@ -1,11 +1,27 @@
 package com.barneyb.aoc2018.day19;
 
+import com.barneyb.aoc2018.isa.Instruction;
+import com.barneyb.aoc2018.isa.Interpreter;
+import com.barneyb.aoc2018.isa.Program;
 import com.barneyb.aoc2018.util.Answers;
 import com.barneyb.aoc2018.util.FileUtils;
 import com.barneyb.aoc2018.util.OneShotDay;
 import com.barneyb.aoc2018.util.Stopwatch;
 
 public class Day19 extends OneShotDay {
+
+    private static class ToFirstGTInterpreter extends Interpreter {
+
+        public ToFirstGTInterpreter(Program p) {
+            super(p);
+        }
+
+        @Override
+        protected boolean terminate(int ip, Instruction instruction) {
+            return instruction.opName().startsWith("gt");
+        }
+
+    }
 
     @Override
     public Answers solve(String input) {
@@ -16,8 +32,8 @@ public class Day19 extends OneShotDay {
         System.out.println("Part One: " + one);
 
         // find the register we care about
-        interpreter = new Interpreter(p);
-        interpreter.runToFirstGt();
+        interpreter = new ToFirstGTInterpreter(p);
+        interpreter.run();
         int target = -1;
         for (int i = 0, l = interpreter.registerCount(); i < l; i++) {
             if (sumOfFactorPairs(interpreter.register(i)) == one) {
@@ -27,9 +43,9 @@ public class Day19 extends OneShotDay {
         if (target < 0) return new Answers(one);
 
         // initialize with the full run
-        interpreter = new Interpreter(p);
+        interpreter = new ToFirstGTInterpreter(p);
         interpreter.register(0, 1);
-        interpreter.runToFirstGt();
+        interpreter.run();
 
         // get the answer. efficiently.
         int two = sumOfFactorPairs(interpreter.register(target));

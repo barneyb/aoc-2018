@@ -1,18 +1,17 @@
-package com.barneyb.aoc2018.day19;
+package com.barneyb.aoc2018.isa;
 
-import com.barneyb.aoc2018.isa.Instruction;
 import com.barneyb.aoc2018.util.BST;
 import com.barneyb.aoc2018.util.Scanner;
 
-import static com.barneyb.aoc2018.isa.Op.OP_NAMES;
+import static com.barneyb.aoc2018.isa.Op.OPS;
 
-class Program {
+public class Program {
 
-    static Program parse(String input) {
+    public static Program parse(String input) {
         String[] lines = input.trim().split("\n");
         BST<String, Integer> opMap = new BST<>();
-        for (int i = 0; i < OP_NAMES.length; i++) {
-            opMap.put(OP_NAMES[i], i);
+        for (int i = 0; i < OPS.length; i++) {
+            opMap.put(OPS[i].name(), i);
         }
         int ipr = new Scanner(lines[0]).skip("#ip").skipWS().readInt();
         Instruction[] ins = new Instruction[lines.length - 1];
@@ -28,6 +27,14 @@ class Program {
     Program(int ipr, Instruction[] instructions) {
         this.ipr = ipr;
         this.instructions = instructions;
+    }
+
+    public Instruction[] instructions() {
+        return instructions;
+    }
+
+    public Instruction instruction(int i) {
+        return instructions[i];
     }
 
 }
