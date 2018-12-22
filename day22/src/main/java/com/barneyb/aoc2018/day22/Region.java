@@ -28,8 +28,11 @@ class Region {
         return type.riskLevel();
     }
 
-    boolean allowed(LoadOut loadOut) {
-        return loadOut.allowed(type);
+    public LoadOut otherLoadout(LoadOut loadOut) {
+        return type.otherLoadout(loadOut);
     }
 
+    public boolean allowed(LoadOut loadOut) {
+        return type.allowed(loadOut);
+    }
 }

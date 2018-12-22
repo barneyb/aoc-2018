@@ -9,7 +9,7 @@ class Map {
 
     private static final int X_FACTOR = 16807;
     private static final int Y_FACTOR = 48271;
-    private static final Point ORIGIN = new Point(0, 0);
+    static final Point ORIGIN = new Point(0, 0);
 
     static Map parse(String input) {
         Scanner s = new Scanner(input);
