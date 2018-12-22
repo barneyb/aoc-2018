@@ -30,17 +30,11 @@ class Explorer {
 
         Route equip(Tool tool) {
             if (this.tool == tool) return this;
-//            System.out.printf("Equip %s, cost %d%n", tool, cost + COST_EQUIP);
             return new Route(at, tool, cost + COST_EQUIP);
-        }
-
-        Route move(Dir d) {
-            return move(at.go(d));
         }
 
         Route move(Point p) {
             if (at.equals(p)) return this;
-//            System.out.printf("Move to %s, cost %d%n", p, cost + COST_MOVE);
             return new Route(p, tool, cost + COST_MOVE);
         }
 
@@ -127,6 +121,7 @@ class Explorer {
             if (p.y > 0) queue.enqueue(stepTo(r, UP));
             queue.enqueue(stepTo(r, RIGHT));
             queue.enqueue(stepTo(r, DOWN));
+            queue.enqueue(r.equip(map.region(r.at).otherTool(r.tool)));
         }
         return fastest;
     }
