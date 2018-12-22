@@ -1,12 +1,11 @@
 package com.barneyb.aoc2018.day22;
 
-import com.barneyb.aoc2018.util.BST;
 import com.barneyb.aoc2018.util.Dir;
 import com.barneyb.aoc2018.util.Point;
-import com.barneyb.aoc2018.util.Queue;
 
 import static com.barneyb.aoc2018.day22.Tool.TORCH;
-import static com.barneyb.aoc2018.util.Dir.*;
+import static com.barneyb.aoc2018.util.Dir.DOWN;
+import static com.barneyb.aoc2018.util.Dir.RIGHT;
 
 class Explorer {
 
@@ -16,26 +15,14 @@ class Explorer {
     private static class State implements Comparable<State> {
         final Point at;
         final Tool tool;
-        final int cost;
 
         private State() {
-            this(Map.ORIGIN, TORCH, 0);
+            this(Map.ORIGIN, TORCH);
         }
 
-        private State(Point at, Tool tool, int cost) {
+        private State(Point at, Tool tool) {
             this.at = at;
             this.tool = tool;
-            this.cost = cost;
-        }
-
-        State equip(Tool tool) {
-            if (this.tool == tool) return this;
-            return new State(at, tool, cost + COST_EQUIP);
-        }
-
-        State move(Point p) {
-            if (at.equals(p)) return this;
-            return new State(p, tool, cost + COST_MOVE);
         }
 
         @Override
@@ -62,6 +49,44 @@ class Explorer {
         }
     }
 
+    private class Route extends State {
+        final int cost;
+
+        Route() {
+            super();
+            cost = 0;
+        }
+
+        public Route(Point at, Tool tool, int cost) {
+            super(at, tool);
+            this.cost = cost;
+        }
+
+        Route equip(Tool tool) {
+            if (this.tool == tool) return this;
+            return new Route(at, tool, cost + COST_EQUIP);
+        }
+
+        Route moveTo(Point to) {
+            if (at.equals(to)) return this;
+            return new Route(to, tool, cost + COST_MOVE);
+        }
+
+        boolean canStep(Dir d) {
+            return map.region(at.go(d)).allowed(tool);
+        }
+
+        Route step(Dir d) {
+            Point p = at.go(d);
+            Region reg = map.region(p);
+            Route r = this;
+            if (! reg.allowed(tool)) {
+                r = r.equip(reg.otherTool(tool));
+            }
+            return r.moveTo(p);
+        }
+    }
+
     private final Map map;
     private int fastest = -1;
 
@@ -69,60 +94,22 @@ class Explorer {
         this.map = map;
     }
 
-    int getBound() {
-        State s = new State();
+    int getTrivialCost() {
+        Route r = new Route();
         int goal = map.target().x;
-        while (s.at.x < goal) {
-            s = stepTo(s, RIGHT);
+        while (r.at.x < goal) {
+            r = r.step(RIGHT);
         }
         goal = map.target().y;
-        while (s.at.y < goal) {
-            s = stepTo(s, DOWN);
+        while (r.at.y < goal) {
+            r = r.step(DOWN);
         }
-        return s.cost;
-    }
-
-    private State stepTo(State s, Dir d) {
-        Point p = s.at.go(d);
-        Region r = map.region(p);
-        if (! r.allowed(s.tool)) {
-            s = s.equip(r.otherTool(s.tool));
-        }
-        s = s.move(p);
-        return s;
+        return r.cost;
     }
 
     public int fastest() {
         if (fastest >= 0) return fastest;
-        fastest = getBound(); // a place to start....
-        final Point target = map.target();
-        BST<State, Integer> costs = new BST<>();
-        Queue<State> queue = new Queue<>();
-        queue.enqueue(new State());
-        while (! queue.isEmpty()) {
-            State s = queue.dequeue();
-            if (s.cost >= fastest) continue;
-            Point p = s.at;
-            if (p.equals(target)) {
-                if (s.tool != TORCH) s = s.equip(TORCH);
-                System.out.printf("%s, %s, %d (%d to go)%n", p, s.tool, s.cost, queue.size());
-                if (s.cost < fastest) {
-                    fastest = s.cost;
-                    System.out.println("NEW BEST ^");
-                }
-                continue;
-            }
-            Integer bc = costs.get(s);
-            if (bc != null && bc <= s.cost) {
-                continue;
-            }
-            costs.put(s, s.cost);
-            if (p.x > 0) queue.enqueue(stepTo(s, LEFT));
-            if (p.y > 0) queue.enqueue(stepTo(s, UP));
-            queue.enqueue(stepTo(s, RIGHT));
-            queue.enqueue(stepTo(s, DOWN));
-            queue.enqueue(s.equip(map.region(s.at).otherTool(s.tool)));
-        }
+        fastest = getTrivialCost(); // a place to start....
         return fastest;
     }
 
