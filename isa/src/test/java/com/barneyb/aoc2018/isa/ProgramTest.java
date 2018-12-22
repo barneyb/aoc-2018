@@ -9,7 +9,7 @@ public class ProgramTest {
 
     @Test
     public void strings() {
-        String text = Resources.asText("input.txt");
+        String text = Resources.asText("21_in.txt");
         Program p = Program.parse(text);
         assertEquals(text, p.toString());
     }
