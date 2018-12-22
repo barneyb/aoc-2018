@@ -1,5 +1,6 @@
 package com.barneyb.aoc2018.isa;
 
+import com.barneyb.aoc2018.isa.util.Disassembly;
 import com.barneyb.aoc2018.util.BST;
 import com.barneyb.aoc2018.util.List;
 
@@ -23,6 +24,7 @@ public class Disassemble {
             lines.add(new Line(i, ins));
         }
         initializer();
+        forLoops();
         doWhileLoops();
         whileTrueLoops();
         gotoJumps();
@@ -56,6 +58,46 @@ public class Disassemble {
         lines.insert(line, at);
     }
 
+    private void forLoops() {
+        Instruction[] instructions = prog.instructions;
+        // start later, because we need five instructions
+        for (int ip = 4; ip < instructions.length; ip++) {
+            Instruction inc = instructions[ip - 3];
+            if (! "addi".equals(inc.opName())) continue;
+            int countReg = inc.c();
+            Instruction cmp = instructions[ip - 2];
+            if (!cmp.opName().startsWith("gt")) {
+                continue;
+            }
+            if (cmp.a() != countReg) continue;
+            int cmpReg = cmp.c();
+            if (cmpReg == prog.ipr) continue;
+            Instruction add = instructions[ip - 1];
+            if (!"addr".equals(add.opName())) continue;
+            if (add.a() == prog.ipr && add.b() != cmpReg) continue;
+            if (add.b() == prog.ipr && add.a() != cmpReg) continue;
+            Instruction set = instructions[ip];
+            if (! "seti".equals(set.opName())) continue;
+            if (set.c() != prog.ipr) continue;
+            Instruction init = instructions[set.a()];
+            if (! "seti".equals(init.opName())) continue;
+            if (init.c() != countReg) continue;
+
+            Line l = lines.get(posMap.get(ip - 3));
+            l.code("// increment");
+            l = lines.get(posMap.get(ip - 2));
+            l.code("// test");
+            l = lines.get(posMap.get(ip - 1));
+            l.code("// break");
+            l = lines.get(posMap.get(ip));
+            l.code("}");
+            l = lines.get(posMap.get(set.a()));
+            String cn = Disassembly.registerName(prog.ipr, countReg);
+            String ln = Disassembly.registerName(prog.ipr, cmp.b());
+            l.code("for (" + cn + " = " + init.a() + "; " + cn + " <= " + ln + " ; " + cn + " += " + inc.b() + ") {");
+        }
+    }
+
     private void doWhileLoops() {
         Instruction[] instructions = prog.instructions;
         // start later, because we need three instructions
@@ -73,15 +115,16 @@ public class Disassemble {
             Instruction set = instructions[ip];
             if (! "seti".equals(set.opName())) continue;
             if (set.c() != prog.ipr) continue;
-            Line l = lines.get(posMap.get(ip - 1));
-            l.code("// break");
-            l = lines.get(posMap.get(ip));
+            Line l = lines.get(posMap.get(ip));
+            if (l.hasCode()) continue;
             String expr = cmp.disassemble(ip - 2, prog.ipr)
                     .replaceFirst("^\\s*[a-f]\\s*=\\s*", "")
                     .replaceFirst("\\s*\\? 1 : 0", "")
                     .replace(">", "<=")
                     .replace("==", "!=");
             l.code("} while (" + expr + ");");
+            l = lines.get(posMap.get(ip - 1));
+            l.code("// break");
             insertLine(new Line("do {"), posMap.get(set.a()) + 1);
         }
     }

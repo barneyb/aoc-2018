@@ -61,6 +61,9 @@ class Line {
     }
 
     void code(String code) {
+        if (this.code != null) {
+            throw new IllegalStateException("This line already has code: " + this.code + "");
+        }
         this.code = code.trim();
     }
 
