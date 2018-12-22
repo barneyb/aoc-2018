@@ -5,7 +5,7 @@ import com.barneyb.aoc2018.util.Dir;
 import com.barneyb.aoc2018.util.Point;
 import com.barneyb.aoc2018.util.Queue;
 
-import static com.barneyb.aoc2018.day22.LoadOut.TORCH;
+import static com.barneyb.aoc2018.day22.Tool.TORCH;
 import static com.barneyb.aoc2018.util.Dir.*;
 
 class Explorer {
@@ -15,23 +15,23 @@ class Explorer {
 
     private static class Route implements Comparable<Route> {
         final Point at;
-        final LoadOut loadOut;
+        final Tool tool;
         final int cost;
 
         private Route() {
             this(Map.ORIGIN, TORCH, 0);
         }
 
-        private Route(Point at, LoadOut loadOut, int cost) {
+        private Route(Point at, Tool tool, int cost) {
             this.at = at;
-            this.loadOut = loadOut;
+            this.tool = tool;
             this.cost = cost;
         }
 
-        Route equip(LoadOut loadOut) {
-            if (this.loadOut == loadOut) return this;
-//            System.out.printf("Equip %s, cost %d%n", loadOut, cost + COST_EQUIP);
-            return new Route(at, loadOut, cost + COST_EQUIP);
+        Route equip(Tool tool) {
+            if (this.tool == tool) return this;
+//            System.out.printf("Equip %s, cost %d%n", tool, cost + COST_EQUIP);
+            return new Route(at, tool, cost + COST_EQUIP);
         }
 
         Route move(Dir d) {
@@ -41,7 +41,7 @@ class Explorer {
         Route move(Point p) {
             if (at.equals(p)) return this;
 //            System.out.printf("Move to %s, cost %d%n", p, cost + COST_MOVE);
-            return new Route(p, loadOut, cost + COST_MOVE);
+            return new Route(p, tool, cost + COST_MOVE);
         }
 
         @Override
@@ -50,13 +50,13 @@ class Explorer {
             if (!(o instanceof Route)) return false;
             Route route = (Route) o;
             if (!at.equals(route.at)) return false;
-            return loadOut == route.loadOut;
+            return tool == route.tool;
         }
 
         @Override
         public int hashCode() {
             int result = at.hashCode();
-            result = 31 * result + loadOut.hashCode();
+            result = 31 * result + tool.hashCode();
             return result;
         }
 
@@ -64,7 +64,7 @@ class Explorer {
         public int compareTo(Route o) {
             int c = at.compareTo(o.at);
             if (c != 0) return c;
-            return loadOut.compareTo(o.loadOut);
+            return tool.compareTo(o.tool);
         }
     }
 
@@ -91,8 +91,8 @@ class Explorer {
     private Route stepTo(Route r, Dir d) {
         Point q = r.at.go(d);
         Region reg = map.region(q);
-        if (! reg.allowed(r.loadOut)) {
-            r = r.equip(reg.otherLoadout(r.loadOut));
+        if (! reg.allowed(r.tool)) {
+            r = r.equip(reg.otherTool(r.tool));
         }
         r = r.move(q);
         return r;
@@ -110,8 +110,8 @@ class Explorer {
             if (r.cost >= fastest) continue;
             Point p = r.at;
             if (p.equals(target)) {
-                if (r.loadOut != TORCH) r = r.equip(TORCH);
-                System.out.printf("%s, %s, %d (%d to go)%n", p, r.loadOut, r.cost, queue.size());
+                if (r.tool != TORCH) r = r.equip(TORCH);
+                System.out.printf("%s, %s, %d (%d to go)%n", p, r.tool, r.cost, queue.size());
                 if (r.cost < fastest) {
                     fastest = r.cost;
                     System.out.println("NEW BEST ^");
