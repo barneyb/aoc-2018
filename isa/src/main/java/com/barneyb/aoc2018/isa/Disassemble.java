@@ -17,28 +17,16 @@ public class Disassemble {
         this.posMap = new BST<>();
         this.lines = new List<>();
         Instruction[] instructions = p.instructions();
-        int il = ("" + instructions.length).length();
-        int al = 0, bl = 0, cl = 0, dl = 0;
-        String[] dis = new String[instructions.length];
-        for (int i = 0; i < instructions.length; i++) {
-            Instruction ins = instructions[i];
-            al = Math.max(al, ("" + ins.a()).length());
-            bl = Math.max(bl, ("" + ins.b()).length());
-            cl = Math.max(cl, ("" + ins.c()).length());
-            String di = ins.disassemble(p.ipr);
-            dis[i] = di;
-            dl = Math.max(dl, di.length());
-        }
         for (int i = 0; i < instructions.length; i++) {
             posMap.put(i, i);
             Instruction ins = instructions[i];
             lines.add(new Line(i, ins));
         }
-        initializer(al + bl + cl + 2 + dl);
+        initializer();
         unconditionalJumps();
     }
 
-    private void initializer(int tl) {
+    private void initializer() {
         StringWriter sw = new StringWriter();
         PrintWriter out = new PrintWriter(sw);
         boolean started = false;
@@ -86,13 +74,13 @@ public class Disassemble {
         int il = ("" + (prog.instructions.length - 1)).length();
         int al = 0, bl = 0, cl = 0, dl = 0;
         String[] dis = new String[prog.instructions.length];
-        for (int i = 0, l = prog.instructions.length; i < l; i++) {
-            Instruction ins = prog.instructions[i];
+        for (int ip = 0, l = prog.instructions.length; ip < l; ip++) {
+            Instruction ins = prog.instructions[ip];
             al = Math.max(al, ("" + ins.a()).length());
             bl = Math.max(bl, ("" + ins.b()).length());
             cl = Math.max(cl, ("" + ins.c()).length());
-            String di = ins.disassemble(prog.ipr);
-            dis[i] = di;
+            String di = ins.disassemble(ip, prog.ipr);
+            dis[ip] = di;
             dl = Math.max(dl, di.length());
         }
         int tl = 0;

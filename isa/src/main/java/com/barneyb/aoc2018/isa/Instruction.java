@@ -62,11 +62,17 @@ public class Instruction {
         op().execute(rs, this);
     }
 
-    public String disassemble(int ipr) {
+    public String disassemble(int ip, int ipr) {
         int a = this.a, b = this.b;
-        if (this.b == this.c && (opName().startsWith("add") || opName().startsWith("mul"))) {
+        String name = opName();
+        if (this.b == this.c && (name.startsWith("add") || name.startsWith("mul"))) {
             a = this.b;
             b = this.a;
+        }
+        if (a == ipr && "setr".equals(name)) {
+            return Op.OPS[opcode + 1].disassemble(ipr, ip, b, c);
+        } else if (b == ipr && ("addr".equals(name) || "mulr".equals(name))) {
+            return Op.OPS[opcode + 1].disassemble(ipr, a, ip, c);
         }
         return op().disassemble(ipr, a, b, c);
     }
