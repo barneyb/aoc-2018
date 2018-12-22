@@ -25,6 +25,7 @@ public class Disassemble {
         initializer();
         unconditionalJumps();
         unknownJumps();
+        simpleSets();
     }
 
     private void initializer() {
@@ -77,6 +78,16 @@ public class Disassemble {
             if (ins.c() == prog.ipr) {
                 l.code("// todo: jump...");
             }
+        }
+    }
+
+    private void simpleSets() {
+        Instruction[] instructions = prog.instructions;
+        for (int ip = 0; ip < instructions.length; ip++) {
+            Line l = lines.get(posMap.get(ip));
+            if (l.hasCode()) continue;
+            Instruction ins = instructions[ip];
+            l.code(ins.disassemble(ip, prog.ipr));
         }
     }
 
