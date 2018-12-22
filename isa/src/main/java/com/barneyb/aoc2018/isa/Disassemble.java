@@ -62,9 +62,14 @@ public class Disassemble {
             if ("seti".equals(ins.opName()) && ins.c() == prog.ipr) {
                 // an unconditional jump!
                 int to = ins.a();
-                if (to > l.index()) continue; // forward jump :(
+                if (to > l.index()) {
+                    l.code("// goto " + (to + 1));
+                    continue; // forward jump :(
+                }
                 l.code("} while (true);");
                 insertLine(new Line("do {"), posMap.get(to) + 1); // cuzza "ip++" after instruction
+            } else if ("addi".equals(ins.opName()) && ins.a() == prog.ipr && ins.c() == prog.ipr) {
+                l.code("// goto " + (ip + ins.b() + 1));
             }
         }
     }

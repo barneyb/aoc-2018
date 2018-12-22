@@ -18,16 +18,16 @@
 12  bani        4 16777215 4  |  e &= 16777215        |     e &= 16777215
 13  gtir      256        3 2  |  c  = 256 > d ? 1 : 0 |     c  = 256 > d ? 1 : 0
 14  addr        2        1 1  | ip += c               |     // todo: ip += c
-15  addi        1        1 1  | ip += 1               |     // todo: ip += 1
-16  seti       27        6 1  | ip  = 27              |     // todo: ip  = 27
+15  addi        1        1 1  | ip += 1               |     // goto 17
+16  seti       27        6 1  | ip  = 27              |     // goto 28
 17  seti        0        0 2  |  c  = 0               |     c  = 0
                                                       |     do {
 18  addi        2        1 5  |  f  = c + 1           |       f  = c + 1
 19  muli        5      256 5  |  f *= 256             |       f *= 256
 20  gtrr        5        3 5  |  f  = f > d ? 1 : 0   |       f  = f > d ? 1 : 0
 21  addr        5        1 1  | ip += f               |       // todo: ip += f
-22  addi        1        1 1  | ip += 1               |       // todo: ip += 1
-23  seti       25        6 1  | ip  = 25              |       // todo: ip  = 25
+22  addi        1        1 1  | ip += 1               |       // goto 24
+23  seti       25        6 1  | ip  = 25              |       // goto 26
 24  addi        2        1 2  |  c += 1               |       c += 1
 25  seti       17        8 1  | ip  = 17              |     } while (true);
 26  setr        2        5 3  |  d  = c               |     d  = c
