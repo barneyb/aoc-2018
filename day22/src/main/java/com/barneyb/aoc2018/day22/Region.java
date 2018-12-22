@@ -28,4 +28,8 @@ class Region {
         return type.riskLevel();
     }
 
+    boolean allowed(LoadOut loadOut) {
+        return loadOut.allowed(type);
+    }
+
 }

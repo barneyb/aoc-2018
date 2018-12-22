@@ -20,4 +20,7 @@ enum Type {
         return ordinal();
     }
 
+    boolean allowed(LoadOut loadOut) {
+        return loadOut.allowed(this);
+    }
 }
