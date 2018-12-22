@@ -21,6 +21,10 @@ enum Type {
         this.b = b;
     }
 
+    public char indicator() {
+        return indicator;
+    }
+
     int riskLevel() {
         return ordinal();
     }
@@ -32,4 +36,5 @@ enum Type {
     public Tool otherTool(Tool tool) {
         return a == tool ? b : a;
     }
+
 }

@@ -96,7 +96,7 @@ class Map {
         }, p -> {
             if (p.equals(ORIGIN)) sb.append('M');
             else if (p.equals(target)) sb.append('T');
-            else sb.append(region(p).type().indicator);
+            else sb.append(region(p).type().indicator());
         });
         return sb.toString();
     }
