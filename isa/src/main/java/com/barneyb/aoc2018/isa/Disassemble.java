@@ -76,7 +76,7 @@ public class Disassemble {
             if (l.hasCode()) continue;
             Instruction ins = instructions[ip];
             if (ins.c() == prog.ipr) {
-                l.code("// todo: jump...");
+                l.code("// todo: " + ins.disassemble(ip, prog.ipr));
             }
         }
     }
