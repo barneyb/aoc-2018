@@ -1,19 +1,19 @@
 package com.barneyb.aoc2018.day22;
 
+import com.barneyb.aoc2018.util.BST;
 import com.barneyb.aoc2018.util.Dir;
 import com.barneyb.aoc2018.util.Point;
-import com.barneyb.aoc2018.util.TreeSet;
+import com.barneyb.aoc2018.util.Queue;
 
 import static com.barneyb.aoc2018.day22.LoadOut.TORCH;
-import static com.barneyb.aoc2018.util.Dir.DOWN;
-import static com.barneyb.aoc2018.util.Dir.RIGHT;
+import static com.barneyb.aoc2018.util.Dir.*;
 
 class Explorer {
 
     static final int COST_MOVE = 1;
     static final int COST_EQUIP = 7;
 
-    private static class Route {
+    private static class Route implements Comparable<Route> {
         final Point at;
         final LoadOut loadOut;
         final int cost;
@@ -44,10 +44,31 @@ class Explorer {
             return new Route(p, loadOut, cost + COST_MOVE);
         }
 
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (!(o instanceof Route)) return false;
+            Route route = (Route) o;
+            if (!at.equals(route.at)) return false;
+            return loadOut == route.loadOut;
+        }
+
+        @Override
+        public int hashCode() {
+            int result = at.hashCode();
+            result = 31 * result + loadOut.hashCode();
+            return result;
+        }
+
+        @Override
+        public int compareTo(Route o) {
+            int c = at.compareTo(o.at);
+            if (c != 0) return c;
+            return loadOut.compareTo(o.loadOut);
+        }
     }
 
     private final Map map;
-    private TreeSet<Point> visited = new TreeSet<>();
     private int fastest = -1;
 
     Explorer(Map map) {
@@ -79,7 +100,34 @@ class Explorer {
 
     public int fastest() {
         if (fastest >= 0) return fastest;
-        // todo: calculate
+        fastest = getBound(); // a place to start....
+        final Point target = map.target();
+        BST<Route, Integer> costs = new BST<>();
+        Queue<Route> queue = new Queue<>();
+        queue.enqueue(new Route());
+        while (! queue.isEmpty()) {
+            Route r = queue.dequeue();
+            if (r.cost >= fastest) continue;
+            Point p = r.at;
+            if (p.equals(target)) {
+                if (r.loadOut != TORCH) r = r.equip(TORCH);
+                System.out.printf("%s, %s, %d (%d to go)%n", p, r.loadOut, r.cost, queue.size());
+                if (r.cost < fastest) {
+                    fastest = r.cost;
+                    System.out.println("NEW BEST ^");
+                }
+                continue;
+            }
+            Integer bc = costs.get(r);
+            if (bc != null && bc <= r.cost) {
+                continue;
+            }
+            costs.put(r, r.cost);
+            if (p.x > 0) queue.enqueue(stepTo(r, LEFT));
+            if (p.y > 0) queue.enqueue(stepTo(r, UP));
+            queue.enqueue(stepTo(r, RIGHT));
+            queue.enqueue(stepTo(r, DOWN));
+        }
         return fastest;
     }
 
