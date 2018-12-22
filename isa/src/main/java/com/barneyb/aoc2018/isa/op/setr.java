@@ -1,7 +1,7 @@
 package com.barneyb.aoc2018.isa.op;
 
 import com.barneyb.aoc2018.isa.Instruction;
-import com.barneyb.aoc2018.isa.util.Disassemble;
+import com.barneyb.aoc2018.isa.util.Disassembly;
 
 public class setr extends BaseOp {
     @Override
@@ -13,7 +13,7 @@ public class setr extends BaseOp {
     public String disassemble(int ipr, int a, int b, int c) {
         return String.format(
                 "%2s  = %s",
-                Disassemble.registerName(ipr, c),
-                Disassemble.registerName(ipr, a));
+                Disassembly.registerName(ipr, c),
+                Disassembly.registerName(ipr, a));
     }
 }

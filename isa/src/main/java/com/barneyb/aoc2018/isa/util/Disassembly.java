@@ -1,6 +1,6 @@
 package com.barneyb.aoc2018.isa.util;
 
-public class Disassemble {
+public class Disassembly {
 
     public static String registerName(int r) {
         return new String(new char[]{(char) ('a' + r)});

@@ -1,7 +1,7 @@
 package com.barneyb.aoc2018.isa.op;
 
 import com.barneyb.aoc2018.isa.Instruction;
-import com.barneyb.aoc2018.isa.util.Disassemble;
+import com.barneyb.aoc2018.isa.util.Disassembly;
 
 public class eqrr extends BaseOp {
     @Override
@@ -13,8 +13,8 @@ public class eqrr extends BaseOp {
     public String disassemble(int ipr, int a, int b, int c) {
         return String.format(
                 "%2s  = %s == %s ? 1 : 0",
-                Disassemble.registerName(ipr, c),
-                Disassemble.registerName(ipr, a),
-                Disassemble.registerName(ipr, b));
+                Disassembly.registerName(ipr, c),
+                Disassembly.registerName(ipr, a),
+                Disassembly.registerName(ipr, b));
     }
 }
