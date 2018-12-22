@@ -116,6 +116,7 @@ public class Disassemble {
             }
             tl = Math.max(tl, l.text().length());
         }
+        int indent = 0;
         for (Line l : lines) {
             if (l.hasInstruction()) {
                 sb.append(String.format("%" + il + "d", l.index()));
@@ -126,7 +127,9 @@ public class Disassemble {
                     .append(String.format("%-" + tl + "s", l.text()))
                     .append(" |");
             if (l.hasCode()) {
-                sb.append(' ').append(l.code());
+                if (l.code().contains("}")) indent -= 1;
+                sb.append(String.format("%" + (indent * 2 + 1) + "s", "")).append(l.code());
+                if (l.code().contains("{")) indent += 1;
             } else if (l.hasInstruction()) {
                 Instruction ins = l.instruction();
             }
