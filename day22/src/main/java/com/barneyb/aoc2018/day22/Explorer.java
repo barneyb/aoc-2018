@@ -77,10 +77,6 @@ class Explorer {
             return new Route(to, tool, time + TIME_MOVE);
         }
 
-        boolean canStep(Dir d) {
-            return map.region(at.go(d)).allowed(tool);
-        }
-
         Route step(Dir d) {
             Point p = at.go(d);
             Region reg = map.region(p);
@@ -112,11 +108,26 @@ class Explorer {
         return r.time;
     }
 
+    private static class FilteredQueue extends Queue<Route> {
+        private final BST<State, Integer> filterST;
+
+        private FilteredQueue() {
+            this.filterST = new BST<>();
+        }
+
+        @Override
+        public void enqueue(Route r) {
+            Integer time = filterST.get(r);
+            if (time != null && time <= r.time) return;
+            filterST.put(r, r.time);
+            super.enqueue(r);
+        }
+    }
+
     public int fastest() {
         if (fastest >= 0) return fastest;
         fastest = getTrivialTime(); // a place to start....
-        BST<State, Integer> times = new BST<>();
-        Queue<Route> toProcess = new Queue<>();
+        Queue<Route> toProcess = new FilteredQueue();
         toProcess.enqueue(new Route());
 //        int stepCount = 0;
 //        int routeCount = 0;
@@ -140,15 +151,8 @@ class Explorer {
             Region region = map.region(r.at);
             // ensure the tool is allowed
             if (! region.allowed(r.tool)) continue;
-            // ensure we haven't been here, but faster
-            Integer time = times.get(r);
-            if (time != null && time <= r.time) continue;
 
-            // ok, this one's sound
-            // write it down
-            times.put(r, r.time);
-
-            // traverse out
+            // ok, this one's sound, traverse out
             toProcess.enqueue(r.equip(region.otherTool(r.tool)));
             toProcess.enqueue(r.move(DOWN));
             toProcess.enqueue(r.move(RIGHT));
