@@ -8,9 +8,9 @@ import static org.junit.Assert.assertEquals;
 public class ExplorerTest {
 
     @Test
-    public void getTrivialCost() {
+    public void getTrivialTime() {
         Map m = Map.parse(EXAMPLE_INPUT);
         Explorer e = new Explorer(m);
-        assertEquals(97, e.getTrivialCost());
+        assertEquals(97, e.getTrivialTime());
     }
 }

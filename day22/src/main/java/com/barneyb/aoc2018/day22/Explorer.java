@@ -9,8 +9,8 @@ import static com.barneyb.aoc2018.util.Dir.RIGHT;
 
 class Explorer {
 
-    static final int COST_MOVE = 1;
-    static final int COST_EQUIP = 7;
+    static final int TIME_MOVE = 1;
+    static final int TIME_EQUIP = 7;
 
     private static class State implements Comparable<State> {
         final Point at;
@@ -50,26 +50,26 @@ class Explorer {
     }
 
     private class Route extends State {
-        final int cost;
+        final int time;
 
         Route() {
             super();
-            cost = 0;
+            time = 0;
         }
 
-        public Route(Point at, Tool tool, int cost) {
+        public Route(Point at, Tool tool, int time) {
             super(at, tool);
-            this.cost = cost;
+            this.time = time;
         }
 
         Route equip(Tool tool) {
             if (this.tool == tool) return this;
-            return new Route(at, tool, cost + COST_EQUIP);
+            return new Route(at, tool, time + TIME_EQUIP);
         }
 
         Route moveTo(Point to) {
             if (at.equals(to)) return this;
-            return new Route(to, tool, cost + COST_MOVE);
+            return new Route(to, tool, time + TIME_MOVE);
         }
 
         boolean canStep(Dir d) {
@@ -94,7 +94,7 @@ class Explorer {
         this.map = map;
     }
 
-    int getTrivialCost() {
+    int getTrivialTime() {
         Route r = new Route();
         int goal = map.target().x;
         while (r.at.x < goal) {
@@ -104,12 +104,12 @@ class Explorer {
         while (r.at.y < goal) {
             r = r.step(DOWN);
         }
-        return r.cost;
+        return r.time;
     }
 
     public int fastest() {
         if (fastest >= 0) return fastest;
-        fastest = getTrivialCost(); // a place to start....
+        fastest = getTrivialTime(); // a place to start....
         return fastest;
     }
 
