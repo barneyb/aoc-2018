@@ -186,7 +186,7 @@ public class Disassemble {
     public String toString() {
         StringBuilder sb = new StringBuilder();
         int il = ("" + (prog.instructions.length - 1)).length();
-        int al = 0, bl = 0, cl = 0, dl = 0;
+        int al = 0, bl = 0, cl = 0;
         String[] dis = new String[prog.instructions.length];
         for (int ip = 0, l = prog.instructions.length; ip < l; ip++) {
             Instruction ins = prog.instructions[ip];
@@ -195,17 +195,19 @@ public class Disassemble {
             cl = Math.max(cl, ("" + ins.c()).length());
             String di = ins.disassemble(ip, prog.ipr);
             dis[ip] = di;
-            dl = Math.max(dl, di.length());
         }
-        int tl = 0;
+        int rl = 0;
+        int hl = 0;
         for (Line l : lines) {
             if (l.hasInstruction()) {
                 Instruction ins = l.instruction();
-                l.text(String.format(
-                        "%4s %" + al + "d %" + bl + "d %" + cl + "d  | %-" + dl + "s",
-                        ins.opName(), ins.a(), ins.b(), ins.c(), dis[l.index()]));
+                l.raw(String.format(
+                        "%4s %" + al + "d %" + bl + "d %" + cl + "d",
+                        ins.opName(), ins.a(), ins.b(), ins.c()));
+                l.human(dis[l.index()]);
             }
-            tl = Math.max(tl, l.text().length());
+            rl = Math.max(rl, l.raw().length());
+            hl = Math.max(hl, l.human().length());
         }
         int indent = 0;
         for (Line l : lines) {
@@ -215,14 +217,17 @@ public class Disassemble {
                 sb.append(String.format("%" + il + "s", ""));
             }
             sb.append("  ")
-                    .append(String.format("%-" + tl + "s", l.text()))
-                    .append(" |");
+                    .append(String.format("%-" + rl + "s", l.raw()))
+                    .append("".equals(l.human()) ? "     " : "  |  ")
+                    .append(String.format("%-" + hl + "s", l.human()))
+                    .append("  |  ");
             if (l.hasCode()) {
                 if (l.code().contains("}")) indent -= 1;
-                sb.append(String.format("%" + (indent * 2 + 1) + "s", "")).append(l.code());
+                if (indent > 0) {
+                    sb.append(String.format("%" + (indent * 2) + "s", ""));
+                }
+                sb.append(l.code());
                 if (l.code().contains("{")) indent += 1;
-            } else if (l.hasInstruction()) {
-                Instruction ins = l.instruction();
             }
             sb.append('\n');
         }
