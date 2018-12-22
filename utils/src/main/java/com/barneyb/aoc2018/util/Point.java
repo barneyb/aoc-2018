@@ -2,6 +2,21 @@ package com.barneyb.aoc2018.util;
 
 public class Point implements Comparable<Point> {
 
+    public static Point parse(String input) {
+        return scan(new Scanner(input));
+    }
+
+    public static Point scan(Scanner s) {
+        boolean hasParen = s.probe('(');
+        if (hasParen) s.skip('(');
+        Point p = new Point(
+                s.readInt(),
+                s.skip(',').skipWS().readInt()
+        );
+        if (hasParen) s.skip(')');
+        return p;
+    }
+
     public final int x, y;
 
     public Point(int x, int y) {

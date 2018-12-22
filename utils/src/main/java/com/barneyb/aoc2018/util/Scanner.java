@@ -21,6 +21,11 @@ public class Scanner {
         this.in = new PushbackReader(r);
     }
 
+    public Scanner skip(char c) {
+        // kinda silly
+        return skip(new String(new char[] {c}));
+    }
+
     public Scanner skip(int l) {
         try {
             int c;
