@@ -54,17 +54,16 @@ public class Disassemble {
     }
 
     private void unconditionalJumps() {
-        for (int i = 0; i < lines.size(); i++) {
-            Line l = lines.get(i);
-            if (! l.hasInstruction()) continue;
-            Instruction ins = l.instruction();
+        Instruction[] instructions = prog.instructions;
+        for (int ip = 0; ip < instructions.length; ip++) {
+            Line l = lines.get(posMap.get(ip));
+            Instruction ins = instructions[ip];
             if ("seti".equals(ins.opName()) && ins.c() == prog.ipr) {
                 // an unconditional jump!
                 int to = ins.a();
                 if (to > l.index()) continue; // forward jump :(
                 l.code("} while (true);");
                 insertLine(new Line("do {"), posMap.get(to) + 1); // cuzza "ip++" after instruction
-                i += 1; // don't reprocess this one
             }
         }
     }
