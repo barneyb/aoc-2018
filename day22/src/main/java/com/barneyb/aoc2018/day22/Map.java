@@ -2,7 +2,6 @@ package com.barneyb.aoc2018.day22;
 
 import com.barneyb.aoc2018.util.*;
 
-import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Consumer;
 
 class Map {
@@ -70,10 +69,42 @@ class Map {
         ));
     }
 
+    private static class IntRef extends Number {
+        private int n;
+
+        IntRef(int n) {
+            this.n = n;
+        }
+
+        void add(int i) {
+            n += i;
+        }
+
+        @Override
+        public int intValue() {
+            return n;
+        }
+
+        @Override
+        public long longValue() {
+            return n;
+        }
+
+        @Override
+        public float floatValue() {
+            return n;
+        }
+
+        @Override
+        public double doubleValue() {
+            return n;
+        }
+    }
+
     int riskLevel(Bounds b) {
-        AtomicInteger ai = new AtomicInteger();
-        digest(b, p -> ai.addAndGet(region(p).riskLevel()));
-        return ai.intValue();
+        IntRef ir = new IntRef(0);
+        digest(b, p -> ir.add(region(p).riskLevel()));
+        return ir.intValue();
     }
 
     @Override
