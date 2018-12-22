@@ -9,6 +9,7 @@ public class Day22 extends OneShotDay {
 
     @Override
     public Answers solve(String input) {
+        System.out.println("Day 22 takes 45-50 seconds to solve...");
         Map m = Map.parse(input);
         return new Answers(
                 m.riskLevel(),

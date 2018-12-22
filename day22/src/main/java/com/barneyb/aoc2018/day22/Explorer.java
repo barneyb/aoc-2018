@@ -1,11 +1,12 @@
 package com.barneyb.aoc2018.day22;
 
+import com.barneyb.aoc2018.util.BST;
 import com.barneyb.aoc2018.util.Dir;
 import com.barneyb.aoc2018.util.Point;
+import com.barneyb.aoc2018.util.Queue;
 
 import static com.barneyb.aoc2018.day22.Tool.TORCH;
-import static com.barneyb.aoc2018.util.Dir.DOWN;
-import static com.barneyb.aoc2018.util.Dir.RIGHT;
+import static com.barneyb.aoc2018.util.Dir.*;
 
 class Explorer {
 
@@ -67,6 +68,10 @@ class Explorer {
             return new Route(at, tool, time + TIME_EQUIP);
         }
 
+        Route move(Dir d) {
+            return moveTo(at.go(d));
+        }
+
         Route moveTo(Point to) {
             if (at.equals(to)) return this;
             return new Route(to, tool, time + TIME_MOVE);
@@ -110,6 +115,50 @@ class Explorer {
     public int fastest() {
         if (fastest >= 0) return fastest;
         fastest = getTrivialTime(); // a place to start....
+        BST<State, Integer> times = new BST<>();
+        Queue<Route> toProcess = new Queue<>();
+        toProcess.enqueue(new Route());
+//        int stepCount = 0;
+//        int routeCount = 0;
+        while (! toProcess.isEmpty()) {
+//            stepCount += 1;
+            Route r = toProcess.dequeue();
+
+            // see if we found him
+            if (r.at.equals(map.target())) {
+                // ensure the torch is equipped
+                if (r.tool == TORCH) {
+//                    routeCount += 1;
+//                    System.out.printf("After %d steps: %d routes found (%d vs %d min)%n", stepCount, routeCount, r.time, fastest);
+                    if (r.time < fastest) fastest = r.time;
+                }
+                continue;
+            }
+
+            // ensure we're not already too slow
+            if (r.time >= fastest) continue;
+            Region region = map.region(r.at);
+            // ensure the tool is allowed
+            if (! region.allowed(r.tool)) continue;
+            // ensure we haven't been here, but faster
+            Integer time = times.get(r);
+            if (time != null && time <= r.time) continue;
+
+            // ok, this one's sound
+            // write it down
+            times.put(r, r.time);
+
+            // traverse out
+            toProcess.enqueue(r.equip(region.otherTool(r.tool)));
+            toProcess.enqueue(r.move(DOWN));
+            toProcess.enqueue(r.move(RIGHT));
+            if (r.at.x > 0) toProcess.enqueue(r.move(LEFT));
+            if (r.at.y > 0) toProcess.enqueue(r.move(UP));
+
+//            if (stepCount % 100000 == 0) {
+//                System.out.printf("%d steps, %d queued%n", stepCount, toProcess.size());
+//            }
+        }
         return fastest;
     }
 
