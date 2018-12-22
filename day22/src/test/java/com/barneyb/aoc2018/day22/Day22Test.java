@@ -14,7 +14,7 @@ public class Day22Test {
     public void solve() {
         Answers a = new Day22().solve(EXAMPLE_INPUT);
         assertEquals("114", a.getPartOne());
-        assertEquals("-", a.getPartTwo());
+        assertEquals("45", a.getPartTwo());
     }
 
 }

@@ -23,7 +23,7 @@ class Map {
     private final Point target;
     private final BST<Point, Region> map;
 
-    public Map(int depth, Point target) {
+    Map(int depth, Point target) {
         this.depth = depth;
         this.target = target;
         map = new BST<>();

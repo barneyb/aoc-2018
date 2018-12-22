@@ -11,8 +11,8 @@ public class Day22 extends OneShotDay {
     public Answers solve(String input) {
         Map m = Map.parse(input);
         return new Answers(
-                m.riskLevel()
-//                , input.trim().length()
+                m.riskLevel(),
+                new Explorer(m).fastest()
         );
     }
 
