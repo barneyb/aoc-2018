@@ -23,7 +23,9 @@ public class Disassemble {
             lines.add(new Line(i, ins));
         }
         initializer();
-        unconditionalJumps();
+        doWhileLoops();
+        whileTrueLoops();
+        gotoJumps();
         unknownJumps();
         simpleSets();
     }
@@ -54,12 +56,43 @@ public class Disassemble {
         lines.insert(line, at);
     }
 
-    private void unconditionalJumps() {
+    private void doWhileLoops() {
+        Instruction[] instructions = prog.instructions;
+        // start later, because we need three instructions
+        for (int ip = 2; ip < instructions.length; ip++) {
+            Instruction cmp = instructions[ip - 2];
+            if (! cmp.opName().startsWith("eq") && !cmp.opName().startsWith("gt")) {
+                continue;
+            }
+            int r = cmp.c();
+            if (r == prog.ipr) continue;
+            Instruction add = instructions[ip - 1];
+            if (!"addr".equals(add.opName())) continue;
+            if (add.a() == prog.ipr && add.b() != r) continue;
+            if (add.b() == prog.ipr && add.a() != r) continue;
+            Instruction set = instructions[ip];
+            if (! "seti".equals(set.opName())) continue;
+            if (set.c() != prog.ipr) continue;
+            Line l = lines.get(posMap.get(ip - 1));
+            l.code("// break");
+            l = lines.get(posMap.get(ip));
+            String expr = cmp.disassemble(ip - 2, prog.ipr)
+                    .replaceFirst("^\\s*[a-f]\\s*=\\s*", "")
+                    .replaceFirst("\\s*\\? 1 : 0", "")
+                    .replace(">", "<=")
+                    .replace("==", "!=");
+            l.code("} while (" + expr + ");");
+            insertLine(new Line("do {"), posMap.get(set.a()) + 1);
+        }
+    }
+
+    private void whileTrueLoops() {
         Instruction[] instructions = prog.instructions;
         for (int ip = 0; ip < instructions.length; ip++) {
-            Line l = lines.get(posMap.get(ip));
             Instruction ins = instructions[ip];
             if ("seti".equals(ins.opName()) && ins.c() == prog.ipr) {
+                Line l = lines.get(posMap.get(ip));
+                if (l.hasCode()) continue;
                 // an unconditional jump!
                 int to = ins.a();
                 if (to > l.index()) {
@@ -67,8 +100,18 @@ public class Disassemble {
                     continue; // forward jump :(
                 }
                 l.code("} while (true);");
-                insertLine(new Line("do {"), posMap.get(to) + 1); // cuzza "ip++" after instruction
-            } else if ("addi".equals(ins.opName()) && ins.a() == prog.ipr && ins.c() == prog.ipr) {
+                insertLine(new Line("do {"), posMap.get(to) + 1);
+            }
+        }
+    }
+
+    private void gotoJumps() {
+        Instruction[] instructions = prog.instructions;
+        for (int ip = 0; ip < instructions.length; ip++) {
+            Instruction ins = instructions[ip];
+            if ("addi".equals(ins.opName()) && ins.a() == prog.ipr && ins.c() == prog.ipr) {
+                Line l = lines.get(posMap.get(ip));
+                if (l.hasCode()) continue;
                 l.code("// goto " + (ip + ins.b() + 1));
             }
         }

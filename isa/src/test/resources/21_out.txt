@@ -4,8 +4,8 @@
                                                       | do {
  1  bani        4      456 4  |  e &= 456             |   e &= 456
  2  eqri        4       72 4  |  e  = e == 72 ? 1 : 0 |   e  = e == 72 ? 1 : 0
- 3  addr        4        1 1  | ip += e               |   // todo: ip += e
- 4  seti        0        0 1  | ip  = 0               | } while (true);
+ 3  addr        4        1 1  | ip += e               |   // break
+ 4  seti        0        0 1  | ip  = 0               | } while (e != 72);
  5  seti        0        4 4  |  e  = 0               | e  = 0
                                                       | do {
  6  bori        4    65536 3  |  d  = e | 65536       |   d  = e | 65536
@@ -33,5 +33,5 @@
 26  setr        2        5 3  |  d  = c               |     d  = c
 27  seti        7        2 1  | ip  = 7               |   } while (true);
 28  eqrr        4        0 2  |  c  = e == a ? 1 : 0  |   c  = e == a ? 1 : 0
-29  addr        2        1 1  | ip += c               |   // todo: ip += c
-30  seti        5        8 1  | ip  = 5               | } while (true);
+29  addr        2        1 1  | ip += c               |   // break
+30  seti        5        8 1  | ip  = 5               | } while (e != a);
