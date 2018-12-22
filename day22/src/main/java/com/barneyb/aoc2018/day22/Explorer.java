@@ -13,38 +13,38 @@ class Explorer {
     static final int COST_MOVE = 1;
     static final int COST_EQUIP = 7;
 
-    private static class Route implements Comparable<Route> {
+    private static class State implements Comparable<State> {
         final Point at;
         final Tool tool;
         final int cost;
 
-        private Route() {
+        private State() {
             this(Map.ORIGIN, TORCH, 0);
         }
 
-        private Route(Point at, Tool tool, int cost) {
+        private State(Point at, Tool tool, int cost) {
             this.at = at;
             this.tool = tool;
             this.cost = cost;
         }
 
-        Route equip(Tool tool) {
+        State equip(Tool tool) {
             if (this.tool == tool) return this;
-            return new Route(at, tool, cost + COST_EQUIP);
+            return new State(at, tool, cost + COST_EQUIP);
         }
 
-        Route move(Point p) {
+        State move(Point p) {
             if (at.equals(p)) return this;
-            return new Route(p, tool, cost + COST_MOVE);
+            return new State(p, tool, cost + COST_MOVE);
         }
 
         @Override
         public boolean equals(Object o) {
             if (this == o) return true;
-            if (!(o instanceof Route)) return false;
-            Route route = (Route) o;
-            if (!at.equals(route.at)) return false;
-            return tool == route.tool;
+            if (!(o instanceof State)) return false;
+            State state = (State) o;
+            if (!at.equals(state.at)) return false;
+            return tool == state.tool;
         }
 
         @Override
@@ -55,7 +55,7 @@ class Explorer {
         }
 
         @Override
-        public int compareTo(Route o) {
+        public int compareTo(State o) {
             int c = at.compareTo(o.at);
             if (c != 0) return c;
             return tool.compareTo(o.tool);
@@ -70,58 +70,58 @@ class Explorer {
     }
 
     int getBound() {
-        Route r = new Route();
+        State s = new State();
         int goal = map.target().x;
-        while (r.at.x < goal) {
-            r = stepTo(r, RIGHT);
+        while (s.at.x < goal) {
+            s = stepTo(s, RIGHT);
         }
         goal = map.target().y;
-        while (r.at.y < goal) {
-            r = stepTo(r, DOWN);
+        while (s.at.y < goal) {
+            s = stepTo(s, DOWN);
         }
-        return r.cost;
+        return s.cost;
     }
 
-    private Route stepTo(Route r, Dir d) {
-        Point q = r.at.go(d);
-        Region reg = map.region(q);
-        if (! reg.allowed(r.tool)) {
-            r = r.equip(reg.otherTool(r.tool));
+    private State stepTo(State s, Dir d) {
+        Point p = s.at.go(d);
+        Region r = map.region(p);
+        if (! r.allowed(s.tool)) {
+            s = s.equip(r.otherTool(s.tool));
         }
-        r = r.move(q);
-        return r;
+        s = s.move(p);
+        return s;
     }
 
     public int fastest() {
         if (fastest >= 0) return fastest;
         fastest = getBound(); // a place to start....
         final Point target = map.target();
-        BST<Route, Integer> costs = new BST<>();
-        Queue<Route> queue = new Queue<>();
-        queue.enqueue(new Route());
+        BST<State, Integer> costs = new BST<>();
+        Queue<State> queue = new Queue<>();
+        queue.enqueue(new State());
         while (! queue.isEmpty()) {
-            Route r = queue.dequeue();
-            if (r.cost >= fastest) continue;
-            Point p = r.at;
+            State s = queue.dequeue();
+            if (s.cost >= fastest) continue;
+            Point p = s.at;
             if (p.equals(target)) {
-                if (r.tool != TORCH) r = r.equip(TORCH);
-                System.out.printf("%s, %s, %d (%d to go)%n", p, r.tool, r.cost, queue.size());
-                if (r.cost < fastest) {
-                    fastest = r.cost;
+                if (s.tool != TORCH) s = s.equip(TORCH);
+                System.out.printf("%s, %s, %d (%d to go)%n", p, s.tool, s.cost, queue.size());
+                if (s.cost < fastest) {
+                    fastest = s.cost;
                     System.out.println("NEW BEST ^");
                 }
                 continue;
             }
-            Integer bc = costs.get(r);
-            if (bc != null && bc <= r.cost) {
+            Integer bc = costs.get(s);
+            if (bc != null && bc <= s.cost) {
                 continue;
             }
-            costs.put(r, r.cost);
-            if (p.x > 0) queue.enqueue(stepTo(r, LEFT));
-            if (p.y > 0) queue.enqueue(stepTo(r, UP));
-            queue.enqueue(stepTo(r, RIGHT));
-            queue.enqueue(stepTo(r, DOWN));
-            queue.enqueue(r.equip(map.region(r.at).otherTool(r.tool)));
+            costs.put(s, s.cost);
+            if (p.x > 0) queue.enqueue(stepTo(s, LEFT));
+            if (p.y > 0) queue.enqueue(stepTo(s, UP));
+            queue.enqueue(stepTo(s, RIGHT));
+            queue.enqueue(stepTo(s, DOWN));
+            queue.enqueue(s.equip(map.region(s.at).otherTool(s.tool)));
         }
         return fastest;
     }
