@@ -24,6 +24,7 @@ public class Disassemble {
         }
         initializer();
         unconditionalJumps();
+        unknownJumps();
     }
 
     private void initializer() {
@@ -68,6 +69,18 @@ public class Disassemble {
         }
     }
 
+    private void unknownJumps() {
+        Instruction[] instructions = prog.instructions;
+        for (int ip = 0; ip < instructions.length; ip++) {
+            Line l = lines.get(posMap.get(ip));
+            if (l.hasCode()) continue;
+            Instruction ins = instructions[ip];
+            if (ins.c() == prog.ipr) {
+                l.code("// todo: jump...");
+            }
+        }
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -104,6 +117,8 @@ public class Disassemble {
                     .append(" |");
             if (l.hasCode()) {
                 sb.append(' ').append(l.code());
+            } else if (l.hasInstruction()) {
+                Instruction ins = l.instruction();
             }
             sb.append('\n');
         }
