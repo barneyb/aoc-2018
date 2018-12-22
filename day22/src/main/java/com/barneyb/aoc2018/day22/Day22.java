@@ -1,14 +1,18 @@
 package com.barneyb.aoc2018.day22;
 
-import com.barneyb.aoc2018.util.*;
+import com.barneyb.aoc2018.util.Answers;
+import com.barneyb.aoc2018.util.FileUtils;
+import com.barneyb.aoc2018.util.OneShotDay;
+import com.barneyb.aoc2018.util.Stopwatch;
 
 public class Day22 extends OneShotDay {
 
     @Override
     public Answers solve(String input) {
+        Map m = Map.parse(input);
         return new Answers(
-                input.length()
-                , input.trim().length()
+                m.riskLevel()
+//                , input.trim().length()
         );
     }
 
