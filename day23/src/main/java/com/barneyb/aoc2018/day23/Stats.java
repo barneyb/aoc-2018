@@ -33,10 +33,12 @@ class Stats {
         for (Bot b : bots) {
             rRange = rRange.plus(b.range);
         }
-        pos_xy = new ScaledPlot(xRange, yRange);
-        //noinspection SuspiciousNameCombination
-        pos_yz = new ScaledPlot(yRange, zRange);
-        pos_xz = new ScaledPlot(xRange, zRange);
+        Axis ya = new Axis("y", yRange);
+        Axis xa = new Axis("x", xRange);
+        Axis za = new Axis("z", zRange);
+        pos_xy = new ScaledPlot(xa, ya);
+        pos_yz = new ScaledPlot(ya, za);
+        pos_xz = new ScaledPlot(xa, za);
 
         for (Bot b : bots) {
             Point3D p = b.pos;

@@ -42,9 +42,9 @@ public class Day23 extends OneShotDay {
 //                , Range.inclusive(5, 25)
 //                , Range.inclusive(10, 15)
 //                , Range.inclusive(0, 17)
-                , Range.inclusive(-18_000_000, 150_000_000)
-                , Range.inclusive(0, 55_000_000)
-                , Range.inclusive(-81_529_762, 166_158_502)
+//                , Range.inclusive(-18_000_000, 150_000_000)
+//                , Range.inclusive(0, 55_000_000)
+//                , Range.inclusive(-81_529_762, 166_158_502)
         );
 
         toFile("stats.txt", out -> {
@@ -55,29 +55,14 @@ public class Day23 extends OneShotDay {
             out.printf("r  %,12d %,12d %,12d%n", s.rRange.start(), s.rRange.end() - 1, s.rRange.size());
         });
 
-//        char[] gamut = " .:-=+*#%@".toCharArray();
-        char[] gamut = " .'`^\",:;Il!i><~+_-?][}{1)(|\\/tfjrxnuvczXYUJCLQ0OZmwqpdbkhao*#MW&8%B@$".toCharArray();
-        Range gamutRange = Range.halfOpen(0, gamut.length);
-        BiFunction<Range, Integer, Character> renderer = (r, v) -> {
-            return gamut[gamutRange.unscale(r.scale(v))];
-        };
         toFile("xy_position.txt", out -> {
-            out.println("x-y plane");
-            out.printf("x factor: %10.9f%n", s.pos_xy.xFactor());
-            out.printf("y factor: %10.9f%n", s.pos_xy.yFactor());
-            out.println(printPlane(s.pos_xy, partial(renderer, s.pos_xy.vRange)));
+            out.println(s.pos_xy);
         });
         toFile("yz_position.txt", out -> {
-            out.println("y-z plane");
-            out.printf("y factor: %10.9f%n", s.pos_xy.xFactor());
-            out.printf("z factor: %10.9f%n", s.pos_xy.yFactor());
-            out.println(printPlane(s.pos_yz, partial(renderer, s.pos_yz.vRange)));
+            out.println(s.pos_yz);
         });
         toFile("xz_position.txt", out -> {
-            out.println("x-z plane");
-            out.printf("x factor: %10.9f%n", s.pos_xy.xFactor());
-            out.printf("z factor: %10.9f%n", s.pos_xy.yFactor());
-            out.println(printPlane(s.pos_xz, partial(renderer, s.pos_xz.vRange)));
+            out.println(s.pos_xz);
         });
 
 
@@ -102,31 +87,6 @@ public class Day23 extends OneShotDay {
         } catch (IOException ioe) {
             throw new RuntimeException(ioe);
         }
-    }
-
-    private static String printPlane(ScaledPlot p, Function<Integer, Character> renderer) {
-        StringBuilder sb = new StringBuilder();
-        int xl = Math.max(
-                String.format("%,d", p.xr.start()).length(),
-                String.format("%,d", p.xr.end()).length()
-        );
-        int yl = Math.max(
-                String.format("%,d", p.yr.start()).length(),
-                String.format("%,d", p.yr.end()).length()
-        );
-        sb.append(String.format("%" + yl + "s  ", ""));
-        for (int x : p.sxr.by(xl + 4)) {
-            sb.append(String.format("| %-," + (xl + 2) + "d", p.unscaleX(x)));
-        }
-        sb.append("\n");
-        for (int y : p.syr) {
-            sb.append(String.format("%," + yl + "d |", p.unscaleY(y)));
-            for (int cell : p.grid[y]) {
-                sb.append(renderer.apply(cell));
-            }
-            sb.append("|\n");
-        }
-        return sb.toString();
     }
 
 }
