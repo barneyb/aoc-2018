@@ -3,11 +3,24 @@ package com.barneyb.aoc2018.day23;
 // half-open: contains start, but does NOT contain end
 class Range implements Comparable<Range> {
 
-    public static final Range EMPTY = new Range(Integer.MAX_VALUE, Integer.MIN_VALUE);
+    public static final Range EMPTY = new Range(Integer.MAX_VALUE, Integer.MAX_VALUE);
+
+    public static Range inclusive(int a, int b) {
+        return new Range(a, b + 1);
+    }
+
+    public static Range halfOpen(int a, int b) {
+        return new Range(a, b);
+    }
+
+    public static Range exclusive(int a, int b) {
+        return new Range(a + 1, b);
+    }
 
     private final int start, end;
 
-    public Range(int start, int end) {
+    private Range(int start, int end) {
+        if (start > end) throw new IllegalArgumentException(start + " > " + end);
         this.start = start;
         this.end = end;
     }

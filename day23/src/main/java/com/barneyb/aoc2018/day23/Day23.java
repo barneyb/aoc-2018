@@ -27,7 +27,10 @@ public class Day23 extends OneShotDay {
         String input = FileUtils.readFile("day23/input.txt");
 
         Swarm swarm = Swarm.parse(input);
-        Stats s = new Stats(swarm.bots);
+        Stats s = new Stats(swarm.bots,
+                Range.inclusive(-158_197_890, 251_687_255),
+                Range.inclusive(-115_956_611, 175_412_141),
+                Range.inclusive(-81_529_762, 166_158_502));
 
         toFile("stats.txt", out -> {
             out.printf("   %12s %12s %12s%n", "min", "max", "range");
@@ -37,23 +40,25 @@ public class Day23 extends OneShotDay {
             out.printf("r  %,12d %,12d %,12d%n", s.rRange.start(), s.rRange.end() - 1, s.rRange.size());
         });
 
+        // " .:-=+*#%@"
+        // " .'`^"\,:;Il!i><~+_-?][}{1)(|\\/tfjrxnuvczXYUJCLQ0OZmwqpdbkhao*#MW&8%B@$"
         char[] gamut = " .:-=+*#%@".toCharArray();
-        Range gamutRange = new Range(0, gamut.length);
-//        char[] rampBig = reverse("$@B%8&WM#*oahkbdpqwmZO0QLCJUYXzcvunxrjft/\\|()1{}[]?-_+~<>i!lI;:,\"^`'.".toCharArray());
+        Range gamutRange = Range.halfOpen(0, gamut.length);
         Function<Integer, Character> renderer = v -> {
             return gamut[gamutRange.unscale(s.pRange.scale(v))];
         };
         toFile("xy_position.txt", out -> {
             out.println("x-y plane");
-            out.println(printPlane(s.pos_xy, renderer));
+            out.println(printPlane(s.pos_xy, s.xRange, s.yRange, renderer));
         });
         toFile("yz_position.txt", out -> {
             out.println("y-z plane");
-            out.println(printPlane(s.pos_yz, renderer));
+            //noinspection SuspiciousNameCombination
+            out.println(printPlane(s.pos_yz, s.yRange, s.zRange, renderer));
         });
         toFile("xz_position.txt", out -> {
             out.println("x-z plane");
-            out.println(printPlane(s.pos_xz, renderer));
+            out.println(printPlane(s.pos_xz, s.xRange, s.zRange, renderer));
         });
 
 
@@ -62,19 +67,6 @@ public class Day23 extends OneShotDay {
 //        Answers a = d.solve(input);
 //        long e = watch.stop();
 //        System.out.printf("%s in %d ms%n", a, e);
-    }
-
-    // reverse in place (and return)
-    private static char[] reverse(char[] cs) {
-        char c;
-        int j;
-        for (int i = 0, l = cs.length / 2; i < l; i++) {
-            j = cs.length - i - 1;
-            c = cs[i];
-            cs[i] = cs[j];
-            cs[j] = c;
-        }
-        return cs;
     }
 
     private static void toFile(String filename, Consumer<PrintStream> work) {
@@ -89,21 +81,22 @@ public class Day23 extends OneShotDay {
         }
     }
 
-    private static String printPlane(int[][] g, Function<Integer, Character> renderer) {
+    private static String printPlane(int[][] g, Range xRange, Range yRange, Function<Integer, Character> renderer) {
         StringBuilder sb = new StringBuilder();
         int dg = g.length;
-        int l = ("" + dg).length();
+        Range gRange = Range.halfOpen(0, dg);
+        int l = Math.max(
+                String.format("%,d", yRange.start()).length(),
+                String.format("%,d", yRange.end()).length()
+        );
         sb.append(String.format("%" + l + "s  ", ""));
-        for (int i = 0; i < dg; i++) {
-            if (i % 10 == 0) {
-                sb.append(String.format("| %-8d", i));
-            }
+        for (int x = 0; x < dg; x += 17) {
+            sb.append(String.format("| %-,15d", xRange.unscale(gRange.scale(x))));
         }
         sb.append("\n");
-        for (int i = 0; i < dg; i++) {
-            int[] rows = g[i];
-            sb.append(String.format("%" + l + "d |", i));
-            for (int cell : rows) {
+        for (int y = 0; y < dg; y++) {
+            sb.append(String.format("%," + l + "d |", yRange.unscale(gRange.scale(y))));
+            for (int cell : g[y]) {
                 sb.append(renderer.apply(cell));
             }
             sb.append("|\n");

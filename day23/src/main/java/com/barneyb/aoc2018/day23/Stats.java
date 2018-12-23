@@ -9,7 +9,7 @@ class Stats {
     Range rRange = Range.EMPTY;
     Range gRange;
 
-    Range pRange = new Range(0, 1);
+    Range pRange = Range.inclusive(0, 0);
     int[][] pos_xy;
     int[][] pos_yz;
     int[][] pos_xz;
@@ -20,10 +20,22 @@ class Stats {
             xRange = xRange.plus(p.x);
             yRange = yRange.plus(p.y);
             zRange = zRange.plus(p.z);
+        }
+        build(bots);
+    }
+
+    Stats(Bot[] bots, Range xRange, Range yRange, Range zRange) {
+        this.xRange = xRange;
+        this.yRange = yRange;
+        this.zRange = zRange;
+        build(bots);
+    }
+
+    private void build(Bot[] bots) {
+        for (Bot b : bots) {
             rRange = rRange.plus(b.range);
         }
-
-        gRange = new Range(0,
+        gRange = Range.halfOpen(0,
                 Math.min(Math.max(Math.max(xRange.size(), yRange.size()), zRange.size()), 200));
         int dg = gRange.end();
         pos_xy = initGrid(dg);
