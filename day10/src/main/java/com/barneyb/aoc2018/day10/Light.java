@@ -12,14 +12,8 @@ public class Light {
     public static Light scan(Scanner s) {
         //position=<-6, 10> velocity=< 2, -2>
         return new Light(
-                new Point(
-                        s.skip("position=<").skipWS().readInt(),
-                        s.skip(",").skipWS().readInt()
-                ),
-                new Point(
-                        s.skip("> velocity=<").skipWS().readInt(),
-                        s.skip(",").skipWS().readInt()
-                )
+                Point.scan(s.skip("position=<")),
+                Point.scan(s.skip("> velocity=<"))
         );
     }
 
