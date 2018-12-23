@@ -16,6 +16,8 @@ public class Day23 extends OneShotDay {
         );
     }
 
+    // 79182713 is too low
+
     public static void main(String[] args)  {
         Day23 d = new Day23();
         String input = FileUtils.readFile("day23/input.txt");
