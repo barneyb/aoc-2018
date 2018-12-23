@@ -41,4 +41,13 @@ class ScaledPlot {
     public int unscaleY(int y) {
         return yr.unscale(syr.scale(y));
     }
+
+    public double xFactor() {
+        return 1.0 * sxr.size() / xr.size();
+    }
+
+    public double yFactor() {
+        return 1.0 * syr.size() / yr.size();
+    }
+
 }

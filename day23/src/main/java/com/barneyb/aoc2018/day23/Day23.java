@@ -42,9 +42,9 @@ public class Day23 extends OneShotDay {
 //                , Range.inclusive(5, 25)
 //                , Range.inclusive(10, 15)
 //                , Range.inclusive(0, 17)
-//                , Range.inclusive(-18_000_000, 150_000_000)
-//                , Range.inclusive(0, 55_000_000)
-//                , Range.inclusive(-81_529_762, 166_158_502)
+                , Range.inclusive(-18_000_000, 150_000_000)
+                , Range.inclusive(0, 55_000_000)
+                , Range.inclusive(-81_529_762, 166_158_502)
         );
 
         toFile("stats.txt", out -> {
@@ -63,14 +63,20 @@ public class Day23 extends OneShotDay {
         };
         toFile("xy_position.txt", out -> {
             out.println("x-y plane");
+            out.printf("x factor: %10.9f%n", s.pos_xy.xFactor());
+            out.printf("y factor: %10.9f%n", s.pos_xy.yFactor());
             out.println(printPlane(s.pos_xy, partial(renderer, s.pos_xy.vRange)));
         });
         toFile("yz_position.txt", out -> {
             out.println("y-z plane");
+            out.printf("y factor: %10.9f%n", s.pos_xy.xFactor());
+            out.printf("z factor: %10.9f%n", s.pos_xy.yFactor());
             out.println(printPlane(s.pos_yz, partial(renderer, s.pos_yz.vRange)));
         });
         toFile("xz_position.txt", out -> {
             out.println("x-z plane");
+            out.printf("x factor: %10.9f%n", s.pos_xy.xFactor());
+            out.printf("z factor: %10.9f%n", s.pos_xy.yFactor());
             out.println(printPlane(s.pos_xz, partial(renderer, s.pos_xz.vRange)));
         });
 
