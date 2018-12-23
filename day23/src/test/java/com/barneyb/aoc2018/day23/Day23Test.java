@@ -7,7 +7,7 @@ import static org.junit.Assert.assertEquals;
 
 public class Day23Test {
 
-    static final String EXAMPLE_INPUT =
+    static final String EXAMPLE_ONE_INPUT =
             "pos=<0,0,0>, r=4\n" +
             "pos=<1,0,0>, r=1\n" +
             "pos=<4,0,0>, r=3\n" +
@@ -18,11 +18,26 @@ public class Day23Test {
             "pos=<1,1,2>, r=1\n" +
             "pos=<1,3,1>, r=1";
 
+    static final String EXAMPLE_TWO_INPUT =
+            "pos=<10,12,12>, r=2\n" +
+            "pos=<12,14,12>, r=2\n" +
+            "pos=<16,12,12>, r=4\n" +
+            "pos=<14,14,14>, r=6\n" +
+            "pos=<50,50,50>, r=200\n" +
+            "pos=<10,10,10>, r=5";
+
     @Test
-    public void solve() {
-        Answers a = new Day23().solve(EXAMPLE_INPUT);
+    public void solveOne() {
+        Answers a = new Day23().solve(EXAMPLE_ONE_INPUT);
         assertEquals("7", a.getPartOne());
-        assertEquals("-", a.getPartTwo());
+//        assertEquals("-", a.getPartTwo());
+    }
+
+    @Test
+    public void solveTwo() {
+        Answers a = new Day23().solve(EXAMPLE_TWO_INPUT);
+        assertEquals("6", a.getPartOne());
+        assertEquals("36", a.getPartTwo());
     }
 
 }
