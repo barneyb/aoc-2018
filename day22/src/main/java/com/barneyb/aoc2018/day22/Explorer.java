@@ -131,12 +131,13 @@ class Explorer {
         toProcess.enqueue(new Route());
 //        int stepCount = 0;
 //        int routeCount = 0;
+        Point target = map.target();
         while (! toProcess.isEmpty()) {
 //            stepCount += 1;
             Route r = toProcess.dequeue();
 
             // see if we found him
-            if (r.at.equals(map.target())) {
+            if (r.at.equals(target)) {
                 // ensure the torch is equipped
                 if (r.tool == TORCH) {
 //                    routeCount += 1;
@@ -147,7 +148,7 @@ class Explorer {
             }
 
             // ensure we're not already too slow
-            if (r.time >= fastest) continue;
+            if (r.time + r.at.md(target) >= fastest) continue;
             Region region = map.region(r.at);
             // ensure the tool is allowed
             if (! region.allowed(r.tool)) continue;
