@@ -26,15 +26,9 @@ class Stats {
         gRange = new Range(0,
                 Math.min(Math.max(Math.max(xRange.size(), yRange.size()), zRange.size()), 200));
         int dg = gRange.end();
-        pos_xy = new int[dg][];
-        pos_yz = new int[dg][];
-        pos_xz = new int[dg][];
-
-        for (int i = 0; i < dg; i++) {
-            pos_xy[i] = new int[dg];
-            pos_yz[i] = new int[dg];
-            pos_xz[i] = new int[dg];
-        }
+        pos_xy = initGrid(dg);
+        pos_yz = initGrid(dg);
+        pos_xz = initGrid(dg);
 
         for (Bot b : bots) {
             Point3D p = b.pos;
@@ -47,4 +41,13 @@ class Stats {
                     .plus(pos_xz[cz][cx] += 1);
         }
     }
+
+    private int[][] initGrid(int dg) {
+        int[][] g = new int[dg][];
+        for (int i = 0; i < dg; i++) {
+            g[i] = new int[dg];
+        }
+        return g;
+    }
+
 }
