@@ -1,77 +1,100 @@
 package com.barneyb.aoc2018.day23;
 
-// half-open: contains min, but does NOT contain max
+// half-open: contains start, but does NOT contain end
 class Range implements Comparable<Range> {
-    private final int min, max;
 
-    private Range(int min, int max) {
-        this.min = min;
-        this.max = max;
+    public static final Range EMPTY = new Range(Integer.MAX_VALUE, Integer.MIN_VALUE);
+
+    private final int start, end;
+
+    public Range(int start, int end) {
+        this.start = start;
+        this.end = end;
     }
 
-    public int min() {
-        return min;
+    public int start() {
+        if (this == EMPTY) throw new UnsupportedOperationException();
+        return start;
     }
 
-    public int max() {
-        return max;
+    public int end() {
+        if (this == EMPTY) throw new UnsupportedOperationException();
+        return end;
     }
 
     public int size() {
-        return max - min;
+        if (this == EMPTY) throw new UnsupportedOperationException();
+        return end - start;
     }
 
-    public boolean contains(int i ) {
-        return i >= min && i < max;
+    public double scale(int n) {
+        if (this == EMPTY) throw new UnsupportedOperationException();
+        if (n < start) throw new IllegalArgumentException(n + " is < " + start);
+        if (n >= end) throw new IllegalArgumentException(n + " is >= " + end);
+        return 1.0 * (n - start) / size();
+    }
+
+    public int unscale(double d) {
+        if (this == EMPTY) throw new UnsupportedOperationException();
+        if (d < 0) throw new IllegalArgumentException(d + " is < 0");
+        if (d >= 1) throw new IllegalArgumentException(d + " is >= 1");
+        return (int) (d * size() + start);
+    }
+
+    public boolean contains(int i) {
+        if (this == EMPTY) return false;
+        return i >= start && i < end;
     }
 
     public boolean overlaps(Range r) {
-        return contains(r.min) || contains(r.max);
+        if (this == EMPTY) return false;
+        return contains(r.start) || contains(r.end);
     }
 
     public Range plus(Range r) {
+        if (this == EMPTY) return r;
         return new Range(
-                Math.min(min, r.min),
-                Math.max(max, r.max)
+                Math.min(start, r.start),
+                Math.max(end, r.end)
         );
     }
 
     public Range plus(int i) {
+        if (this == EMPTY) return new Range(i, i + 1);
         if (contains(i)) return this;
-        if (i < min) return new Range(i, max);
-        return new Range(min, i + 1);
-    }
-
-    public double uniform(int n) {
-        if (n < min) throw new IllegalArgumentException(n + " is less than " + min);
-        if (n > max) throw new IllegalArgumentException(n + " is more than " + max);
-        return 1.0 * (n - min) / size();
+        if (i < start) return new Range(i, end);
+        return new Range(start, i + 1);
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
+        if (this == EMPTY) return false;
+        if (o == EMPTY) return false;
         if (!(o instanceof Range)) return false;
         Range range = (Range) o;
-        if (min != range.min) return false;
-        return max == range.max;
+        if (start != range.start) return false;
+        return end == range.end;
     }
 
     @Override
     public int hashCode() {
-        int result = min;
-        result = 31 * result + max;
+        int result = start;
+        result = 31 * result + end;
         return result;
     }
 
     @Override
     public int compareTo(Range o) {
-        return min == o.min ? max - o.max : min - o.min;
+        if (this == EMPTY) return -1;
+        if (o == EMPTY) return 1;
+        return start == o.start ? end - o.end : start - o.start;
     }
 
     @Override
     public String toString() {
-        return String.format("[%d..%d]", min, max);
+        if (this == EMPTY) return "[EMPTY]";
+        return String.format("[%d..%d]", start, end);
     }
 
 }

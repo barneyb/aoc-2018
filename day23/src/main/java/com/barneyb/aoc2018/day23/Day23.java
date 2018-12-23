@@ -3,6 +3,7 @@ package com.barneyb.aoc2018.day23;
 import com.barneyb.aoc2018.util.Answers;
 import com.barneyb.aoc2018.util.FileUtils;
 import com.barneyb.aoc2018.util.OneShotDay;
+import com.barneyb.aoc2018.util.Point3D;
 
 import java.io.BufferedOutputStream;
 import java.io.FileOutputStream;
@@ -23,37 +24,29 @@ public class Day23 extends OneShotDay {
     }
 
     private static class Stats {
-        int minx = Integer.MAX_VALUE, miny = Integer.MAX_VALUE, minz = Integer.MAX_VALUE;
-        int maxx = Integer.MIN_VALUE, maxy = Integer.MIN_VALUE, maxz = Integer.MIN_VALUE;
-        int minr = Integer.MAX_VALUE, maxr = Integer.MIN_VALUE;
+        Range xRange = Range.EMPTY;
+        Range yRange = Range.EMPTY;
+        Range zRange = Range.EMPTY;
+        Range rRange = Range.EMPTY;
+        Range gRange;
 
-        int dx, dy, dz, dr;
-
-        int dg;
-
-        int pos_max = 0;
+        Range pRange = new Range(0, 1);
         int[][] pos_xy;
         int[][] pos_yz;
         int[][] pos_xz;
 
         Stats(Bot[] bots) {
             for (Bot b : bots) {
-                minx = Math.min(minx, b.pos.x);
-                maxx = Math.max(maxx, b.pos.x);
-                miny = Math.min(miny, b.pos.y);
-                maxy = Math.max(maxy, b.pos.y);
-                minz = Math.min(minz, b.pos.z);
-                maxz = Math.max(maxz, b.pos.z);
-                minr = Math.min(minr, b.range);
-                maxr = Math.max(maxr, b.range);
+                Point3D p = b.pos;
+                xRange = xRange.plus(p.x);
+                yRange = yRange.plus(p.y);
+                zRange = zRange.plus(p.z);
+                rRange = rRange.plus(b.range);
             }
 
-            dx = maxx - minx + 1;
-            dy = maxy - miny + 1;
-            dz = maxz - minz + 1;
-            dr = maxr - minr + 1;
-
-            dg = Math.min(Math.max(Math.max(dx, dy), dz), 200);
+            gRange = new Range(0,
+                    Math.min(Math.max(Math.max(xRange.size(), yRange.size()), zRange.size()), 200));
+            int dg = gRange.end();
             pos_xy = new int[dg][];
             pos_yz = new int[dg][];
             pos_xz = new int[dg][];
@@ -65,15 +58,14 @@ public class Day23 extends OneShotDay {
             }
 
             for (Bot b : bots) {
-                int cx = (int) (1.0 * (b.pos.x - minx) / dx * dg);
-                int cy = (int) (1.0 * (b.pos.y - miny) / dy * dg);
-                int cz = (int) (1.0 * (b.pos.z - minz) / dz * dg);
-                pos_xy[cy][cx] += 1;
-                pos_yz[cz][cy] += 1;
-                pos_xz[cz][cx] += 1;
-                pos_max = Math.max(pos_max,
-                        Math.max(pos_xy[cy][cx],
-                                Math.max(pos_yz[cz][cy], pos_xz[cz][cx])));
+                Point3D p = b.pos;
+                int cx = gRange.unscale(xRange.scale(p.x));
+                int cy = gRange.unscale(yRange.scale(p.y));
+                int cz = gRange.unscale(zRange.scale(p.z));
+                pRange = pRange
+                        .plus(pos_xy[cy][cx] += 1)
+                        .plus(pos_yz[cz][cy] += 1)
+                        .plus(pos_xz[cz][cx] += 1);
             }
         }
     }
@@ -87,18 +79,17 @@ public class Day23 extends OneShotDay {
 
         toFile("stats.txt", out -> {
             out.printf("   %12s %12s %12s%n", "min", "max", "range");
-            out.printf("x  %,12d %,12d %,12d%n", s.minx, s.maxx, s.dx);
-            out.printf("y  %,12d %,12d %,12d%n", s.miny, s.maxy, s.dy);
-            out.printf("z  %,12d %,12d %,12d%n", s.minz, s.maxz, s.dz);
-            out.printf("r  %,12d %,12d %,12d%n", s.minr, s.maxr, s.dr);
+            out.printf("x  %,12d %,12d %,12d%n", s.xRange.start(), s.xRange.end() - 1, s.xRange.size());
+            out.printf("y  %,12d %,12d %,12d%n", s.yRange.start(), s.yRange.end() - 1, s.yRange.size());
+            out.printf("z  %,12d %,12d %,12d%n", s.zRange.start(), s.zRange.end() - 1, s.zRange.size());
+            out.printf("r  %,12d %,12d %,12d%n", s.rRange.start(), s.rRange.end() - 1, s.rRange.size());
         });
 
-
-        char[] rampSmall = reverse("@%#*+=-:.".toCharArray());
-        char[] rampBig = reverse("$@B%8&WM#*oahkbdpqwmZO0QLCJUYXzcvunxrjft/\\|()1{}[]?-_+~<>i!lI;:,\"^`'.".toCharArray());
+        char[] gamut = " .:-=+*#%@".toCharArray();
+        Range gamutRange = new Range(0, gamut.length);
+//        char[] rampBig = reverse("$@B%8&WM#*oahkbdpqwmZO0QLCJUYXzcvunxrjft/\\|()1{}[]?-_+~<>i!lI;:,\"^`'.".toCharArray());
         Function<Integer, Character> renderer = v -> {
-            if (v == 0) return ' ';
-            return rampSmall[(int) Math.floor(1.0 * v / s.pos_max * (rampSmall.length - 1))];
+            return gamut[gamutRange.unscale(s.pRange.scale(v))];
         };
         toFile("xy_position.txt", out -> {
             out.println("x-y plane");
