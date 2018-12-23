@@ -7,12 +7,11 @@ class Stats {
     Range yRange = Range.EMPTY;
     Range zRange = Range.EMPTY;
     Range rRange = Range.EMPTY;
-    Range gRange;
 
     Range pRange = Range.inclusive(0, 0);
-    int[][] pos_xy;
-    int[][] pos_yz;
-    int[][] pos_xz;
+    ScaledPlot pos_xy;
+    ScaledPlot pos_yz;
+    ScaledPlot pos_xz;
 
     Stats(Bot[] bots) {
         for (Bot b : bots) {
@@ -35,22 +34,20 @@ class Stats {
         for (Bot b : bots) {
             rRange = rRange.plus(b.range);
         }
-        gRange = Range.halfOpen(0,
-                Math.min(Math.max(Math.max(xRange.size(), yRange.size()), zRange.size()), 200));
-        int dg = gRange.end();
-        pos_xy = initGrid(dg);
-        pos_yz = initGrid(dg);
-        pos_xz = initGrid(dg);
+        pos_xy = new ScaledPlot(xRange, yRange);
+        //noinspection SuspiciousNameCombination
+        pos_yz = new ScaledPlot(yRange, zRange);
+        pos_xz = new ScaledPlot(xRange, zRange);
 
         for (Bot b : bots) {
             Point3D p = b.pos;
-            int cx = gRange.unscale(xRange.scale(p.x));
-            int cy = gRange.unscale(yRange.scale(p.y));
-            int cz = gRange.unscale(zRange.scale(p.z));
-            pRange = pRange
-                    .plus(pos_xy[cy][cx] += 1)
-                    .plus(pos_yz[cz][cy] += 1)
-                    .plus(pos_xz[cz][cx] += 1);
+            boolean inX = xRange.contains(p.x);
+            boolean inY = yRange.contains(p.y);
+            boolean inZ = zRange.contains(p.z);
+            if (inX && inY) pRange = pRange.plus(pos_xy.incAndGet(p.x, p.y));
+            if (inY && inZ) //noinspection SuspiciousNameCombination
+                pRange = pRange.plus(pos_yz.incAndGet(p.y, p.z));
+            if (inX && inZ) pRange = pRange.plus(pos_xz.incAndGet(p.x, p.z));
         }
     }
 

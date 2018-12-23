@@ -1,7 +1,9 @@
 package com.barneyb.aoc2018.day23;
 
+import java.util.Iterator;
+
 // half-open: contains start, but does NOT contain end
-class Range implements Comparable<Range> {
+class Range implements Comparable<Range>, Iterable<Integer> {
 
     public static final Range EMPTY = new Range(Integer.MAX_VALUE, Integer.MAX_VALUE);
 
@@ -17,12 +19,19 @@ class Range implements Comparable<Range> {
         return new Range(a + 1, b);
     }
 
-    private final int start, end;
+    private final int start, end, step;
 
     private Range(int start, int end) {
         if (start > end) throw new IllegalArgumentException(start + " > " + end);
         this.start = start;
         this.end = end;
+        this.step = 1;
+    }
+    private Range(int start, int end, int step) {
+        if (start > end) throw new IllegalArgumentException(start + " > " + end);
+        this.start = start;
+        this.end = end;
+        this.step = step;
     }
 
     public int start() {
@@ -38,6 +47,11 @@ class Range implements Comparable<Range> {
     public int size() {
         if (this == EMPTY) throw new UnsupportedOperationException();
         return end - start;
+    }
+
+    public int steps() {
+        if (this == EMPTY) throw new UnsupportedOperationException();
+        return (int) Math.ceil(1.0 * size() / step);
     }
 
     public double scale(int n) {
@@ -73,10 +87,10 @@ class Range implements Comparable<Range> {
     }
 
     public Range plus(int i) {
-        if (this == EMPTY) return new Range(i, i + 1);
+        if (this == EMPTY) return Range.inclusive(i, i);
         if (contains(i)) return this;
-        if (i < start) return new Range(i, end);
-        return new Range(start, i + 1);
+        if (i < start) return Range.halfOpen(i, end);
+        return Range.inclusive(start, i);
     }
 
     @Override
@@ -107,7 +121,37 @@ class Range implements Comparable<Range> {
     @Override
     public String toString() {
         if (this == EMPTY) return "[EMPTY]";
-        return String.format("[%d..%d]", start, end);
+        return String.format("[%d..%d)", start, end);
     }
 
+    public Range by(int step) {
+        return new Range(start, end, step);
+    }
+
+    public Range toZero() {
+        return offset(-start);
+    }
+
+    public Range offset(int offset) {
+        return new Range(start + offset, end + offset);
+    }
+
+    @Override
+    public Iterator<Integer> iterator() {
+        return new Iterator<Integer>() {
+            int n = start;
+
+            @Override
+            public boolean hasNext() {
+                return n < end;
+            }
+
+            @Override
+            public Integer next() {
+                int v = n;
+                n += step;
+                return v;
+            }
+        };
+    }
 }
