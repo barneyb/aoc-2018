@@ -6,6 +6,7 @@ class ScaledPlot {
 
     final Range xr, yr, sxr, syr;
     final int[][] grid;
+    Range vRange = Range.inclusive(0, 0); // everything starts at zero
 
     ScaledPlot(Range xRange, Range yRange) {
         xr = xRange;
@@ -23,10 +24,10 @@ class ScaledPlot {
                 : Range.halfOpen(0, MAX_SIZE);
     }
 
-    public int incAndGet(int x, int y) {
+    public void inc(int x, int y) {
         int sx = sxr.unscale(xr.scale(x));
         int sy = syr.unscale(yr.scale(y));
-        return grid[sy][sx] += 1;
+        vRange = vRange.plus(grid[sy][sx] += 1);
     }
 
     public int scaledGet(int x, int y) {

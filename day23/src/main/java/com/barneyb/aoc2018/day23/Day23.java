@@ -8,6 +8,7 @@ import java.io.BufferedOutputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.PrintStream;
+import java.util.function.BiFunction;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
@@ -41,9 +42,9 @@ public class Day23 extends OneShotDay {
 //                , Range.inclusive(5, 25)
 //                , Range.inclusive(10, 15)
 //                , Range.inclusive(0, 17)
-                , Range.inclusive(-18_000_000, 150_000_000)
-                , Range.inclusive(0, 55_000_000)
-                , Range.inclusive(-81_529_762, 166_158_502)
+//                , Range.inclusive(-18_000_000, 150_000_000)
+//                , Range.inclusive(0, 55_000_000)
+//                , Range.inclusive(-81_529_762, 166_158_502)
         );
 
         toFile("stats.txt", out -> {
@@ -54,24 +55,23 @@ public class Day23 extends OneShotDay {
             out.printf("r  %,12d %,12d %,12d%n", s.rRange.start(), s.rRange.end() - 1, s.rRange.size());
         });
 
-        // " .:-=+*#%@"
-        // " .'`^"\,:;Il!i><~+_-?][}{1)(|\\/tfjrxnuvczXYUJCLQ0OZmwqpdbkhao*#MW&8%B@$"
-        char[] gamut = " .:-=+*#%@".toCharArray();
+//        char[] gamut = " .:-=+*#%@".toCharArray();
+        char[] gamut = " .'`^\",:;Il!i><~+_-?][}{1)(|\\/tfjrxnuvczXYUJCLQ0OZmwqpdbkhao*#MW&8%B@$".toCharArray();
         Range gamutRange = Range.halfOpen(0, gamut.length);
-        Function<Integer, Character> renderer = v -> {
-            return gamut[gamutRange.unscale(s.pRange.scale(v))];
+        BiFunction<Range, Integer, Character> renderer = (r, v) -> {
+            return gamut[gamutRange.unscale(r.scale(v))];
         };
         toFile("xy_position.txt", out -> {
             out.println("x-y plane");
-            out.println(printPlane(s.pos_xy, renderer));
+            out.println(printPlane(s.pos_xy, partial(renderer, s.pos_xy.vRange)));
         });
         toFile("yz_position.txt", out -> {
             out.println("y-z plane");
-            out.println(printPlane(s.pos_yz, renderer));
+            out.println(printPlane(s.pos_yz, partial(renderer, s.pos_yz.vRange)));
         });
         toFile("xz_position.txt", out -> {
             out.println("x-z plane");
-            out.println(printPlane(s.pos_xz, renderer));
+            out.println(printPlane(s.pos_xz, partial(renderer, s.pos_xz.vRange)));
         });
 
 
@@ -80,6 +80,10 @@ public class Day23 extends OneShotDay {
 //        Answers a = d.solve(input);
 //        long e = watch.stop();
 //        System.out.printf("%s in %d ms%n", a, e);
+    }
+
+    private static <T, U, R> Function<U, R> partial(BiFunction<T, U, R> f, T t) {
+        return u -> f.apply(t, u);
     }
 
     private static void toFile(String filename, Consumer<PrintStream> work) {

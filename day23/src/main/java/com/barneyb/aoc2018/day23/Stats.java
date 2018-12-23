@@ -8,7 +8,6 @@ class Stats {
     Range zRange = Range.EMPTY;
     Range rRange = Range.EMPTY;
 
-    Range pRange = Range.inclusive(0, 0);
     ScaledPlot pos_xy;
     ScaledPlot pos_yz;
     ScaledPlot pos_xz;
@@ -44,10 +43,10 @@ class Stats {
             boolean inX = xRange.contains(p.x);
             boolean inY = yRange.contains(p.y);
             boolean inZ = zRange.contains(p.z);
-            if (inX && inY) pRange = pRange.plus(pos_xy.incAndGet(p.x, p.y));
+            if (inX && inY) pos_xy.inc(p.x, p.y);
             if (inY && inZ) //noinspection SuspiciousNameCombination
-                pRange = pRange.plus(pos_yz.incAndGet(p.y, p.z));
-            if (inX && inZ) pRange = pRange.plus(pos_xz.incAndGet(p.x, p.z));
+                pos_yz.inc(p.y, p.z);
+            if (inX && inZ) pos_xz.inc(p.x, p.z);
         }
     }
 
