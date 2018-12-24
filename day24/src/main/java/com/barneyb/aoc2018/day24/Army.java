@@ -109,8 +109,11 @@ class Army {
     }
 
     public void boost(int boost) {
+        TreeSet<Group> boosted = new TreeSet<>();
         for (Group g : groups) {
             g.boost(boost);
+            boosted.add(g);
         }
+        groups = boosted;
     }
 }
