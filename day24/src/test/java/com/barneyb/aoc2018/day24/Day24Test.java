@@ -7,8 +7,6 @@ import static org.junit.Assert.assertEquals;
 
 public class Day24Test {
 
-    static final String EXAMPLE_GROUP = "18 units each with 729 hit points (weak to fire; immune to cold, slashing) with an attack that does 8 radiation damage at initiative 10";
-
     static final String EXAMPLE_INPUT =
             "Immune System:\n" +
             "17 units each with 5390 hit points (weak to radiation, bludgeoning) with an attack that does 4507 fire damage at initiative 2\n" +
