@@ -83,4 +83,20 @@ public class TreeSet<E extends Comparable<E>> implements Set<E> {
         }
         return dupe;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof TreeSet)) return false;
+
+        TreeSet<?> treeSet = (TreeSet<?>) o;
+
+        return tree.equals(treeSet.tree);
+    }
+
+    @Override
+    public int hashCode() {
+        return tree.hashCode();
+    }
+
 }
