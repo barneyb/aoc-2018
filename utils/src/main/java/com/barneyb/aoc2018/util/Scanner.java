@@ -98,6 +98,11 @@ public class Scanner {
         return s;
     }
 
+    public Scanner skipWord() {
+        readWord();
+        return this;
+    }
+
     public int readInt() {
         int c;
         boolean negative;
