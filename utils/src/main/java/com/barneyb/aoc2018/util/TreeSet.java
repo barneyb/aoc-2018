@@ -76,4 +76,11 @@ public class TreeSet<E extends Comparable<E>> implements Set<E> {
         return sb.append(']').toString();
     }
 
+    public TreeSet<E> duplicate() {
+        TreeSet<E> dupe = new TreeSet<>();
+        for (E e : this) {
+            dupe.add(e);
+        }
+        return dupe;
+    }
 }
