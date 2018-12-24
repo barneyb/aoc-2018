@@ -110,6 +110,13 @@ public class Scanner {
         return s;
     }
 
+    public String readNonWhitespace() {
+        readWhile(Character::isWhitespace);
+        String s = readUntil(Character::isWhitespace);
+        readWhile(Character::isWhitespace);
+        return s;
+    }
+
     public Scanner skipWord() {
         readWord();
         return this;
