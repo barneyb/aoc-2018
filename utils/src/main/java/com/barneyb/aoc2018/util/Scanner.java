@@ -93,7 +93,8 @@ public class Scanner {
     }
 
     public String readWord() {
-        String s = readUntil(Character::isWhitespace);
+        readWhile(Character::isWhitespace);
+        String s = readWhile(Character::isLetter);
         readWhile(Character::isWhitespace);
         return s;
     }
