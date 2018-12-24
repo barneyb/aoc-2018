@@ -7,33 +7,32 @@ import com.barneyb.aoc2018.util.TreeSet;
 class Group implements Comparable<Group> {
 
     static Group parse(String input) {
-        return scan(new Scanner(input
+        return scan(new Scanner(input.trim()
                 .replace(" unit ", " units ")
                 .replace(" point ", " points ")));
     }
 
     static Group scan(Scanner s) {
+        System.out.println("Scan group: " + s.preview());
         // 18 units each with 729 hit points (weak to fire; immune to cold, slashing) with an attack that does 8 radiation damage at initiative 10
         // 272 units each with 10137 hit points with an attack that does 331 slashing damage at initiative 10
         Group g = new Group();
         g.units(s.readInt());
         g.hitPoints(s.skip(" units each with ").readInt());
         s.skip(" hit points ");
-        if (s.probe('(')) {
-            s.skip('(');
+        boolean started = false;
+        while (s.probe('(') || s.probe(';')) {
+            started = true;
+            s.skip(1).skipWS();
             if (s.probe('w')) {
                 g.addWeakness(s.skip("weak to ").readWord());
                 while (s.probe(',')) g.addWeakness(s.skip(", ").readWord());
-            }
-            if (s.probe(';')) {
-                s.skip("; ");
-            }
-            if (s.probe('i')) {
+            } else if (s.probe('i')) {
                 g.addImmunity(s.skip("immune to ").readWord());
                 while (s.probe(',')) g.addImmunity(s.skip(", ").readWord());
             }
-            s.skip(") ");
         }
+        if (started) s.skip(") ");
         g.attack(
                 s.skip("with an attack that does ").readInt(),
                 s.skipWS().readWord());

@@ -31,6 +31,10 @@ public class GroupTest {
         assertEquals(new TreeSet<>(new String[] {"fire", "cold"}), g.weaknesses());
         assertEquals(new TreeSet<>(new String[] {"slashing"}), g.immunities());
 
+        g = Group.parse(prefix + " (immune to slashing; weak to fire, cold) " + suffix);
+        assertEquals(new TreeSet<>(new String[] {"fire", "cold"}), g.weaknesses());
+        assertEquals(new TreeSet<>(new String[] {"slashing"}), g.immunities());
+
         g = Group.parse(prefix + " (weak to fire, cold) " + suffix);
         assertEquals(new TreeSet<>(new String[] {"fire", "cold"}), g.weaknesses());
         assertEquals(new TreeSet<>(), g.immunities());
