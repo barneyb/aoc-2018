@@ -25,6 +25,10 @@ class Bot {
         return pos.md(b.pos) <= range;
     }
 
+    boolean inRange(Point3D p) {
+        return pos.md(p) <= range;
+    }
+
     @Override
     public String toString() {
         return String.format("pos=<%d,%d,%d>, r=%d", pos.x, pos.y, pos.z, range);

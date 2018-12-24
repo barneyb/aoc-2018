@@ -52,8 +52,8 @@ class ScaledPlot {
     }
 
 
-//    private static final char[] GAMUT = " .:-=+*#%@".toCharArray();
-    private static final char[] GAMUT = " .'`^\",:;Il!i><~+_-?][}{1)(|\\/tfjrxnuvczXYUJCLQ0OZmwqpdbkhao*#MW&8%B@$".toCharArray();
+//    private static final char[] GAMUT = ".:-=+*#%@".toCharArray();
+    private static final char[] GAMUT = ".'`^\",:;Il!i><~+_-?][}{1)(|\\/tfjrxnuvczXYUJCLQ0OZmwqpdbkhao*#MW&8%B@$".toCharArray();
     private static final Range GAMUT_RANGE = Range.halfOpen(0, GAMUT.length);
 
     @Override
@@ -68,8 +68,8 @@ class ScaledPlot {
                 String.format("%,d", yAxis.range.end()).length()
         );
         sb.append(String.format("%s-%s plane", xAxis.label, yAxis.label)).append('\n');
-        sb.append(String.format("%s factor: %10.9f%n", xAxis.label, xFactor()));
-        sb.append(String.format("%s factor: %10.9f%n", yAxis.label, yFactor()));
+        sb.append(String.format("%s factor: %10.9f (%d per plot point)%n", xAxis.label, xFactor(), (int) (1 / xFactor())));
+        sb.append(String.format("%s factor: %10.9f (%d per plot point)%n", yAxis.label, yFactor(), (int) (1 / yFactor())));
         sb.append(String.format("%" + yl + "s  ", ""));
         for (int x : scaledX.by(xl + 4)) {
             sb.append(String.format("| %-," + (xl + 2) + "d", unscaleX(x)));
@@ -78,7 +78,7 @@ class ScaledPlot {
         for (int y : scaledY) {
             sb.append(String.format("%," + yl + "d |", unscaleY(y)));
             for (int cell : grid[y]) {
-                sb.append(GAMUT[GAMUT_RANGE.unscale(vRange.scale(cell))]);
+                sb.append(cell == 0 ? ' ' : GAMUT[GAMUT_RANGE.unscale(vRange.scale(cell))]);
             }
             sb.append("|\n");
         }

@@ -1,5 +1,6 @@
 package com.barneyb.aoc2018.day23;
 
+import com.barneyb.aoc2018.util.Point;
 import com.barneyb.aoc2018.util.Point3D;
 
 class Stats {
@@ -11,6 +12,10 @@ class Stats {
     ScaledPlot pos_xy;
     ScaledPlot pos_yz;
     ScaledPlot pos_xz;
+
+    ScaledPlot heat_xy;
+    ScaledPlot heat_yz;
+    ScaledPlot heat_xz;
 
     Stats(Bot[] bots) {
         for (Bot b : bots) {
@@ -49,6 +54,32 @@ class Stats {
             if (inY && inZ) //noinspection SuspiciousNameCombination
                 pos_yz.inc(p.y, p.z);
             if (inX && inZ) pos_xz.inc(p.x, p.z);
+        }
+
+        heat_xy = new ScaledPlot(xa, ya);
+        heat_yz = new ScaledPlot(ya, za);
+        heat_xz = new ScaledPlot(xa, za);
+
+        for (Bot b : bots) {
+            int r = b.range;
+            Point3D p = b.pos;
+            addToHeatmap(heat_xy, new Point(p.x, p.y), r);
+            //noinspection SuspiciousNameCombination
+            addToHeatmap(heat_yz, new Point(p.y, p.y), r);
+            addToHeatmap(heat_xz, new Point(p.x, p.z), r);
+        }
+    }
+
+    private void addToHeatmap(ScaledPlot plot, Point p, int r) {
+        int dx = (int) (1 / plot.xFactor());
+        int dy = (int) (1 / plot.yFactor());
+        for (int x = p.x - r, mx = p.x; x <= mx; x += dx) {
+            if (! plot.xAxis.range.contains(x)) continue;
+            int spent = r - Math.abs(p.x - x);
+            for (int y = p.y - r + spent, my = p.y + r - spent; y <= my; y += dy) {
+                if (! plot.yAxis.range.contains(y)) continue;
+                plot.inc(x, y);
+            }
         }
     }
 

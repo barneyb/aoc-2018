@@ -47,6 +47,20 @@ public class Day23 extends OneShotDay {
 //                , Range.inclusive(-81_529_762, 166_158_502)
         );
 
+//        final int y1 = -3_000_000;
+//        final int z1 = -21_000_000;
+//        final int y2 = 70_000_000;
+//        final int z2 = -70_000_000;
+//        int n1 = 0;
+//        int n2 = 0;
+//        for (int x = -158_197_890; x <= 251_687_255; x += 10_000) {
+//            for (Bot b : swarm.bots) {
+//                if (b.inRange(new Point3D(x, y1, z1))) n1++;
+//                if (b.inRange(new Point3D(x, y2, z2))) n2++;
+//            }
+//        }
+//        System.out.printf("n1: %d, n2: %d%n", n1, n2);
+
         toFile("stats.txt", out -> {
             out.printf("   %12s %12s %12s%n", "min", "max", "range");
             out.printf("x  %,12d %,12d %,12d%n", s.xRange.start(), s.xRange.end() - 1, s.xRange.size());
@@ -55,15 +69,12 @@ public class Day23 extends OneShotDay {
             out.printf("r  %,12d %,12d %,12d%n", s.rRange.start(), s.rRange.end() - 1, s.rRange.size());
         });
 
-        toFile("xy_position.txt", out -> {
-            out.println(s.pos_xy);
-        });
-        toFile("yz_position.txt", out -> {
-            out.println(s.pos_yz);
-        });
-        toFile("xz_position.txt", out -> {
-            out.println(s.pos_xz);
-        });
+        toFile("xy_position.txt", s.pos_xy);
+        toFile("yz_position.txt", s.pos_yz);
+        toFile("xz_position.txt", s.pos_xz);
+        toFile("xy_heatmap.txt", s.heat_xy);
+        toFile("yz_heatmap.txt", s.heat_yz);
+        toFile("xz_heatmap.txt", s.heat_xz);
 
 
 
@@ -87,6 +98,10 @@ public class Day23 extends OneShotDay {
         } catch (IOException ioe) {
             throw new RuntimeException(ioe);
         }
+    }
+
+    private static void toFile(String filename, Object thinger) {
+        toFile(filename, out -> out.println(thinger));
     }
 
 }
