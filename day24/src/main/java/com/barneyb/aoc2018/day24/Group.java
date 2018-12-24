@@ -7,10 +7,10 @@ class Group implements Comparable<Group> {
     private int units;
     private int hitPoints;
     private int attack;
-    private AttackType attackType;
+    private String attackType;
     private int initiative;
-    private Set<AttackType> weaknesses;
-    private Set<AttackType> immunities;
+    private Set<String> weaknesses;
+    private Set<String> immunities;
 
     public int effectivePower() {
         return units * attack;
@@ -36,12 +36,12 @@ class Group implements Comparable<Group> {
         return attack;
     }
 
-    public void attack(AttackType t, int a) {
-        attackType = t;
+    public void attack(String type, int a) {
+        attackType = type;
         attack = a;
     }
 
-    public AttackType attackType() {
+    public String attackType() {
         return attackType;
     }
 
