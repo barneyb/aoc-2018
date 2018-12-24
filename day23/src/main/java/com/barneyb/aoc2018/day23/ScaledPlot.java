@@ -7,7 +7,8 @@ class ScaledPlot {
     final Axis xAxis, yAxis;
     final Range scaledX, scaledY;
     final int[][] grid;
-    Range vRange = Range.inclusive(0, 0); // everything starts at zero
+    Range valueRange;
+    int points = -1;
 
     ScaledPlot(Axis xAxis, Axis yAxis) {
         this.xAxis = xAxis;
@@ -20,6 +21,31 @@ class ScaledPlot {
         }
     }
 
+    Range vRange() {
+        if (valueRange == null) {
+            Range r = Range.EMPTY;
+            for (int y = grid.length - 1; y >= 0; y--) {
+                for (int x = grid[y].length - 1; x >= 0; x--) {
+                    r = r.plus(grid[y][x]);
+                }
+            }
+            valueRange = r;
+        }
+        return valueRange;
+    }
+
+    int points() {
+        if (points < 0) {
+            points = 0;
+            for (int y = grid.length - 1; y >= 0; y--) {
+                for (int x = grid[y].length - 1; x >= 0; x--) {
+                    if (grid[y][x] > 0) points += 1;
+                }
+            }
+        }
+        return points;
+    }
+
     private Range scale(Range r) {
         return r.size() < MAX_SIZE ? r.toZero()
                 : Range.halfOpen(0, MAX_SIZE);
@@ -28,7 +54,7 @@ class ScaledPlot {
     public void inc(int x, int y) {
         int sx = scaledX.unscale(xAxis.range.scale(x));
         int sy = scaledY.unscale(yAxis.range.scale(y));
-        vRange = vRange.plus(grid[sy][sx] += 1);
+        grid[sy][sx] += 1;
     }
 
     public int scaledGet(int x, int y) {
@@ -51,7 +77,6 @@ class ScaledPlot {
         return 1.0 * scaledY.size() / yAxis.range.size();
     }
 
-
 //    private static final char[] GAMUT = ".:-=+*#%@".toCharArray();
     private static final char[] GAMUT = ".'`^\",:;Il!i><~+_-?][}{1)(|\\/tfjrxnuvczXYUJCLQ0OZmwqpdbkhao*#MW&8%B@$".toCharArray();
     private static final Range GAMUT_RANGE = Range.halfOpen(0, GAMUT.length);
@@ -70,6 +95,9 @@ class ScaledPlot {
         sb.append(String.format("%s-%s plane", xAxis.label, yAxis.label)).append('\n');
         sb.append(String.format("%s factor: %10.9f (%d per plot point)%n", xAxis.label, xFactor(), (int) (1 / xFactor())));
         sb.append(String.format("%s factor: %10.9f (%d per plot point)%n", yAxis.label, yFactor(), (int) (1 / yFactor())));
+        sb.append("points: ").append(points()).append('\n');
+        Range vRange = vRange();
+        sb.append("range: ").append(vRange()).append('\n');
         sb.append(String.format("%" + yl + "s  ", ""));
         for (int x : scaledX.by(xl + 4)) {
             sb.append(String.format("| %-," + (xl + 2) + "d", unscaleX(x)));
