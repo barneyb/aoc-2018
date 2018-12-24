@@ -200,4 +200,30 @@ public class BST<K extends Comparable<K>, V> implements ST<K, V> {
         }
         return sb.append('}').toString();
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof BST)) return false;
+        //noinspection unchecked
+        BST<K, V> bst = (BST<K, V>) o;
+        if (size() != bst.size()) return false;
+        Iterator<K> oki = bst.keys().iterator();
+        for (K k : keys()) {
+            K ok = oki.next();
+            if (! k.equals(ok)) return false;
+            if (! get(k).equals(bst.get(ok))) return false;
+        }
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = 0;
+        for (K k : keys()) {
+            result = 31 * result + k.hashCode();
+            result = 31 * result + get(k).hashCode();
+        }
+        return result;
+    }
 }

@@ -11,6 +11,7 @@ import java.util.function.Predicate;
  */
 public class Scanner {
 
+    public static final int PREVIEW_LEN = 50;
     private final PushbackReader in;
 
     public Scanner(String s) {
@@ -18,7 +19,7 @@ public class Scanner {
     }
 
     public Scanner(Reader r) {
-        this.in = new PushbackReader(r);
+        this.in = new PushbackReader(r, PREVIEW_LEN);
     }
 
     public Scanner skip(char c) {
@@ -59,11 +60,21 @@ public class Scanner {
         return this;
     }
 
+    public boolean probe() {
+        try {
+            int glerg = in.read();
+            if (glerg >= 0) in.unread(glerg);
+            return glerg >= 0;
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     public boolean probe(char c) {
         try {
             int glerg = in.read();
             boolean result = c == glerg;
-            in.unread(glerg);
+            if (glerg >= 0) in.unread(glerg);
             return result;
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -93,9 +104,22 @@ public class Scanner {
     }
 
     public String readWord() {
+        readWhile(Character::isWhitespace);
+        String s = readWhile(Character::isLetter);
+        readWhile(Character::isWhitespace);
+        return s;
+    }
+
+    public String readNonWhitespace() {
+        readWhile(Character::isWhitespace);
         String s = readUntil(Character::isWhitespace);
         readWhile(Character::isWhitespace);
         return s;
+    }
+
+    public Scanner skipWord() {
+        readWord();
+        return this;
     }
 
     public int readInt() {
@@ -113,6 +137,18 @@ public class Scanner {
             throw new NoMatchException("No integer was found");
         }
         return (negative ? -1 : 1) * Integer.parseInt(s);
+    }
+
+    public String preview() {
+        try {
+            char[] buff = new char[PREVIEW_LEN];
+            int len = in.read(buff);
+            String result = new String(buff, 0, len);
+            in.unread(buff, 0, len);
+            return result;
+        } catch (IOException ioe) {
+            throw new RuntimeException(ioe);
+        }
     }
 
     private String readUntil(Predicate<Integer> test) {

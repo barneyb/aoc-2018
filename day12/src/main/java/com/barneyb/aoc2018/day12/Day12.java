@@ -11,7 +11,7 @@ public class Day12 extends OneShotDay {
         String state = new Scanner(lines[0]).skip("initial state: ").rest();
         for (int i = 2, l = lines.length; i < l; i++) {
             if (lines[i].endsWith("#")) {
-                growers.add(new Scanner(lines[i]).readWord());
+                growers.add(new Scanner(lines[i]).readNonWhitespace());
             }
         }
         return new Answers(
