@@ -27,6 +27,16 @@ class Army {
     private String label;
     private TreeSet<Group> groups = new TreeSet<>();
 
+    Army duplicate() {
+        Army a = new Army();
+        a.label = label;
+        a.groups = new TreeSet<>();
+        for (Group g : groups) {
+            a.addGroup(g.duplicate());
+        }
+        return a;
+    }
+
     public String label() {
         return label;
     }
@@ -67,7 +77,7 @@ class Army {
             Group target = null;
             for (Group d : dgs) {
                 int damage = a.calcDamage(d);
-                System.out.println(new TargetSelection(label, a, d, damage));
+//                System.out.println(new TargetSelection(label, a, d, damage));
                 if (damage > maxDamage) {
                     maxDamage = damage;
                     target = d;
@@ -98,4 +108,9 @@ class Army {
         groups = alive;
     }
 
+    public void boost(int boost) {
+        for (Group g : groups) {
+            g.boost(boost);
+        }
+    }
 }

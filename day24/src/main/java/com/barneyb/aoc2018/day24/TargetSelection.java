@@ -43,7 +43,7 @@ class TargetSelection implements Comparable<TargetSelection> {
         int before = target.units();
         group.attack(target);
         int after = target.units();
-        System.out.println(label + " group " + group.index() + " attacks defending group " + target.index() + ", killing " + (before - after) + " units");
+//        System.out.println(label + " group " + group.index() + " attacks defending group " + target.index() + ", killing " + (before - after) + " units");
     }
 
     @Override

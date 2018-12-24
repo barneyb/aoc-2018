@@ -17,10 +17,18 @@ class Combat {
         return ! immune.alive() || ! infection.alive();
     }
 
+    public boolean infected() {
+        return infection.alive();
+    }
+
+    public int unitsOnField() {
+        return immune.units() + infection.units();
+    }
+
     public void fight() {
-        System.out.println(immune);
-        System.out.println(infection);
-        System.out.println();
+//        System.out.println(immune);
+//        System.out.println(infection);
+//        System.out.println();
         TreeSet<TargetSelection> selections = infection.selectTargets(immune);
         for (TargetSelection s : immune.selectTargets(infection)) {
             selections.add(s);
@@ -36,4 +44,18 @@ class Combat {
         infection.buryTheDead();
     }
 
+    @Override
+    public String toString() {
+        return immune.toString() + '\n' + infection;
+    }
+
+    public void run() {
+        int last = -1;
+        while (! isOver()) {
+            fight();
+            int uof = unitsOnField();
+            if (last == uof) break; // stalemate
+            last = uof;
+        }
+    }
 }

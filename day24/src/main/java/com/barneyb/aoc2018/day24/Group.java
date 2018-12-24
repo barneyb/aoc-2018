@@ -43,8 +43,21 @@ class Group implements Comparable<Group> {
     private int attack;
     private String attackType;
     private int initiative;
-    private Set<String> weaknesses = new TreeSet<>();
-    private Set<String> immunities = new TreeSet<>();
+    private TreeSet<String> weaknesses = new TreeSet<>();
+    private TreeSet<String> immunities = new TreeSet<>();
+
+    public Group duplicate() {
+        Group g = new Group();
+        g.index = index;
+        g.units = units;
+        g.hitPoints = hitPoints;
+        g.attack = attack;
+        g.attackType = attackType;
+        g.initiative = initiative;
+        g.weaknesses = weaknesses.duplicate();
+        g.immunities = immunities.duplicate();
+        return g;
+    }
 
     public int index() {
         return index;
@@ -158,7 +171,11 @@ class Group implements Comparable<Group> {
 
     @Override
     public String toString() {
-        return "Group " + index + " contains " + units + " units";
+        // 18 units each with 729 hit points (weak to fire; immune to cold, slashing) with an attack that does 8 radiation damage at initiative 10
+        return "Group " + index + " contains " + units + " units w/ " + hitPoints + " hit points (weak to " + weaknesses + "; immune to " + immunities + ")with " + attack + " " + attackType + " damage at initiative " + initiative;
     }
 
+    public void boost(int boost) {
+        attack += boost;
+    }
 }
