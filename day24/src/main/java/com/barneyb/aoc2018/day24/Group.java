@@ -172,7 +172,7 @@ class Group implements Comparable<Group> {
     @Override
     public String toString() {
         // 18 units each with 729 hit points (weak to fire; immune to cold, slashing) with an attack that does 8 radiation damage at initiative 10
-        return "Group " + index + " contains " + units + " units w/ " + hitPoints + " hit points (weak to " + weaknesses + "; immune to " + immunities + ")with " + attack + " " + attackType + " damage at initiative " + initiative;
+        return "Group " + index + " contains " + units + " units w/ " + hitPoints + " hit points (weak to " + weaknesses + "; immune to " + immunities + ") with " + attack + " " + attackType + " damage at initiative " + initiative;
     }
 
     public void boost(int boost) {

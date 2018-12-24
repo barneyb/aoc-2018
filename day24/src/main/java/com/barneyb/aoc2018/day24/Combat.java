@@ -49,13 +49,14 @@ class Combat {
         return immune.toString() + '\n' + infection;
     }
 
-    public void run() {
+    public boolean run() {
         int last = -1;
         while (! isOver()) {
             fight();
             int uof = unitsOnField();
-            if (last == uof) break; // stalemate
+            if (last == uof) return false; // stalemate
             last = uof;
         }
+        return true;
     }
 }

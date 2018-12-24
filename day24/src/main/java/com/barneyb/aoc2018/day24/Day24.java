@@ -28,16 +28,20 @@ public class Day24 extends OneShotDay {
     int partTwo(Army immune, Army infection) {
         Combat c;
         for (int boost = 1; true; boost++) {
-            Army a = immune.duplicate();
-            a.boost(boost);
-            c = new Combat(a, infection.duplicate());
-            c.run();
-            if (! c.infected()) return a.units();
+            Army immu = immune.duplicate();
+            immu.boost(boost);
+            Army infec = infection.duplicate();
+            c = new Combat(immu, infec);
+            boolean complete = c.run();
+//            if (! complete) {
+//                System.out.printf("stalemate? w/ %d boost (%d to %d)%n", boost, immu.units(), infec.units());
+//            }
+            if (! c.infected()) {
+//                System.out.printf("Immune wins w/ %d boost and %d units %n", boost, immu.units());
+                return immu.units();
+            }
         }
     }
-
-    // 25180 is too high
-    // 4765 is too low
 
     public static void main(String[] args)  {
         Day24 d = new Day24();
