@@ -1,6 +1,7 @@
 package com.barneyb.aoc2018.day24;
 
 import com.barneyb.aoc2018.util.Answers;
+import com.barneyb.aoc2018.util.Scanner;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
@@ -21,6 +22,17 @@ public class Day24Test {
         Answers a = new Day24().solve(EXAMPLE_INPUT);
         assertEquals("7", a.getPartOne());
         assertEquals("-", a.getPartTwo());
+    }
+
+    @Test
+    public void parse() {
+        Scanner scanner = new Scanner(EXAMPLE_INPUT.trim());
+        Army immune = Army.scan(scanner);
+        Army infection = Army.scan(scanner);
+        assertEquals(2, immune.groups().size());
+        assertEquals(17, immune.groups().min().units());
+        assertEquals(2, infection.groups().size());
+        assertEquals(801, infection.groups().min().units());
     }
 
 }
