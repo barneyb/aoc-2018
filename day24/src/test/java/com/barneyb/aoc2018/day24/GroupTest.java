@@ -56,8 +56,9 @@ public class GroupTest {
         assertEquals(10, g.initiative());
     }
 
+
     @Test
-    public void dealDamage() {
+    public void attack() {
         Group g = new Group();
         g.hitPoints(10);
         g.units(10);

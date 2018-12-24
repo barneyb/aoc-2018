@@ -20,7 +20,7 @@ public class Day24Test {
     @Test
     public void solve() {
         Answers a = new Day24().solve(EXAMPLE_INPUT);
-        assertEquals("7", a.getPartOne());
+        assertEquals("5216", a.getPartOne());
         assertEquals("-", a.getPartTwo());
     }
 

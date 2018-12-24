@@ -8,9 +8,17 @@ public class Day24 extends OneShotDay {
     public Answers solve(String input) {
         Scanner scanner = new Scanner(input.trim());
         Army immune = Army.scan(scanner);
+        immune.label("Immune System");
         Army infection = Army.scan(scanner);
+        infection.label("Infection");
+        Combat c = new Combat(immune, infection);
+        for (int f = 1; ! c.isOver(); f++) {
+            System.out.println("Fight " + f);
+            c.fight();
+            System.out.println();
+        }
         return new Answers(
-                input.length()
+                immune.alive() ? immune.units() : infection.units()
 //                , input.trim().length()
         );
     }

@@ -13,9 +13,6 @@ class Group implements Comparable<Group> {
     }
 
     static Group scan(Scanner s) {
-        System.out.println("Scan group: " + s.preview());
-        // 18 units each with 729 hit points (weak to fire; immune to cold, slashing) with an attack that does 8 radiation damage at initiative 10
-        // 272 units each with 10137 hit points with an attack that does 331 slashing damage at initiative 10
         Group g = new Group();
         g.units(s.readInt());
         g.hitPoints(s.skip(" units each with ").readInt());
@@ -40,6 +37,7 @@ class Group implements Comparable<Group> {
         return g;
     }
 
+    private int index;
     private int units;
     private int hitPoints;
     private int attack;
@@ -47,6 +45,14 @@ class Group implements Comparable<Group> {
     private int initiative;
     private Set<String> weaknesses = new TreeSet<>();
     private Set<String> immunities = new TreeSet<>();
+
+    public int index() {
+        return index;
+    }
+
+    public void index(int i) {
+        index = i;
+    }
 
     public int effectivePower() {
         return units * attack;
@@ -142,7 +148,17 @@ class Group implements Comparable<Group> {
         return damage;
     }
 
-    public void dealDamage(int damage) {
-        units -= damage / hitPoints;
+    public void attack(Group d) {
+        d.dealDamage(calcDamage(d));
     }
+
+    public void dealDamage(int damage) {
+        units = Math.max(0, units - (damage / hitPoints));
+    }
+
+    @Override
+    public String toString() {
+        return "Group " + index + " contains " + units + " units";
+    }
+
 }
