@@ -42,9 +42,9 @@ public class Day23 extends OneShotDay {
 //                , Range.inclusive(5, 25)
 //                , Range.inclusive(10, 15)
 //                , Range.inclusive(0, 17)
-//                , Range.inclusive(-18_000_000, 150_000_000)
-//                , Range.inclusive(0, 55_000_000)
-//                , Range.inclusive(-81_529_762, 166_158_502)
+                , Range.inclusive(32_000_000, 35_000_000)
+                , Range.inclusive(-136_000, 1_500_000)
+                , Range.inclusive(-2_300_000, 3_000_000)
         );
 
 //        final int y1 = -3_000_000;
