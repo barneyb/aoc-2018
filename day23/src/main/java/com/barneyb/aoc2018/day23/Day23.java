@@ -1,6 +1,7 @@
 package com.barneyb.aoc2018.day23;
 
 import com.barneyb.aoc2018.util.Answers;
+import com.barneyb.aoc2018.util.Bounds;
 import com.barneyb.aoc2018.util.FileUtils;
 import com.barneyb.aoc2018.util.OneShotDay;
 
@@ -42,41 +43,42 @@ public class Day23 extends OneShotDay {
 //                , Range.inclusive(5, 25)
 //                , Range.inclusive(10, 15)
 //                , Range.inclusive(0, 17)
-                , Range.inclusive(32_000_000, 35_000_000)
-                , Range.inclusive(-136_000, 1_500_000)
-                , Range.inclusive(-2_300_000, 3_000_000)
+//                , Range.inclusive(32_000_000, 35_000_000)
+//                , Range.inclusive(-136_000, 1_500_000)
+//                , Range.inclusive(-2_300_000, 3_000_000)
         );
 
-//        final int y1 = -3_000_000;
-//        final int z1 = -21_000_000;
-//        final int y2 = 70_000_000;
-//        final int z2 = -70_000_000;
-//        int n1 = 0;
-//        int n2 = 0;
-//        for (int x = -158_197_890; x <= 251_687_255; x += 10_000) {
-//            for (Bot b : swarm.bots) {
-//                if (b.inRange(new Point3D(x, y1, z1))) n1++;
-//                if (b.inRange(new Point3D(x, y2, z2))) n2++;
-//            }
-//        }
-//        System.out.printf("n1: %d, n2: %d%n", n1, n2);
+        for (int gen = 0; gen < 1000; gen++) {
+            Bounds xy = s.heat_xy.maximaBounds();
+            Bounds yz = s.heat_yz.maximaBounds();
+            Bounds xz = s.heat_xz.maximaBounds();
+            Range rx = Range.halfOpen(xy.min().x, xy.max().x)
+                    .plus(xz.min().x)
+                    .plus(xz.max().x);
+            Range ry = Range.halfOpen(xy.min().y, xy.max().y)
+                    .plus(yz.min().x)
+                    .plus(yz.max().x);
+            Range rz = Range.halfOpen(xz.min().y, xz.max().y)
+                    .plus(yz.min().y)
+                    .plus(yz.max().y);
+            if (rx.size() == 1 || ry.size() == 1 || rz.size() == 1) break;
+            s = new Stats(swarm.bots, rx, ry, rz);
 
-        toFile("stats.txt", out -> {
-            out.printf("   %12s %12s %12s%n", "min", "max", "range");
-            out.printf("x  %,12d %,12d %,12d%n", s.xRange.start(), s.xRange.end() - 1, s.xRange.size());
-            out.printf("y  %,12d %,12d %,12d%n", s.yRange.start(), s.yRange.end() - 1, s.yRange.size());
-            out.printf("z  %,12d %,12d %,12d%n", s.zRange.start(), s.zRange.end() - 1, s.zRange.size());
-            out.printf("r  %,12d %,12d %,12d%n", s.rRange.start(), s.rRange.end() - 1, s.rRange.size());
-        });
+            System.out.println("Generation " + gen);
+            System.out.println(", Range.inclusive(" + rx.start() + ", " + rx.end() + ") // " + rx.size());
+            System.out.println(", Range.inclusive(" + ry.start() + ", " + ry.end() + ") // " + ry.size());
+            System.out.println(", Range.inclusive(" + rz.start() + ", " + rz.end() + ") // " + rz.size());
+        }
 
-        toFile("xy_position.txt", s.pos_xy);
-        toFile("yz_position.txt", s.pos_yz);
-        toFile("xz_position.txt", s.pos_xz);
+        toFile("stats.txt", s);
+
+//        toFile("xy_position.txt", s.pos_xy);
+//        toFile("yz_position.txt", s.pos_yz);
+//        toFile("xz_position.txt", s.pos_xz);
+
         toFile("xy_heatmap.txt", s.heat_xy);
         toFile("yz_heatmap.txt", s.heat_yz);
         toFile("xz_heatmap.txt", s.heat_xz);
-
-
 
 //        Stopwatch watch = new Stopwatch();
 //        Answers a = d.solve(input);

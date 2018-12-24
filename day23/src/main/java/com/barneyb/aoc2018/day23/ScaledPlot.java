@@ -39,10 +39,12 @@ class ScaledPlot {
                 if (v > 0) points += 1;
             }
         }
-        int max = vRange.end() - 1;
+        int cutoff = vRange.size() < 3
+                ? vRange.end() - 1
+                : vRange.start() + (int) (0.9 * vRange.size());
         for (int y = grid.length - 1; y >= 0; y--) {
             for (int x = grid[y].length - 1; x >= 0; x--) {
-                if (grid[y][x] == max) {
+                if (grid[y][x] >= cutoff) {
                     Point p = new Point(x, y);
                     sMaximaBound = sMaximaBound == null
                             ? new Bounds(p, p)
@@ -54,7 +56,7 @@ class ScaledPlot {
         Point mx = sMaximaBound.max();
         maximaBound = new Bounds(
                 new Point(unscaleX(mn.x), unscaleY(mn.y)),
-                new Point(unscaleX(mx.x + 1) - 1, unscaleY(mx.y + 1) - 1)
+                new Point(unscaleX(mx.x), unscaleY(mx.y))
         );
     }
 
@@ -68,9 +70,14 @@ class ScaledPlot {
         return points;
     }
 
-    Bounds boundsOfAllMaxima() {
+    Bounds scaledMaximaBounds() {
         ensureStats();
         return sMaximaBound;
+    }
+
+    Bounds maximaBounds() {
+        ensureStats();
+        return maximaBound;
     }
 
     private Range scale(Range r) {
