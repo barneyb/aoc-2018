@@ -1,6 +1,9 @@
 package com.barneyb.aoc2018.day24;
 
-import com.barneyb.aoc2018.util.*;
+import com.barneyb.aoc2018.util.Answers;
+import com.barneyb.aoc2018.util.FileUtils;
+import com.barneyb.aoc2018.util.OneShotDay;
+import com.barneyb.aoc2018.util.Stopwatch;
 
 public class Day24 extends OneShotDay {
 
@@ -8,7 +11,7 @@ public class Day24 extends OneShotDay {
     public Answers solve(String input) {
         return new Answers(
                 input.length()
-                , input.trim().length()
+//                , input.trim().length()
         );
     }
 
