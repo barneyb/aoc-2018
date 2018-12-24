@@ -1,5 +1,9 @@
 package com.barneyb.aoc2018.day23;
 
+import com.barneyb.aoc2018.util.Bounds;
+import com.barneyb.aoc2018.util.Point;
+
+// this should really be Plot and ScaledPlot
 class ScaledPlot {
 
     static final int MAX_SIZE = 200;
@@ -7,8 +11,10 @@ class ScaledPlot {
     final Axis xAxis, yAxis;
     final Range scaledX, scaledY;
     final int[][] grid;
-    Range valueRange;
+    Range vRange;
     int points = -1;
+    Bounds sMaximaBound;
+    Bounds maximaBound;
 
     ScaledPlot(Axis xAxis, Axis yAxis) {
         this.xAxis = xAxis;
@@ -21,29 +27,50 @@ class ScaledPlot {
         }
     }
 
-    Range vRange() {
-        if (valueRange == null) {
-            Range r = Range.EMPTY;
-            for (int y = grid.length - 1; y >= 0; y--) {
-                for (int x = grid[y].length - 1; x >= 0; x--) {
-                    r = r.plus(grid[y][x]);
+    private void ensureStats() {
+        if (vRange != null) return;
+        vRange = Range.EMPTY;
+        points = 0;
+        int v;
+        for (int y = grid.length - 1; y >= 0; y--) {
+            for (int x = grid[y].length - 1; x >= 0; x--) {
+                v = grid[y][x];
+                vRange = vRange.plus(v);
+                if (v > 0) points += 1;
+            }
+        }
+        int max = vRange.end() - 1;
+        for (int y = grid.length - 1; y >= 0; y--) {
+            for (int x = grid[y].length - 1; x >= 0; x--) {
+                if (grid[y][x] == max) {
+                    Point p = new Point(x, y);
+                    sMaximaBound = sMaximaBound == null
+                            ? new Bounds(p, p)
+                            : sMaximaBound.plus(p);
                 }
             }
-            valueRange = r;
         }
-        return valueRange;
+        Point mn = sMaximaBound.min();
+        Point mx = sMaximaBound.max();
+        maximaBound = new Bounds(
+                new Point(unscaleX(mn.x), unscaleY(mn.y)),
+                new Point(unscaleX(mx.x + 1) - 1, unscaleY(mx.y + 1) - 1)
+        );
+    }
+
+    Range vRange() {
+        ensureStats();
+        return vRange;
     }
 
     int points() {
-        if (points < 0) {
-            points = 0;
-            for (int y = grid.length - 1; y >= 0; y--) {
-                for (int x = grid[y].length - 1; x >= 0; x--) {
-                    if (grid[y][x] > 0) points += 1;
-                }
-            }
-        }
+        ensureStats();
         return points;
+    }
+
+    Bounds boundsOfAllMaxima() {
+        ensureStats();
+        return sMaximaBound;
     }
 
     private Range scale(Range r) {
@@ -83,6 +110,7 @@ class ScaledPlot {
 
     @Override
     public String toString() {
+        ensureStats();
         StringBuilder sb = new StringBuilder();
         int xl = Math.max(
                 String.format("%,d", xAxis.range.start()).length(),
@@ -95,9 +123,10 @@ class ScaledPlot {
         sb.append(String.format("%s-%s plane", xAxis.label, yAxis.label)).append('\n');
         sb.append(String.format("%s factor: %10.9f (%d per plot point)%n", xAxis.label, xFactor(), (int) (1 / xFactor())));
         sb.append(String.format("%s factor: %10.9f (%d per plot point)%n", yAxis.label, yFactor(), (int) (1 / yFactor())));
-        sb.append("points: ").append(points()).append('\n');
-        Range vRange = vRange();
-        sb.append("range: ").append(vRange()).append('\n');
+        sb.append("points: ").append(points).append('\n');
+        sb.append("range: ").append(vRange).append('\n');
+        sb.append("bounds of maxima: ").append(sMaximaBound).append('\n');
+        sb.append("                : ").append(maximaBound).append('\n');
         sb.append(String.format("%" + yl + "s  ", ""));
         for (int x : scaledX.by(xl + 4)) {
             sb.append(String.format("| %-," + (xl + 2) + "d", unscaleX(x)));
