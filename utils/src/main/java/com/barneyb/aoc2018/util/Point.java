@@ -10,7 +10,7 @@ public class Point implements Comparable<Point> {
         boolean hasParen = s.probe('(');
         if (hasParen) s.skip('(');
         Point p = new Point(
-                s.readInt(),
+                s.skipWS().readInt(),
                 s.skip(',').skipWS().readInt()
         );
         if (hasParen) s.skip(')');
