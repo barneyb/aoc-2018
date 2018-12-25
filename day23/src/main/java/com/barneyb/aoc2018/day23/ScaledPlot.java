@@ -35,8 +35,10 @@ class ScaledPlot {
         for (int y = grid.length - 1; y >= 0; y--) {
             for (int x = grid[y].length - 1; x >= 0; x--) {
                 v = grid[y][x];
-                vRange = vRange.plus(v);
-                if (v > 0) points += 1;
+                if (v > 0) {
+                    vRange = vRange.plus(v);
+                    points += 1;
+                }
             }
         }
         int cutoff = vRange.size() < 3

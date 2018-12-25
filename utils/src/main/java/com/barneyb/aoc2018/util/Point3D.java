@@ -1,6 +1,8 @@
 package com.barneyb.aoc2018.util;
 
-public class Point3D {
+public final class Point3D implements Comparable<Point3D> {
+
+    public static final Point3D ORIGIN = new Point3D(0, 0, 0);
 
     public static Point3D parse(String input) {
         return scan(new Scanner(input));
@@ -30,4 +32,13 @@ public class Point3D {
         return Math.abs(x - p.x) + Math.abs(y - p.y) + Math.abs(z - p.z);
     }
 
+    @Override
+    public int compareTo(Point3D o) {
+        return md(ORIGIN) - o.md(ORIGIN);
+    }
+
+    @Override
+    public String toString() {
+        return String.format("(%d,%d,%d)", x, y, z);
+    }
 }

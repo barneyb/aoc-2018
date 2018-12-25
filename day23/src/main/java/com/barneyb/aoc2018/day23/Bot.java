@@ -3,7 +3,7 @@ package com.barneyb.aoc2018.day23;
 import com.barneyb.aoc2018.util.Point3D;
 import com.barneyb.aoc2018.util.Scanner;
 
-class Bot {
+final class Bot {
 
     static Bot parse(String input) {
         Scanner s = new Scanner(input);

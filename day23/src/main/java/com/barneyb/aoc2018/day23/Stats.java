@@ -16,9 +16,9 @@ class Stats {
 //    ScaledPlot pos_yz;
 //    ScaledPlot pos_xz;
 
-    ScaledPlot heat_xy;
+//    ScaledPlot heat_xy;
     ScaledPlot heat_yz;
-    ScaledPlot heat_xz;
+//    ScaledPlot heat_xz;
 
     Stats(Bot[] bots) {
         for (Bot b : bots) {
@@ -59,17 +59,17 @@ class Stats {
 //            if (inX && inZ) pos_xz.inc(p.x, p.z);
 //        }
 
-        heat_xy = new ScaledPlot(xa, ya);
+//        heat_xy = new ScaledPlot(xa, ya);
         heat_yz = new ScaledPlot(ya, za);
-        heat_xz = new ScaledPlot(xa, za);
+//        heat_xz = new ScaledPlot(xa, za);
 
         for (Bot b : bots) {
             int r = b.range;
             Point3D p = b.pos;
-            addToHeatmap(heat_xy, new Point(p.x, p.y), r);
+//            addToHeatmap(heat_xy, new Point(p.x, p.y), r);
             //noinspection SuspiciousNameCombination
             addToHeatmap(heat_yz, new Point(p.y, p.y), r);
-            addToHeatmap(heat_xz, new Point(p.x, p.z), r);
+//            addToHeatmap(heat_xz, new Point(p.x, p.z), r);
         }
     }
 
