@@ -22,7 +22,7 @@ class Bot {
     }
 
     boolean inRange(Bot b) {
-        return pos.md(b.pos) <= range;
+        return inRange(b.pos);
     }
 
     boolean inRange(Point3D p) {
