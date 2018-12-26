@@ -82,7 +82,7 @@ public class Histogram<T extends Comparable<T>> extends BST<T, Integer> {
         for (T key : keys()) {
             Integer v = get(key);
             int l = (int) (1.0 * v / maxFreq * (width - ll - fl - 4));
-            sb.append(String.format("%" + ll + "s (%" + fl + "d) ", key, l));
+            sb.append(String.format("%" + ll + "s (%" + fl + "d) ", key, v));
             for (int i = 0; i < l; i++) {
                 sb.append('#');
             }
