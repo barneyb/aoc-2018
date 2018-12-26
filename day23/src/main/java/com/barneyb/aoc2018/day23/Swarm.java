@@ -13,7 +13,7 @@ class Swarm {
         return new Swarm(bots);
     }
 
-    private final Bot[] bots;
+    final Bot[] bots;
 
     public Swarm(Bot[] bots) {
         this.bots = bots;
