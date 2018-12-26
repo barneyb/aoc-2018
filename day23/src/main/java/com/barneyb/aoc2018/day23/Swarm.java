@@ -14,17 +14,19 @@ class Swarm {
     }
 
     final Bot[] bots;
+    final Bot strongest;
 
     public Swarm(Bot[] bots) {
         this.bots = bots;
-    }
-
-    Bot strongest() {
         Bot s = bots[0];
         for (Bot b : bots) {
             if (b.range > s.range) s = b;
         }
-        return s;
+        this.strongest = s;
+    }
+
+    Bot strongest() {
+        return strongest;
     }
 
     // includes self!
