@@ -1,6 +1,6 @@
 package com.barneyb.aoc2018.util;
 
-public class Point3D {
+public class Point3D extends Vector {
 
     public static Point3D parse(String input) {
         return scan(new Scanner(input));
@@ -18,16 +18,24 @@ public class Point3D {
         return p;
     }
 
-    public final int x, y, z;
-
     public Point3D(int x, int y, int z) {
-        this.x = x;
-        this.y = y;
-        this.z = z;
+        super(x, y, z);
+    }
+
+    public int x() {
+        return dim(0);
+    }
+
+    public int y() {
+        return dim(1);
+    }
+
+    public int z() {
+        return dim(2);
     }
 
     public int md(Point3D p) {
-        return Math.abs(x - p.x) + Math.abs(y - p.y) + Math.abs(z - p.z);
+        return Math.abs(x() - p.x()) + Math.abs(y() - p.y()) + Math.abs(z() - p.z());
     }
 
 }
