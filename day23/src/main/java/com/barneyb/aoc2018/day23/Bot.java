@@ -1,5 +1,6 @@
 package com.barneyb.aoc2018.day23;
 
+import com.barneyb.aoc2018.util.Bag;
 import com.barneyb.aoc2018.util.Point3D;
 import com.barneyb.aoc2018.util.Scanner;
 
@@ -27,10 +28,16 @@ class Bot {
 
     @Override
     public String toString() {
-        return String.format("pos=<%d,%d,%d>, r=%d", pos.x, pos.y, pos.z, range);
+        return String.format("pos=<%d,%d,%d>, r=%d", pos.x(), pos.y(), pos.z(), range);
     }
 
     public int md(Bot b) {
         return pos.md(b.pos);
+    }
+
+    public Bag<Point3D> overlap(Bot b) {
+        Bag<Point3D> overlap = new Bag<>();
+
+        return overlap;
     }
 }
