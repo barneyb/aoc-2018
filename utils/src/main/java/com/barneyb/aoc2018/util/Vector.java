@@ -8,7 +8,7 @@ public class Vector implements Comparable<Vector> {
         return scan(new Scanner(input.trim()));
     }
 
-    private static Vector scan(Scanner s) {
+    public static Vector scan(Scanner s) {
         Queue<Integer> q = new Queue<>();
         q.enqueue(s.readInt());
         while (s.probe(',')) q.enqueue(s.skip(',').readInt());
@@ -17,11 +17,11 @@ public class Vector implements Comparable<Vector> {
 
     private final int[] dims;
 
-    Vector(int... dims) {
+    public Vector(int... dims) {
         this.dims = dims;
     }
 
-    Vector(Queue<Integer> dims) {
+    public Vector(Queue<Integer> dims) {
         int[] a = new int[dims.size()];
         Iterator<Integer> itr = dims.iterator();
         for (int i = 0; i < a.length; i++) {
