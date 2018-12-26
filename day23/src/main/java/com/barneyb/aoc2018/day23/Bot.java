@@ -30,4 +30,7 @@ class Bot {
         return String.format("pos=<%d,%d,%d>, r=%d", pos.x, pos.y, pos.z, range);
     }
 
+    public int md(Bot b) {
+        return pos.md(b.pos);
+    }
 }
