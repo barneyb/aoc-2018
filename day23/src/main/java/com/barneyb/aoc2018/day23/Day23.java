@@ -30,8 +30,8 @@ public class Day23 extends OneShotDay {
     static int partTwo(Swarm swarm) {
         /*
                 :           x           y           z     bs           d-o
-      [ best    : (  61463252,   38187549,   48857598)   850     148508399 ]
-      [ best    : (  56379458,   41112372,   43945533)   903     141437363 ]
+      [ best    : (  61463252,   38187549,   48857598)   850     148508399 ] vertexes
+      [ best    : (  56379458,   41112372,   43945533)   903     141437363 ] bots
         min     : (-158197890, -115956611,  -81529762)     0     355684263
         max     : ( 251687255,  175412141,  166158502)     0     593257898
         center  : (  46744682,   29727765,   42314370)   566     118786817
@@ -41,22 +41,30 @@ public class Day23 extends OneShotDay {
         vertex, as well as some (possibly zero) number of edge/interior points
 
         ... only check planes which have a vertex on them?
+
+        ... or maybe both bots and vertexes?
          */
         final Bot[] bots = swarm.bots;
         final int botCount = bots.length;
-        int[] xs = new int[botCount * 2];
-        int[] ys = new int[botCount * 2];
-        int[] zs = new int[botCount * 2];
-        for (int i = 0; i < bots.length; i++) {
-            Bot b = bots[i];
-            int j = i << 1;
-            xs[j] = b.pos.x() + b.range;
-            xs[j + 1] = b.pos.x() - b.range;
-            ys[j] = b.pos.y() + b.range;
-            ys[j + 1] = b.pos.y() - b.range;
-            zs[j] = b.pos.z() + b.range;
-            zs[j + 1] = b.pos.z() - b.range;
+        TreeSet<Integer> xts = new TreeSet<>();
+        TreeSet<Integer> yts = new TreeSet<>();
+        TreeSet<Integer> zts = new TreeSet<>();
+        for (Bot b : bots) {
+            // bots
+            xts.add(b.pos.x());
+            yts.add(b.pos.y());
+            zts.add(b.pos.z());
+            // vertices
+            xts.add(b.pos.x() + b.range);
+            xts.add(b.pos.x() - b.range);
+            yts.add(b.pos.y() + b.range);
+            yts.add(b.pos.y() - b.range);
+            zts.add(b.pos.z() + b.range);
+            zts.add(b.pos.z() - b.range);
         }
+        int[] xs = toArray(xts);
+        int[] ys = toArray(yts);
+        int[] zs = toArray(zts);
         shuffle(xs);
         shuffle(ys);
         shuffle(zs);
@@ -67,6 +75,7 @@ public class Day23 extends OneShotDay {
         Stopwatch watch = new Stopwatch();
         int threadCount = 5;
         Queue<Thread> threads = new Queue<>();
+        TreeSet<Vector> uniquer = new TreeSet<>();
         for (int it = 0; it < threadCount; it++) {
             final int init = it;
             Thread t = new Thread(() -> {
@@ -75,6 +84,8 @@ public class Day23 extends OneShotDay {
                     for (int y : ys) {
                         for (int z : zs) {
                             Vector p = new Vector(x, y, z);
+                            if (uniquer.contains(p)) continue;
+                            uniquer.add(p);
                             int count = 0;
                             for (int i = 0; i < botCount; i++) {
                                 if (bots[i].inRange(p)) count += 1;
@@ -136,6 +147,15 @@ public class Day23 extends OneShotDay {
         print(swarm, "max", swarm.max());
         print(swarm, "center", swarm.center());
         return best.md(ORIGIN);
+    }
+
+    private static int[] toArray(TreeSet<Integer> set) {
+        int[] result = new int[set.size()];
+        int i = 0;
+        for (int n : set) {
+            result[i++] = n;
+        }
+        return result;
     }
 
     private static void shuffle(int[] a) {
