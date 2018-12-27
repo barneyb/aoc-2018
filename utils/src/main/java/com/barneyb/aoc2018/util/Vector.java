@@ -84,4 +84,14 @@ public class Vector implements Comparable<Vector> {
         return result;
     }
 
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append('(');
+        for (int dim : dims) {
+            sb.append(dim).append(',');
+        }
+        sb.setCharAt(sb.length() - 1, ')');
+        return sb.toString();
+    }
 }
