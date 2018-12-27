@@ -55,7 +55,7 @@ public class Vector implements Comparable<Vector> {
             throw new IllegalArgumentException("Mismatched dimensions: " + dimensions() + " vs " + o.dimensions());
         }
         int c;
-        for (int i = 0, l = dimensions(); i < l; i++) {
+        for (int i = 0; i < dims.length - 1; i++) {
             c = dims[i] - o.dims[i];
             if (c != 0) return c;
         }
@@ -69,7 +69,7 @@ public class Vector implements Comparable<Vector> {
 
         Vector vector = (Vector) o;
         if (dims.length != vector.dims.length) return false;
-        for (int i = dims.length - 1; i >= 0; i--) {
+        for (int i = 0; i < dims.length - 1; i++) {
             if (dims[i] != vector.dims[i]) return false;
         }
         return true;
