@@ -3,6 +3,7 @@ package com.barneyb.aoc2018.day23;
 import com.barneyb.aoc2018.util.Bag;
 import com.barneyb.aoc2018.util.Point3D;
 import com.barneyb.aoc2018.util.Scanner;
+import com.barneyb.aoc2018.util.Vector;
 
 class Bot {
 
@@ -23,7 +24,11 @@ class Bot {
     }
 
     boolean inRange(Bot b) {
-        return pos.md(b.pos) <= range;
+        return inRange(b.pos);
+    }
+
+    boolean inRange(Vector p) {
+        return pos.md(p) <= range;
     }
 
     @Override
