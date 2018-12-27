@@ -93,22 +93,22 @@ class Map {
                 return; // done with this subexpression
             } else if (c == '|') {
                 p = start;
-            } else if (c == 'N') {
-                doors.add(p.go(UP));
-                p = p.go(UP, 2);
-            } else if (c == 'S') {
-                doors.add(p.go(DOWN));
-                p = p.go(DOWN, 2);
-            } else if (c == 'E') {
-                doors.add(p.go(RIGHT));
-                p = p.go(RIGHT, 2);
-            } else if (c == 'W') {
-                doors.add(p.go(LEFT));
-                p = p.go(LEFT, 2);
             } else {
-                throw new IllegalArgumentException("what? a '" + c + "'?");
+                Dir d = dir(c);
+                doors.add(p.go(d));
+                p = p.go(d, 2);
             }
         }
+    }
+
+    private Dir dir(char c) {
+        switch (c) {
+            case 'N': return UP;
+            case 'S': return DOWN;
+            case 'E': return RIGHT;
+            case 'W': return LEFT;
+        }
+        throw new IllegalArgumentException("Unknown direction '" + c + "'");
     }
 
     @Override
