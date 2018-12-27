@@ -40,4 +40,9 @@ public class Day23Test {
         assertEquals("36", a.getPartTwo());
     }
 
+    @Test
+    public void partTwo() {
+        Swarm swarm = Swarm.parse(EXAMPLE_TWO_INPUT);
+        assertEquals(36, Day23.partTwo(swarm));
+    }
 }
