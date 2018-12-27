@@ -12,12 +12,14 @@ class Map {
     }
 
     private TreeSet<Point> doors;
+    final Queue<String> states = new Queue<>();
     private BST<Point, Integer> distances;
     private Point farthestPoint;
 
     Map(CharDigest re) {
         this.doors = new TreeSet<>();
         Point start = new Point(0, 0);
+        states.enqueue(toString());
         findDoors(re, doors, start);
         this.distances = distancesFrom(start);
         int maxD = 0;
@@ -96,6 +98,7 @@ class Map {
             } else {
                 Dir d = dir(c);
                 doors.add(p.go(d));
+//                states.enqueue(toString());
                 p = p.go(d, 2);
             }
         }
