@@ -2,6 +2,9 @@ package com.barneyb.aoc2018.day23;
 
 import com.barneyb.aoc2018.util.*;
 
+import java.util.Random;
+import java.util.concurrent.atomic.AtomicInteger;
+
 public class Day23 extends OneShotDay {
 
     private static final Point3D ORIGIN = new Point3D(0, 0, 0);
@@ -27,6 +30,7 @@ public class Day23 extends OneShotDay {
     static int partTwo(Swarm swarm) {
         /*
                 :           x           y           z     bs           d-o
+      [ best    : (  61463252,   38187549,   48857598)   850     148508399 ]
       [ best    : (  56379458,   41112372,   43945533)   903     141437363 ]
         min     : (-158197890, -115956611,  -81529762)     0     355684263
         max     : ( 251687255,  175412141,  166158502)     0     593257898
@@ -35,38 +39,83 @@ public class Day23 extends OneShotDay {
         because of the octahedrons, only need to check planes which have a bot
         on them. If two octahedrons overlap, they'll overlap at least one
         vertex, as well as some (possibly zero) number of edge/interior points
+
+        ... only check planes which have a vertex on them?
          */
-        TreeSet<Integer> xs = new TreeSet<>();
-        TreeSet<Integer> ys = new TreeSet<>();
-        TreeSet<Integer> zs = new TreeSet<>();
-        for (Bot b : swarm.bots) {
-            xs.add(b.pos.x());
-            ys.add(b.pos.y());
-            zs.add(b.pos.z());
+        final Bot[] bots = swarm.bots;
+        final int botCount = bots.length;
+        int[] xs = new int[botCount * 2];
+        int[] ys = new int[botCount * 2];
+        int[] zs = new int[botCount * 2];
+        for (int i = 0; i < bots.length; i++) {
+            Bot b = bots[i];
+            int j = i << 1;
+            xs[j] = b.pos.x() + b.range;
+            xs[j + 1] = b.pos.x() - b.range;
+            ys[j] = b.pos.y() + b.range;
+            ys[j + 1] = b.pos.y() - b.range;
+            zs[j] = b.pos.z() + b.range;
+            zs[j + 1] = b.pos.z() - b.range;
         }
-        int max = 0;
+        shuffle(xs);
+        shuffle(ys);
+        shuffle(zs);
+        AtomicInteger max = new AtomicInteger(1);
+        AtomicInteger prev = new AtomicInteger(1);
         List<Vector> candidates = new List<>();
-        int nx = 0;
-        for (int x : xs) {
-            for (int y : ys) {
-                for (int z : zs) {
-                    Vector p = new Vector(x, y, z);
-                    int count = 0;
-                    Bot[] bots = swarm.bots;
-                    for (int i = 0; i < bots.length; i++) {
-                        if (count + bots.length - i < max) break;
-                        if (bots[i].inRange(p)) count += 1;
+        AtomicInteger nx = new AtomicInteger(0);
+        Stopwatch watch = new Stopwatch();
+        int threadCount = 5;
+        Queue<Thread> threads = new Queue<>();
+        for (int it = 0; it < threadCount; it++) {
+            final int init = it;
+            Thread t = new Thread(() -> {
+                for (int ix = init; ix < xs.length; ix += threadCount) {
+                    int x = xs[ix];
+                    for (int y : ys) {
+                        for (int z : zs) {
+                            Vector p = new Vector(x, y, z);
+                            int count = 0;
+                            for (int i = 0; i < botCount; i++) {
+                                if (bots[i].inRange(p)) count += 1;
+                                if (count + botCount - i < max.get()) break;
+                            }
+                            synchronized (candidates) {
+                                if (count > max.get()) {
+                                    max.set(count);
+                                    candidates.clear();
+                                }
+                                if (count == max.get()) {
+                                    candidates.add(p);
+                                }
+                            }
+                        }
                     }
-                    if (count > max) {
-                        max = count;
-                        candidates.clear();
-                    }
-                    if (count == max) {
-                        candidates.add(p);
+                    synchronized (nx) {
+                        nx.incrementAndGet();
+                        double factor = 1.0 * nx.get() / xs.length;
+                        double elapsed = 1.0 * watch.elapsed() / 1000 / 60;
+                        double total = watch.elapsed() / factor / 1000 / 60;
+                        System.out.printf("%d of %d (%.1f%%) complete, max is %d, w/ %d points. %.1f min elapsed, %.1f min remaining%n",
+                                nx.get(), xs.length, factor * 100, max.get(), candidates.size(), elapsed, total - elapsed);
+                        if (max.get() != prev.get()) {
+                            for (Vector c : candidates) {
+                                System.out.printf("  %s - %d%n", c, c.md(ORIGIN));
+                            }
+                            prev.set(max.get());
+                        }
                     }
                 }
+            });
+            t.start();
+            threads.enqueue(t);
+        }
+        for (Thread t : threads) {
+            try {
+                t.join();
+            } catch (InterruptedException ie) {
+                throw new RuntimeException(ie);
             }
-            System.out.printf("x %d complete, max is %d, w/ %d points%n", ++nx, max, candidates.size());
         }
         System.out.println("Points:");
         System.out.println(candidates.size());
@@ -87,6 +136,16 @@ public class Day23 extends OneShotDay {
         print(swarm, "max", swarm.max());
         print(swarm, "center", swarm.center());
         return best.md(ORIGIN);
+    }
+
+    private static void shuffle(int[] a) {
+        Random r = new Random();
+        for (int i = a.length - 1; i > 0; i--) {
+            int j = r.nextInt(i + 1);
+            int t = a[i];
+            a[i] = a[j];
+            a[j] = t;
+        }
     }
 
     static void print(Swarm s, String l, Vector p) {
