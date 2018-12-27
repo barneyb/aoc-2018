@@ -34,8 +34,4 @@ public class Point3D extends Vector {
         return dim(2);
     }
 
-    public int md(Point3D p) {
-        return Math.abs(x() - p.x()) + Math.abs(y() - p.y()) + Math.abs(z() - p.z());
-    }
-
 }
