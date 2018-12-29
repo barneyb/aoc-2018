@@ -72,4 +72,7 @@ class Swarm {
         return bs;
     }
 
+    public int botCount() {
+        return bots.length;
+    }
 }
