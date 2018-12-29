@@ -38,6 +38,36 @@ public class Vector implements Comparable<Vector> {
         return dims.length;
     }
 
+    public Vector midpoint(Vector o) {
+        if (dimensions() != o.dimensions()) {
+            throw new IllegalArgumentException("Mismatched dimensions: " + dimensions() + " vs " + o.dimensions());
+        }
+        int[] nd = new int[dimensions()];
+        for (int i = 0, l = dimensions(); i < l; i++) {
+            nd[i] = (dims[i] + o.dims[i]) / 2;
+        }
+        return new Vector(nd);
+    }
+
+    public Vector plus(Vector o) {
+        if (dimensions() != o.dimensions()) {
+            throw new IllegalArgumentException("Mismatched dimensions: " + dimensions() + " vs " + o.dimensions());
+        }
+        int[] nd = new int[dimensions()];
+        for (int i = 0, l = dimensions(); i < l; i++) {
+            nd[i] = dims[i] + o.dims[i];
+        }
+        return new Vector(nd);
+    }
+
+    public Vector times(int scalar) {
+        int[] nd = new int[dimensions()];
+        for (int i = 0, l = dimensions(); i < l; i++) {
+            nd[i] = dims[i] * scalar;
+        }
+        return new Vector(nd);
+    }
+
     public int md(Vector o) {
         if (dimensions() != o.dimensions()) {
             throw new IllegalArgumentException("Mismatched dimensions: " + dimensions() + " vs " + o.dimensions());
