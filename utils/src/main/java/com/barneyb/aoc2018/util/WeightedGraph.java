@@ -1,17 +1,17 @@
 package com.barneyb.aoc2018.util;
 
-public class Graph {
+public class WeightedGraph {
 
     private final int siteCount;
     private int edgeCount = 0;
-    private TreeSet<Integer>[] adjacentTo;
+    private BST<Integer, Integer>[] adjacentTo;
 
-    public Graph(int siteCount) {
+    public WeightedGraph(int siteCount) {
         this.siteCount = siteCount;
         //noinspection unchecked
-        adjacentTo = (TreeSet<Integer>[]) new TreeSet[siteCount];
+        adjacentTo = (BST<Integer, Integer>[]) new BST[siteCount];
         for (int i = 0; i < adjacentTo.length; i++) {
-            adjacentTo[i] = new TreeSet<>();
+            adjacentTo[i] = new BST<>();
         }
     }
 
@@ -23,18 +23,26 @@ public class Graph {
         return edgeCount;
     }
 
-    public void addEdge(int from, int to) {
-        adjacentTo[from].add(to);
-        adjacentTo[to].add(from);
+    public void addEdge(int from, int to, int weight) {
+        adjacentTo[from].put(to, weight);
+        adjacentTo[to].put(from, weight);
         edgeCount += 1;
     }
 
-    public TreeSet<Integer> adjacentTo(int site) {
-        return adjacentTo[site];
+    public Iterable<Integer> adjacentTo(int site) {
+        return adjacentTo[site].keys();
+    }
+
+    public int adjacentCount(int site) {
+        return adjacentTo[site].size();
     }
 
     public boolean adjacent(int site1, int site2) {
         return adjacentTo[site1].contains(site2);
+    }
+
+    public int weight(int site1, int site2) {
+        return adjacentTo[site1].get(site2);
     }
 
     @Override
