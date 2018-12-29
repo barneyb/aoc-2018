@@ -42,4 +42,31 @@ class Bot {
     public boolean overlaps(Bot b) {
         return md(b) <= (range + b.range);
     }
+
+    public int overlapsBy(Bot b) {
+        return (range + b.range) - md(b);
+    }
+
+    public Point3D boundaryTowards(Bot b) {
+        return boundaryTowards(b.pos);
+    }
+
+    public Point3D boundaryTowards(Point3D p) {
+        int dx = p.x() - pos.x();
+        int dy = p.y() - pos.y();
+        int dz = p.z() - pos.z();
+        int md = p.md(pos);
+        return new Point3D(
+                p.x() + range * dx / md,
+                p.y() + range * dy / md,
+                p.z() + range * dz / md
+        );
+    }
+
+    public Vector midpoint(Bot o) {
+        Point3D a = this.boundaryTowards(o);
+        Point3D b = o.boundaryTowards(this);
+        return a.midpoint(b);
+    }
+
 }
