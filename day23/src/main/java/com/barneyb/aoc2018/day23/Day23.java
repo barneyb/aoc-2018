@@ -30,8 +30,9 @@ public class Day23 extends OneShotDay {
     static int partTwo(Swarm swarm) {
         /*
                 :           x           y           z     bs           d-o
-      [ best    : (  61463252,   38187549,   48857598)   850     148508399 ] vertexes
       [ best    : (  56379458,   41112372,   43945533)   903     141437363 ] bots
+      [ best    : (  61463252,   38187549,   48857598)   850     148508399 ] vertexes
+      [ best    : (  54720846,   41095168,   44360627)   884     140176641 ] both
         min     : (-158197890, -115956611,  -81529762)     0     355684263
         max     : ( 251687255,  175412141,  166158502)     0     593257898
         center  : (  46744682,   29727765,   42314370)   566     118786817
@@ -73,7 +74,7 @@ public class Day23 extends OneShotDay {
         List<Vector> candidates = new List<>();
         AtomicInteger nx = new AtomicInteger(0);
         Stopwatch watch = new Stopwatch();
-        int threadCount = 5;
+        int threadCount = 6;
         Queue<Thread> threads = new Queue<>();
         TreeSet<Vector> uniquer = new TreeSet<>();
         for (int it = 0; it < threadCount; it++) {
@@ -173,7 +174,7 @@ public class Day23 extends OneShotDay {
     }
 
     // 79,182,713 is too low
-    // 141,437,363 is too high
+    // 140,176,641 is too high
 
     public static void main(String[] args)  {
         String input = FileUtils.readFile("day23/input.txt");
