@@ -1,6 +1,5 @@
 package com.barneyb.aoc2018.day23;
 
-import com.barneyb.aoc2018.util.Bag;
 import com.barneyb.aoc2018.util.Point3D;
 import com.barneyb.aoc2018.util.Scanner;
 import com.barneyb.aoc2018.util.Vector;
@@ -40,9 +39,7 @@ class Bot {
         return pos.md(b.pos);
     }
 
-    public Bag<Point3D> overlap(Bot b) {
-        Bag<Point3D> overlap = new Bag<>();
-
-        return overlap;
+    public boolean overlaps(Bot b) {
+        return md(b) <= (range + b.range);
     }
 }
