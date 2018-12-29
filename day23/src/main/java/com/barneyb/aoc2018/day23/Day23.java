@@ -17,6 +17,7 @@ public class Day23 extends OneShotDay {
     }
 
     // 79182713 is too low
+    // 140,176,641 is too high
 
     public static void main(String[] args)  {
         Day23 d = new Day23();
