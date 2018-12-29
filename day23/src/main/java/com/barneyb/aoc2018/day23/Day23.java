@@ -25,6 +25,55 @@ public class Day23 extends OneShotDay {
     }
 
     static int partTwo(Swarm swarm) {
+        Graph g = new Graph(swarm.botCount());
+        Bot[] bots = swarm.bots;
+        for (int i = 0; i < bots.length; i++) {
+            Bot a = bots[i];
+            for (int j = i + 1; j < bots.length; j++) {
+                Bot b = bots[j];
+                if (a.overlaps(b)) {
+                    g.addEdge(i, j);
+                }
+            }
+        }
+        if (swarm.botCount() < 20) {
+            Histogram<Integer> h = new Histogram<>();
+            for (int i = 0; i < g.getSiteCount(); i++) {
+                h.add(i, g.adjacentTo(i).size());
+                System.out.print("Site " + i + ":");
+                for (int j : g.adjacentTo(i)) {
+                    System.out.print(" " + j);
+                }
+                System.out.println();
+            }
+            System.out.println("Sites: " + g.getSiteCount());
+            System.out.println("Edges: " + g.getEdgeCount());
+            System.out.println(h.toBarChart());
+        }
+
+        // for each site
+        int bestSize = -1;
+        Bag<Integer> sites = new Bag<>();
+        siteLoop:
+        for (int s = 0; s < g.getSiteCount(); s++) {
+            TreeSet<Integer> adjacencies = g.adjacentTo(s);
+            int size = adjacencies.size();
+            if (size < bestSize) continue;
+            for (int i : adjacencies) {
+                for (int j : adjacencies) {
+                    if (i != j && ! g.adjacent(i, j)) continue siteLoop;
+                }
+            }
+            // everything overlaps
+            if (size > bestSize) {
+                bestSize = size;
+                sites.clear();
+            }
+            sites.add(s);
+        }
+        System.out.println("Best size: " + bestSize + " at " + sites.size() + " sites:");
+        System.out.println("    " + sites);
+
         return -1;
     }
 
