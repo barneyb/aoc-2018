@@ -57,9 +57,9 @@ class Bot {
         int dz = p.z() - pos.z();
         int md = p.md(pos);
         return new Point3D(
-                p.x() + range * dx / md,
-                p.y() + range * dy / md,
-                p.z() + range * dz / md
+                p.x() + (int) (range * (1.0 * dx / md)),
+                p.y() + (int) (range * (1.0 * dy / md)),
+                p.z() + (int) (range * (1.0 * dz / md))
         );
     }
 
