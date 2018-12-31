@@ -8,7 +8,8 @@ cd `dirname $0`
 # Rule 1: no external libs, other than IO. `java.util.Iterator` and the
 # `java.util.function` package are special cases because they're language
 # features (foreach loop and method references, respectively), but not in the
-# `java.lang` package. `java.util.Comparator` may join them at some point.
+# `java.lang` package. `java.util.Comparator` is also allowed as the peer of
+# the `java.lang.Comparable` interface.
 #
 # Swing and AWT are allowed in VizNN classes.
 find . -name "*.java" \
@@ -17,6 +18,7 @@ find . -name "*.java" \
     | egrep -v 'com\.barneyb\.aoc2018' \
     | egrep -v 'java.(n?)io\.*' \
     | egrep -v 'java\.util\.Iterator' \
+    | egrep -v 'java\.util\.Comparator' \
     | egrep -v 'java\.util\.function.*' \
     | egrep -v '/Viz[0-9]+\.java.*(java.awt|javax.swing).*;' \
     > ${TEMP_FILE} \
