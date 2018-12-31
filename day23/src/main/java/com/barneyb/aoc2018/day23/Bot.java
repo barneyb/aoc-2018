@@ -1,8 +1,6 @@
 package com.barneyb.aoc2018.day23;
 
-import com.barneyb.aoc2018.util.Point3D;
-import com.barneyb.aoc2018.util.Scanner;
-import com.barneyb.aoc2018.util.Vector;
+import com.barneyb.aoc2018.util.*;
 
 class Bot {
 
@@ -67,6 +65,33 @@ class Bot {
         Point3D a = this.boundaryTowards(o);
         Point3D b = o.boundaryTowards(this);
         return a.midpoint(b);
+    }
+
+    private static final Vector[] STEPS = new Vector[] {
+            new Vector(1, 0, 0),
+            new Vector(-1, 0, 0),
+            new Vector(0, 1, 0),
+            new Vector(0, -1, 0),
+            new Vector(0, 0, 1),
+            new Vector(0, 0, -1),
+    };
+
+    public TreeSet<Vector> intersection(Bot o) {
+        TreeSet<Vector> points = new TreeSet<>();
+        Queue<Vector> queue = new Queue<>();
+        queue.enqueue(midpoint(o));
+        while (! queue.isEmpty()) {
+            Vector p = queue.dequeue();
+            if (points.contains(p)) continue;
+            points.add(p);
+            for (Vector s : STEPS) {
+                Vector n = p.plus(s);
+                if (!inRange(n)) continue;
+                if (!o.inRange(n)) continue;
+                queue.enqueue(n);
+            }
+        }
+        return points;
     }
 
 }
