@@ -89,7 +89,7 @@ public class Day04 extends OneShotDay {
         for (int i = 0, l = lines.length; i < l; i++) {
             rs[i] = Record.parse(lines[i]);
         }
-        Sort.sort(rs);
+        new Sort<>().sort(rs);
         return rs;
     }
 
@@ -101,7 +101,7 @@ public class Day04 extends OneShotDay {
             System.out.println(rs[i]);
         }
         Stopwatch w = new Stopwatch();
-        Sort.sort(rs);
+        new Sort<>().sort(rs);
         w.stop();
         System.out.println("After (" + w.elapsed() + " ms):");
         for (int i = 0; i < 20; i++) {
