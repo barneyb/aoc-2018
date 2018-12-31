@@ -67,7 +67,7 @@ class Bot {
         return a.midpoint(b);
     }
 
-    private static final Vector[] STEPS = new Vector[] {
+    static final Vector[] STEPS = new Vector[] {
             new Vector(1, 0, 0),
             new Vector(-1, 0, 0),
             new Vector(0, 1, 0),
