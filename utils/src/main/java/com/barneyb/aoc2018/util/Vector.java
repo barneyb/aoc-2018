@@ -9,9 +9,12 @@ public class Vector implements Comparable<Vector> {
     }
 
     public static Vector scan(Scanner s) {
+        boolean hasParen = s.probe('(');
+        if (hasParen) s.skip('(');
         Queue<Integer> q = new Queue<>();
         q.enqueue(s.readInt());
         while (s.probe(',')) q.enqueue(s.skip(',').readInt());
+        if (hasParen) s.skip(')');
         return new Vector(q);
     }
 
