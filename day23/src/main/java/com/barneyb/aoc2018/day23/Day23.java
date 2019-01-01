@@ -10,6 +10,7 @@ public class Day23 extends OneShotDay {
 
     @Override
     public Answers solve(String input) {
+        System.out.println("Day 23 takes 55-65 seconds to solve...");
         Swarm swarm = Swarm.parse(input);
         return new Answers(
                 partOne(swarm)
