@@ -2,6 +2,8 @@ package com.barneyb.aoc2018.day23;
 
 import com.barneyb.aoc2018.util.*;
 
+import java.util.Comparator;
+
 import static com.barneyb.aoc2018.day23.Bot.STEPS;
 
 public class Day23 extends OneShotDay {
@@ -182,9 +184,15 @@ public class Day23 extends OneShotDay {
                 if (++cutoff == 20) break;
             }
         }
+        assert intersect != null;
+        Vector[] arr = new Vector[intersect.size()];
+        i = 0;
+        for (Vector v : intersect) {
+            arr[i++] = v;
+        }
+        new Sort<Vector>(Comparator.comparingInt(ORIGIN::md)).sort(arr);
 
-        if (intersect.size() == 1) return ORIGIN.md(intersect.min());
-        return -1;
+        return ORIGIN.md(arr[0]);
     }
 
     static TreeSet<Vector> intersection(Vector start, Bot[] bots, int stepSize) {
