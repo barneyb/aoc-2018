@@ -129,39 +129,28 @@ public class Day23 extends OneShotDay {
         for (int s : allSites) {
             bots[i++] = swarm.bots[s];
         }
+        // smallest range of one-thickness pairs will be a small intersection
         Vector maxPair = null;
         double max = Double.MAX_VALUE;
         for (Vector pair : pairs) {
             Bot a = bots[pair.dim(0)];
             Bot b = bots[pair.dim(1)];
-            int dx = Math.abs(a.pos.x() - b.pos.x());
-            int dy = Math.abs(a.pos.y() - b.pos.y());
-            int dz = Math.abs(a.pos.z() - b.pos.z());
             int r = a.range + b.range;
-            double fx = 1.0 * dx / r;
-            double fy = 1.0 * dy / r;
-            double fz = 1.0 * dz / r;
-
-            // todo: put this back?
-            double fMax = Math.max(fx, Math.max(fy, fz));
             if (r < max) {
                 max = r;
                 maxPair = pair;
             }
         }
         assert maxPair != null;
-        Bot a, b;
-        TreeSet<Vector> intersect = null;
-
-        a = bots[maxPair.dim(0)];
-        b = bots[maxPair.dim(1)];
+        Bot a = bots[maxPair.dim(0)];
+        Bot b = bots[maxPair.dim(1)];
         Vector start = a.midpoint(b);
 
         // grab "about 1/100th of the range"
         double range = Math.max(a.range, b.range) / 100.0;
         int stepDivisor = 10;
         int initialStep = (int) Math.pow(stepDivisor, (int) (Math.log(range) / Math.log(stepDivisor)));
-        System.out.printf("Steps %,d / %d%n", initialStep, stepDivisor);
+        TreeSet<Vector> intersect = null;
         for (int s = Math.max(1, initialStep); s >= 1; s /= stepDivisor) {
             System.out.printf("Using pitch %,d...%n", s);
             intersect = intersection(start, bots, s);
