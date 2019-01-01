@@ -160,12 +160,11 @@ public class Day23 extends OneShotDay {
 
         // grab "about 1/100th of the range", exactly a power of ten
         int initialStep = (int) Math.pow(10, (int) Math.log10(Math.max(a.range, b.range) / 100.0));
-        for (int s = initialStep; s >= 1; s /= 10) {
+        for (int s = Math.max(1, initialStep); s >= 1; s /= 10) {
             System.out.printf("Using pitch %,d...%n", s);
             intersect = intersection(start, bots, s);
             start = intersect.min();
         }
-        assert intersect != null;
         Vector[] arr = new Vector[intersect.size()];
         i = 0;
         for (Vector v : intersect) {
