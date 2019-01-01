@@ -158,9 +158,12 @@ public class Day23 extends OneShotDay {
         b = bots[maxPair.dim(1)];
         Vector start = a.midpoint(b);
 
-        // grab "about 1/100th of the range", exactly a power of ten
-        int initialStep = (int) Math.pow(10, (int) Math.log10(Math.max(a.range, b.range) / 100.0));
-        for (int s = Math.max(1, initialStep); s >= 1; s /= 10) {
+        // grab "about 1/100th of the range"
+        double range = Math.max(a.range, b.range) / 100.0;
+        int stepDivisor = 10;
+        int initialStep = (int) Math.pow(stepDivisor, (int) (Math.log(range) / Math.log(stepDivisor)));
+        System.out.printf("Steps %,d / %d%n", initialStep, stepDivisor);
+        for (int s = Math.max(1, initialStep); s >= 1; s /= stepDivisor) {
             System.out.printf("Using pitch %,d...%n", s);
             intersect = intersection(start, bots, s);
             start = intersect.min();
@@ -209,7 +212,7 @@ public class Day23 extends OneShotDay {
                 queue.enqueue(n);
             }
         }
-        System.out.printf("queued: %,d, best: %d (of %d), points: %,d, visited: %,d%n", queue.size(), bestCount, bots.length, points.size(), visited.size());
+        System.out.printf("best: %d (of %d), points: %,d, visited: %,d%n", bestCount, bots.length, points.size(), visited.size());
         return points;
     }
 
