@@ -1,13 +1,29 @@
 package com.barneyb.aoc2018.util;
 
-public class Sort {
+import java.util.Comparator;
 
-    public static void sort(Comparable[] a) {
+public class Sort<T> {
+
+    private final Comparator<T> comparator;
+
+    public Sort() {
+        comparator = (a, b) -> {
+            if (a == null) return b == null ? 0 : 1;
+            if (b == null) return -1;
+            //noinspection unchecked
+            return ((Comparable) a).compareTo(b);
+        };
+    }
+
+    public Sort(Comparator<T> comparator) {
+        this.comparator = comparator;
+    }
+
+    public void sort(T[] a) {
         for (int i = 0, l = a.length - 1; i < l; i++) {
             int min = i;
             for (int j = i, k = a.length; j < k; j++) {
-                //noinspection unchecked
-                if (a[j].compareTo(a[min]) < 0) {
+                if (comparator.compare(a[j], a[min]) < 0) {
                     min = j;
                 }
             }
@@ -32,8 +48,8 @@ public class Sort {
 //        }
 //    }
 
-    private static void swap(Comparable[]a, int i, int j) {
-        Comparable t = a[i];
+    private static void swap(Object[] a, int i, int j) {
+        Object t = a[i];
         a[i] = a[j];
         a[j] = t;
     }

@@ -8,34 +8,67 @@ public class Vector implements Comparable<Vector> {
         return scan(new Scanner(input.trim()));
     }
 
-    private static Vector scan(Scanner s) {
+    public static Vector scan(Scanner s) {
+        boolean hasParen = s.probe('(');
+        if (hasParen) s.skip('(');
         Queue<Integer> q = new Queue<>();
         q.enqueue(s.readInt());
         while (s.probe(',')) q.enqueue(s.skip(',').readInt());
+        if (hasParen) s.skip(')');
         return new Vector(q);
     }
 
-    private final int[] ns;
+    private final int[] dims;
 
-    Vector(int... ns) {
-        this.ns = ns;
+    public Vector(int... dims) {
+        this.dims = dims;
     }
 
-    Vector(Queue<Integer> ns) {
-        int[] a = new int[ns.size()];
-        Iterator<Integer> itr = ns.iterator();
+    public Vector(Queue<Integer> dims) {
+        int[] a = new int[dims.size()];
+        Iterator<Integer> itr = dims.iterator();
         for (int i = 0; i < a.length; i++) {
             a[i] = itr.next();
         }
-        this.ns = a;
+        this.dims = a;
     }
 
-    public int i(int i) {
-        return ns[i];
+    public int dim(int d) {
+        return dims[d];
     }
 
     public int dimensions() {
-        return ns.length;
+        return dims.length;
+    }
+
+    public Vector midpoint(Vector o) {
+        if (dimensions() != o.dimensions()) {
+            throw new IllegalArgumentException("Mismatched dimensions: " + dimensions() + " vs " + o.dimensions());
+        }
+        int[] nd = new int[dimensions()];
+        for (int i = 0, l = dimensions(); i < l; i++) {
+            nd[i] = (dims[i] + o.dims[i]) / 2;
+        }
+        return new Vector(nd);
+    }
+
+    public Vector plus(Vector o) {
+        if (dimensions() != o.dimensions()) {
+            throw new IllegalArgumentException("Mismatched dimensions: " + dimensions() + " vs " + o.dimensions());
+        }
+        int[] nd = new int[dimensions()];
+        for (int i = 0, l = dimensions(); i < l; i++) {
+            nd[i] = dims[i] + o.dims[i];
+        }
+        return new Vector(nd);
+    }
+
+    public Vector times(int scalar) {
+        int[] nd = new int[dimensions()];
+        for (int i = 0, l = dimensions(); i < l; i++) {
+            nd[i] = dims[i] * scalar;
+        }
+        return new Vector(nd);
     }
 
     public int md(Vector o) {
@@ -44,7 +77,7 @@ public class Vector implements Comparable<Vector> {
         }
         int sum = 0;
         for (int i = 0, l = dimensions(); i < l; i++) {
-            sum += Math.abs(ns[i] - o.ns[i]);
+            sum += Math.abs(dims[i] - o.dims[i]);
         }
         return sum;
     }
@@ -56,7 +89,7 @@ public class Vector implements Comparable<Vector> {
         }
         int c;
         for (int i = 0, l = dimensions(); i < l; i++) {
-            c = ns[i] - o.ns[i];
+            c = dims[i] - o.dims[i];
             if (c != 0) return c;
         }
         return 0;
@@ -68,9 +101,9 @@ public class Vector implements Comparable<Vector> {
         if (!(o instanceof Vector)) return false;
 
         Vector vector = (Vector) o;
-        if (ns.length != vector.ns.length) return false;
-        for (int i = ns.length - 1; i >= 0; i--) {
-            if (ns[i] != vector.ns[i]) return false;
+        if (dims.length != vector.dims.length) return false;
+        for (int i = dims.length - 1; i >= 0; i--) {
+            if (dims[i] != vector.dims[i]) return false;
         }
         return true;
     }
@@ -78,10 +111,20 @@ public class Vector implements Comparable<Vector> {
     @Override
     public int hashCode() {
         int result = 1;
-        for (int n : ns) {
+        for (int n : dims) {
             result = result * 31 + n;
         }
         return result;
     }
 
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append('(');
+        for (int dim : dims) {
+            sb.append(dim).append(',');
+        }
+        sb.setCharAt(sb.length() - 1, ')');
+        return sb.toString();
+    }
 }
