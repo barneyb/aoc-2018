@@ -21,11 +21,31 @@ public class StatusUtils {
                     units = "min";
                     count = watch.elapsed() / 60000.0;
                 }
-                System.err.printf("after %,.1f %s, %,dM free (%,dM total)%n", count, units, runtime.freeMemory() / 1024 / 1024, runtime.totalMemory() / 1024 / 1024);
+                System.err.printf("after %,.1f %s, %s free (%s total)%n", count, units, new Mem(runtime.freeMemory()), new Mem(runtime.totalMemory()));
             }
         });
         t.setDaemon(true);
         t.start();
+    }
+
+    private static class Mem {
+        private final long mem;
+
+        private Mem(long mem) {
+            this.mem = mem;
+        }
+
+        @Override
+        public String toString() {
+            long m = this.mem;
+            if (m < 1024) return m + "";
+            m /= 1024;
+            if (m < 2048) return m + "K";
+            m /= 1024;
+            if (m < 2048) return m + "M";
+            m /= 1024;
+            return m + "G";
+        }
     }
 
 }
