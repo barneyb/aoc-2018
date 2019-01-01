@@ -12,7 +12,7 @@ public class Day23 extends OneShotDay {
 
     @Override
     public Answers solve(String input) {
-        System.out.println("Day 23 takes 55-65 seconds to solve...");
+        System.out.println("Day 23 takes 50-55 seconds to solve...");
         Swarm swarm = Swarm.parse(input);
         return new Answers(
                 partOne(swarm)
@@ -66,10 +66,9 @@ public class Day23 extends OneShotDay {
             int size = g.adjacentCount(s);
             if (size < bestSize) continue;
             Iterable<Integer> adjacencies = g.adjacentTo(s);
-            // todo: this double-checks each adjacency
             for (int i : adjacencies) {
                 for (int j : adjacencies) {
-                    if (i != j && ! g.adjacent(i, j)) continue siteLoop;
+                    if (i < j && ! g.adjacent(i, j)) continue siteLoop;
                 }
             }
             // everything overlaps
