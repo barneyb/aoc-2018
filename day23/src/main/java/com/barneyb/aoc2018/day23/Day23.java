@@ -174,7 +174,11 @@ public class Day23 extends OneShotDay {
         b = bots[maxPair.dim(1)];
         System.out.println(b);
         Vector start = a.midpoint(b);
-        for (int s = 10000; s >= 1; s /= 10) {
+
+        // grab "about 1/100th of the range", exactly a power of ten
+        int initialStep = (int) Math.pow(10, (int) Math.log10(a.range / 100.0));
+        for (int s = initialStep; s >= 1; s /= 10) {
+            System.out.printf("Using pitch %,d%n", s);
             intersect = intersection(start, bots, s);
             start = intersect.min();
             System.out.printf("w/ pitch %,d, intersection: %d points:%n", s, intersect.size());
