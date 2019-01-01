@@ -1,8 +1,10 @@
 package com.barneyb.aoc2018.util;
 
+import com.barneyb.aoc2018.api.Collection;
+
 import java.util.Iterator;
 
-public class List<E> implements Iterable<E> {
+public class List<E> implements Collection<E> {
 
     private E[] elements;
     private int size;

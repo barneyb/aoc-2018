@@ -1,8 +1,10 @@
 package com.barneyb.aoc2018.util;
 
+import com.barneyb.aoc2018.api.Collection;
+
 import java.util.Iterator;
 
-public class Deque<E> implements Iterable<E> {
+public class Deque<E> implements Collection<E> {
 
     class Link {
         final E element;

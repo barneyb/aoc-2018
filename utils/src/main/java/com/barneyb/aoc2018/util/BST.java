@@ -1,5 +1,6 @@
 package com.barneyb.aoc2018.util;
 
+import com.barneyb.aoc2018.api.Collection;
 import com.barneyb.aoc2018.api.ST;
 
 import java.util.Iterator;
@@ -174,7 +175,7 @@ public class BST<K extends Comparable<K>, V> implements ST<K, V> {
     }
 
     @Override
-    public Iterable<K> keys() {
+    public Collection<K> keys() {
         Queue<K> q = new Queue<>();
         keys(root, q);
         return q;

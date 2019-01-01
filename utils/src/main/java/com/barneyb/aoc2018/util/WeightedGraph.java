@@ -1,5 +1,7 @@
 package com.barneyb.aoc2018.util;
 
+import com.barneyb.aoc2018.api.Collection;
+
 public class WeightedGraph {
 
     private final int siteCount;
@@ -29,7 +31,7 @@ public class WeightedGraph {
         edgeCount += 1;
     }
 
-    public Iterable<Integer> adjacentTo(int site) {
+    public Collection<Integer> adjacentTo(int site) {
         return adjacentTo[site].keys();
     }
 

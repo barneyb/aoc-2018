@@ -1,8 +1,10 @@
 package com.barneyb.aoc2018.util;
 
+import com.barneyb.aoc2018.api.Collection;
+
 import java.util.Iterator;
 
-public class Stack<E> implements Iterable<E> {
+public class Stack<E> implements Collection<E> {
 
     private final Deque<E> deque = new Deque<>();
 

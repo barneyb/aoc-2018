@@ -59,17 +59,17 @@ public class BSTTest {
     public void deletion() {
         BST<String, Integer> st = new BST<>();
         assertEquals(0, st.size());
-        assertEquals(0, Utils.iteratorLength(st.keys()));
+        assertEquals(0, st.keys().size());
         st.put("cat", 3);
         st.put("dog", 2);
         st.put("bat", 4);
         assertEquals(3, st.size());
-        assertEquals(3, Utils.iteratorLength(st.keys()));
+        assertEquals(3, st.keys().size());
         st.delete("cat");
         assertEquals(2, st.size());
-        assertEquals(2, Utils.iteratorLength(st.keys()));
+        assertEquals(2, st.keys().size());
         st.delete("glerg");
         assertEquals(2, st.size());
-        assertEquals(2, Utils.iteratorLength(st.keys()));
+        assertEquals(2, st.keys().size());
     }
 }

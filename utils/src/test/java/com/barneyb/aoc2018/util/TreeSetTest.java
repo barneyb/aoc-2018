@@ -55,17 +55,15 @@ public class TreeSetTest {
     public void deletion() {
         TreeSet<Integer> s = new TreeSet<>();
         assertEquals(0, s.size());
-        assertEquals(0, Utils.iteratorLength(s));
         s.add(1);
         s.add(2);
         s.add(3);
         assertEquals(3, s.size());
-        assertEquals(3, Utils.iteratorLength(s));
+        assertEquals(3, s.size());
         s.delete(2);
         assertEquals(2, s.size());
-        assertEquals(2, s.size());
         s.delete(99999);
-        assertEquals(2, Utils.iteratorLength(s));
-        assertEquals(2, Utils.iteratorLength(s));
+        assertEquals(2, s.size());
     }
+
 }
