@@ -1,10 +1,8 @@
 package com.barneyb.aoc2018.day04;
 
 import com.barneyb.aoc2018.util.Answers;
-import com.barneyb.aoc2018.util.Queue;
 import org.junit.Test;
 
-import static java.lang.Integer.valueOf;
 import static org.junit.Assert.assertEquals;
 
 public class Day04Test {
@@ -48,32 +46,4 @@ public class Day04Test {
         assertEquals("4455", a.getPartTwo());
     }
 
-    @Test
-    public void sleepiestGuard() {
-        Iterable<Nap> naps = Log.parse(EXAMPLE_INPUT).naps();
-        assertEquals(valueOf(10), Day04.sleepiestGuard(naps));
-    }
-
-    @Test
-    public void getNaps() {
-        assertEquals(new Queue<>(new Nap[] {
-                new Nap(10, 5, 25),
-                new Nap(10, 30, 55),
-        }), new Log(RECORDS_10).naps());
-    }
-
-    @Test
-    public void guardMinute() {
-        assertEquals((25 << 8) + 59, Day04.guardMinute(25, 59));
-    }
-
-    @Test
-    public void guardMinuteProduct() {
-        assertEquals(4455, Day04.guardMinuteProduct((99 << 8) + 45));
-    }
-
-    @Test
-    public void guardMinuteChain() {
-        assertEquals(4455, Day04.guardMinuteProduct(Day04.guardMinute(99, 45)));
-    }
 }
