@@ -9,30 +9,11 @@ public class Day05 extends OneShotDay {
     @Override
     public Answers solve(String input) {
         String trimmed = input.trim();
+        Reactor r = new Reactor();
         return new Answers(
-                partOne(trimmed),
-                partTwo(trimmed)
+                r.reducedLength(trimmed),
+                r.reducedLengthWithReplacement(trimmed)
         );
-    }
-
-    static int partOne(String input) {
-        Polymer p = LinkedPolymer.parse(input);
-        p.reduce();
-        return p.length();
-    }
-
-    static int partTwo(String input) {
-        int best = Integer.MAX_VALUE;
-        for (int i = 'A'; i <= 'Z'; i++) {
-            int n = partOne(input
-                    .replace("" + (char) i, "")
-                    .replace("" + (char) (i + 32), "")
-            );
-            if (n < best) {
-                best = n;
-            }
-        }
-        return best;
     }
 
     public static void main(String[] args)  {
