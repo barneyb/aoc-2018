@@ -79,7 +79,6 @@ public class Day21 extends OneShotDay {
         Stopwatch watch = new Stopwatch();
         Answers a = d.solve(input);
         long e = watch.stop();
-        System.out.printf("Expect [%d, %d]%n", 15690445, 936387);
         System.out.printf("%s in %d ms%n", a, e);
     }
 
