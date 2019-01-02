@@ -129,7 +129,7 @@ class Map {
     }
 
     Point locationOfFirstCrash() {
-        return crashes.iterator().next().loc;
+        return crashes.peek().loc;
     }
 
     public int cartCount() {

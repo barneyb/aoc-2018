@@ -77,14 +77,14 @@ public class Day23 extends OneShotDay {
                 sites.clear();
             }
             // only if it's part of the active "fully connected same sized set"
-            if (sites.isEmpty() || g.adjacent(s, sites.iterator().next()))
+            if (sites.isEmpty() || g.adjacent(s, sites.peek()))
                 sites.enqueue(s);
         }
         System.out.println("Best size: " + bestSize + " (at " + sites.size() + " sites):");
         System.out.println("    " + sites);
 
         // gather _exactly_ the bots whose ranges overlap
-        int aSite = sites.iterator().next();
+        int aSite = sites.peek();
         TreeSet<Integer> inRangeSites = new TreeSet<>();
         inRangeSites.add(aSite);
         for (Integer s : g.adjacentTo(aSite)) {
