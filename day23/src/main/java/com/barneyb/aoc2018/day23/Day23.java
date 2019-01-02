@@ -94,10 +94,6 @@ public class Day23 extends OneShotDay {
         System.out.println("all sites (" + inRangeSites.size() + "):");
         System.out.println("    " + inRangeSites);
 
-        return partTwo_b(swarm, inRangeSites);
-    }
-
-    static int partTwo_b(Swarm swarm, TreeSet<Integer> inRangeSites) {
         Bot[] allBots = swarm.bots;
         Bot a = allBots[inRangeSites.min()];
         // about 1/100th of the range
