@@ -2,6 +2,9 @@ package com.barneyb.aoc2018.day02;
 
 import com.barneyb.aoc2018.util.Histogram;
 
+import static com.barneyb.aoc2018.day02.Utils.areNeighbors;
+import static com.barneyb.aoc2018.day02.Utils.commonLetters;
+
 class Warehouse {
 
     static Warehouse parse(String input) {
@@ -49,4 +52,14 @@ class Warehouse {
         return false;
     }
 
+    public String fabricBoxesCommonLetters() {
+        for (int i = 0, l = ids.length; i < l; i++) {
+            for (int j = i + 1; j < l; j++) {
+                if (areNeighbors(ids[i], ids[j])) {
+                    return commonLetters(ids[i], ids[j]);
+                }
+            }
+        }
+        throw new RuntimeException("um, what?");
+    }
 }

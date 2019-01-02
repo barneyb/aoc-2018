@@ -2,7 +2,7 @@ package com.barneyb.aoc2018.day02;
 
 import org.junit.Test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 public class Day02Test {
 
@@ -33,21 +33,7 @@ public class Day02Test {
 
     @Test
     public void partTwo() {
-        assertEquals("fgij", new Day02().getPartTwo(EXAMPLE_2));
-    }
-
-    @Test
-    public void areNeighbors() {
-        Day02 d = new Day02();
-        assertFalse(d.areNeighbors("abc", "abc")); // identical
-        assertTrue(d.areNeighbors("abc", "abx")); // one diff
-        assertFalse(d.areNeighbors("abc", "axy")); // two diffs
-    }
-
-    @Test
-    public void commonLetters() {
-        Day02 d = new Day02();
-        assertEquals("fgij", d.commonLetters("fghij", "fguij"));
+        assertEquals("fgij", new Warehouse(EXAMPLE_2).fabricBoxesCommonLetters());
     }
 
 }
