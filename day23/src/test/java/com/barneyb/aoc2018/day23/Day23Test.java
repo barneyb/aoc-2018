@@ -43,6 +43,6 @@ public class Day23Test {
     @Test
     public void partTwo() {
         Swarm swarm = Swarm.parse(EXAMPLE_TWO_INPUT);
-        assertEquals(36, Day23.partTwo(swarm));
+        assertEquals(36, swarm.distanceToIdealPoint());
     }
 }
