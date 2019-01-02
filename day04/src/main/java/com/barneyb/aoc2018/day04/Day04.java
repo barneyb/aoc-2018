@@ -94,19 +94,10 @@ public class Day04 extends OneShotDay {
     }
 
     public static void main(String[] args)  {
+        Day04 d = new Day04();
         String input = FileUtils.readFile("day04/input.txt");
-        Record[] rs = parse(input);
-        System.out.println("Before:");
-        for (int i = 0; i < 20; i++) {
-            System.out.println(rs[i]);
-        }
-        Stopwatch w = new Stopwatch();
-        new Sort<>().sort(rs);
-        w.stop();
-        System.out.println("After (" + w.elapsed() + " ms):");
-        for (int i = 0; i < 20; i++) {
-            System.out.println(rs[i]);
-        }
+        Answers a = d.solve(input);
+        System.out.println(a);
     }
 
 }
