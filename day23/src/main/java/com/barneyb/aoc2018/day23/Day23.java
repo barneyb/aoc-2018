@@ -12,7 +12,7 @@ public class Day23 extends OneShotDay {
 
     @Override
     public Answers solve(String input) {
-        System.out.println("Day 23 takes 50-55 seconds to solve...");
+        System.out.println("Day 23 takes 45-50 seconds to solve...");
         Swarm swarm = Swarm.parse(input);
         return new Answers(
                 partOne(swarm)
@@ -60,7 +60,7 @@ public class Day23 extends OneShotDay {
 
         // find the largest set of sites which all mutually overlap
         int bestSize = -1;
-        Bag<Integer> sites = new Bag<>();
+        Queue<Integer> sites = new Queue<>();
         siteLoop:
         for (int s = 0; s < g.getSiteCount(); s++) {
             int size = g.adjacentCount(s);
@@ -78,82 +78,43 @@ public class Day23 extends OneShotDay {
             }
             // only if it's part of the active "fully connected same sized set"
             if (sites.isEmpty() || g.adjacent(s, sites.iterator().next()))
-                sites.add(s);
+                sites.enqueue(s);
         }
-        System.out.println("Best size: " + bestSize + " (at " + sites.size() + " sites)");
+        System.out.println("Best size: " + bestSize + " (at " + sites.size() + " sites):");
         System.out.println("    " + sites);
 
         // gather _exactly_ the bots whose ranges overlap
         int aSite = sites.iterator().next();
-        TreeSet<Integer> allSites = new TreeSet<>();
-        allSites.add(aSite);
+        TreeSet<Integer> inRangeSites = new TreeSet<>();
+        inRangeSites.add(aSite);
         for (Integer s : g.adjacentTo(aSite)) {
-            allSites.add(s);
+            inRangeSites.add(s);
         }
 
-        System.out.println("all sites (" + allSites.size() + "): " + allSites);
+        System.out.println("all sites (" + inRangeSites.size() + "):");
+        System.out.println("    " + inRangeSites);
 
-        // find the pairs of bots with the smallest overlap "thickness"
-        Bag<Vector> bests = new Bag<>();
-        int min = Integer.MAX_VALUE;
-        for (int s : allSites) {
-            for (int i : g.adjacentTo(s)) {
-                if (i <= s) continue; // only check one direction
-                if (! allSites.contains(i)) continue; // only check candidates
-                int w = g.weight(s, i);
-//                System.out.println("    Sites " + s + "," + i + " have overlap " + w);
-                if (w < min) {
-                    min = w;
-                    bests.clear();
-                }
-                if (w == min) {
-                    bests.add(new Vector(s, i));
-                }
-            }
-//            System.out.println("  Sites " + s + "," + bestI + " have overlap " + min);
-        }
-        System.out.println("Site pairs with overlap " + min + " (" + bests.size() + "):");
-        System.out.println("  " + bests);
-
-        // so at this point, we've got a list of all minimally thick overlaps
-        // in terms of the two bots who create it, within the set of all bots
-        // that are in signal range of the solution points
-
-        return partTwo_b(swarm, allSites, bests);
+        return partTwo_b(swarm, inRangeSites);
     }
 
-    static int partTwo_b(Swarm swarm, TreeSet<Integer> allSites, Bag<Vector> pairs) {
-        // todo: this screws sites? i think?
-        Bot[] bots = new Bot[allSites.size()];
-        int i = 0;
-        for (int s : allSites) {
-            bots[i++] = swarm.bots[s];
-        }
-        // smallest range of one-thickness pairs will be a small intersection
-        Vector maxPair = null;
-        double max = Double.MAX_VALUE;
-        for (Vector pair : pairs) {
-            Bot a = bots[pair.dim(0)];
-            Bot b = bots[pair.dim(1)];
-            int r = a.range + b.range;
-            if (r < max) {
-                max = r;
-                maxPair = pair;
-            }
-        }
-        assert maxPair != null;
-        Bot a = bots[maxPair.dim(0)];
-        Bot b = bots[maxPair.dim(1)];
-        Vector start = a.midpoint(b);
-
-        // grab "about 1/100th of the range"
-        double range = Math.max(a.range, b.range) / 100.0;
+    static int partTwo_b(Swarm swarm, TreeSet<Integer> inRangeSites) {
+        Bot[] allBots = swarm.bots;
+        Bot a = allBots[inRangeSites.min()];
+        // about 1/100th of the range
+        double range = a.range / 100.0;
         int stepDivisor = 10;
         int initialStep = (int) Math.pow(stepDivisor, (int) (Math.log(range) / Math.log(stepDivisor)));
+        System.out.printf("Steps %,d / %d%n", initialStep, stepDivisor);
+        Vector start = a.pos;
         TreeSet<Vector> intersect = null;
+        Bot[] inRangeBots = new Bot[inRangeSites.size()];
+        int i = 0;
+        for (int s : inRangeSites) {
+            inRangeBots[i++] = allBots[s];
+        }
         for (int s = Math.max(1, initialStep); s >= 1; s /= stepDivisor) {
             System.out.printf("Using pitch %,d...%n", s);
-            intersect = intersection(start, bots, s);
+            intersect = intersection(start, inRangeBots, s);
             start = intersect.min();
         }
         Vector[] arr = new Vector[intersect.size()];
