@@ -6,11 +6,10 @@ public class Day04 extends OneShotDay {
 
     @Override
     public Answers solve(String input) {
-        Record[] rs = parse(input);
-        Queue<Nap> naps = getNaps(rs);
+        Log l = Log.parse(input);
         return new Answers(
-                partOne(naps),
-                partTwo(naps)
+                partOne(l.naps()),
+                partTwo(l.naps())
         );
     }
 
@@ -56,41 +55,6 @@ public class Day04 extends OneShotDay {
             guards.add(n.getGuardId(), n.getLength());
         }
         return guards.mostFrequent();
-    }
-
-    static Queue<Nap> getNaps(Record[] rs) {
-        Queue<Nap> naps = new Queue<>();
-        Timestamp asleepAt = null;
-        Integer thisGuard = null;
-        for (Record r : rs) {
-            switch (r.getAction()) {
-                case BEGIN:
-                    thisGuard = r.getGuardId();
-                    break;
-                case FALL_ASLEEP:
-                    asleepAt = r.getTs();
-                    break;
-                case WAKE_UP:
-                    //noinspection ConstantConditions
-                    naps.enqueue(new Nap(
-                            thisGuard,
-                            asleepAt.getMinute(),
-                            r.getTs().getMinute()
-                    ));
-                    break;
-            }
-        }
-        return naps;
-    }
-
-    public static Record[] parse(String input) {
-        String[] lines = input.trim().split("\n");
-        Record[] rs = new Record[lines.length];
-        for (int i = 0, l = lines.length; i < l; i++) {
-            rs[i] = Record.parse(lines[i]);
-        }
-        Sort.natural(rs);
-        return rs;
     }
 
     public static void main(String[] args)  {
