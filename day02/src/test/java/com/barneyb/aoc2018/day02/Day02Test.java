@@ -6,7 +6,7 @@ import static org.junit.Assert.*;
 
 public class Day02Test {
 
-    private static String[] EXAMPLE_1 = {
+    static String[] EXAMPLE_1 = {
             "abcdef",
             "bababc",
             "abbcde",
@@ -16,7 +16,7 @@ public class Day02Test {
             "ababab",
     };
 
-    private static String[] EXAMPLE_2 = {
+    static String[] EXAMPLE_2 = {
             "abcde",
             "fghij",
             "klmno",
@@ -28,7 +28,7 @@ public class Day02Test {
 
     @Test
     public void partOne() {
-        assertEquals(12, new Day02().getPartOne(EXAMPLE_1));
+        assertEquals(12, new Warehouse(EXAMPLE_1).checksum());
     }
 
     @Test
