@@ -75,27 +75,37 @@ public class BST<K extends Comparable<K>, V> implements ST<K, V> {
     }
 
     public void deleteMin() {
-        // todo: this is also stupid
+        // todo: this is sorta stupid
         delete(min());
     }
 
     public K min() {
-        // todo: this is _stupid_
-        return keys().iterator().next();
+        return min(root);
+    }
+
+    private K min(Node curr) {
+        if (curr == null) return null;
+        K k = min(curr.left);
+        if (k != null) return k;
+        if (curr.value != null) return curr.key;
+        return min(curr.right);
     }
 
     public void deleteMax() {
-        // todo: this is also stupid
+        // todo: this is sorta stupid
         delete(max());
     }
 
     public K max() {
-        // todo: this is _stupid_
-        K last = null;
-        for (K k : keys()) {
-            last = k;
-        }
-        return last;
+        return max(root);
+    }
+
+    private K max(Node curr) {
+        if (curr == null) return null;
+        K k = max(curr.right);
+        if (k != null) return k;
+        if (curr.value != null) return curr.key;
+        return max(curr.left);
     }
 
     private boolean isRed(Node n) {

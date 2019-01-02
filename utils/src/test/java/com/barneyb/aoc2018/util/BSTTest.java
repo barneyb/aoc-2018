@@ -72,4 +72,24 @@ public class BSTTest {
         assertEquals(2, st.size());
         assertEquals(2, st.keys().size());
     }
+
+    @Test
+    public void minMax() {
+        BST<String, Integer> st = new BST<>();
+        st.put("charlie", 3);
+        st.put("delta", 4);
+        st.put("bravo", 2);
+        st.put("alpha", 1);
+        st.put("echo", 5);
+        assertEquals("alpha", st.min());
+        assertEquals("echo", st.max());
+        st.delete("alpha");
+        st.delete("delta");
+        assertEquals("bravo", st.min());
+        assertEquals("echo", st.max());
+        st.delete("bravo");
+        st.delete("echo");
+        assertEquals("charlie", st.min());
+        assertEquals("charlie", st.max());
+    }
 }
