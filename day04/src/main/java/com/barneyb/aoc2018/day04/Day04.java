@@ -89,7 +89,7 @@ public class Day04 extends OneShotDay {
         for (int i = 0, l = lines.length; i < l; i++) {
             rs[i] = Record.parse(lines[i]);
         }
-        new Sort<>().sort(rs);
+        Sort.natural(rs);
         return rs;
     }
 

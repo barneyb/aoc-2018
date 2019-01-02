@@ -31,6 +31,10 @@ public class Sort<T> {
         }
     }
 
+    public static <T> void natural(T[] a) {
+        new Sort<>().sort(a);
+    }
+
 //    private static void sort(Comparable[] a, int lo, int hi) {
 //        if (hi <= lo) {
 //            return;

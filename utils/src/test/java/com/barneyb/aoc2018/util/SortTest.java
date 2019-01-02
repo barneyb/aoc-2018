@@ -11,14 +11,14 @@ public class SortTest {
     @Test
     public void empty() {
         Integer[] a = new Integer[0];
-        new Sort<>().sort(a);
+        Sort.natural(a);
         assertArrayEquals(new Integer[0], a);
     }
 
     @Test
     public void integers() {
         Integer[] a = { 3, 5, 1, 4, 2 };
-        new Sort<>().sort(a);
+        Sort.natural(a);
         assertArrayEquals(new Integer[] {
                 1, 2, 3, 4, 5
         }, a);
@@ -27,7 +27,7 @@ public class SortTest {
     @Test
     public void dupes() {
         Integer[] a = { 2, 3, 1, 5, 2, 3, 4, 4, 3 };
-        new Sort<>().sort(a);
+        Sort.natural(a);
         assertArrayEquals(new Integer[] {
                 1, 2, 2, 3, 3, 3, 4, 4, 5
         }, a);
