@@ -1,6 +1,9 @@
 package com.barneyb.aoc2018.day04;
 
-import com.barneyb.aoc2018.util.*;
+import com.barneyb.aoc2018.util.Answers;
+import com.barneyb.aoc2018.util.FileUtils;
+import com.barneyb.aoc2018.util.Histogram;
+import com.barneyb.aoc2018.util.OneShotDay;
 
 public class Day04 extends OneShotDay {
 
@@ -13,7 +16,7 @@ public class Day04 extends OneShotDay {
         );
     }
 
-    private int partTwo(Queue<Nap> naps) {
+    private int partTwo(Iterable<Nap> naps) {
         Histogram<Integer> guardMinutes = new Histogram<>();
         for (Nap n : naps) {
             for (int i = n.getStart(), l = n.getEnd(); i < l; i++) {
@@ -31,13 +34,13 @@ public class Day04 extends OneShotDay {
         return (guardId << 8) + minute;
     }
 
-    private int partOne(Queue<Nap> naps) {
+    private int partOne(Iterable<Nap> naps) {
         Integer id = sleepiestGuard(naps);
         Integer minute = sleepiestMinute(naps, id);
         return id * minute;
     }
 
-    static Integer sleepiestMinute(Queue<Nap> naps, Integer guardId) {
+    static Integer sleepiestMinute(Iterable<Nap> naps, Integer guardId) {
         Histogram<Integer> minutes = new Histogram<>();
         for (Nap n : naps) {
             if (n.getGuardId() == guardId) {
@@ -49,7 +52,7 @@ public class Day04 extends OneShotDay {
         return minutes.mostFrequent();
     }
 
-    static Integer sleepiestGuard(Queue<Nap> naps) {
+    static Integer sleepiestGuard(Iterable<Nap> naps) {
         Histogram<Integer> guards = new Histogram<>();
         for (Nap n : naps) {
             guards.add(n.getGuardId(), n.getLength());

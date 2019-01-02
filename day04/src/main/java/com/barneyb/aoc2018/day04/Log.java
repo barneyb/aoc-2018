@@ -1,5 +1,6 @@
 package com.barneyb.aoc2018.day04;
 
+import com.barneyb.aoc2018.api.Collection;
 import com.barneyb.aoc2018.util.Queue;
 import com.barneyb.aoc2018.util.Sort;
 
@@ -47,7 +48,7 @@ class Log {
         return records;
     }
 
-    public Queue<Nap> naps() {
+    public Collection<Nap> naps() {
         return naps;
     }
 

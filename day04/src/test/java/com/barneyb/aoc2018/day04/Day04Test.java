@@ -50,7 +50,7 @@ public class Day04Test {
 
     @Test
     public void sleepiestGuard() {
-        Queue<Nap> naps = Log.parse(EXAMPLE_INPUT).naps();
+        Iterable<Nap> naps = Log.parse(EXAMPLE_INPUT).naps();
         assertEquals(valueOf(10), Day04.sleepiestGuard(naps));
     }
 
