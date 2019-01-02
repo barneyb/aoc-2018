@@ -16,7 +16,7 @@ public class Day00 extends OneShotDay {
 
     public static void main(String[] args)  {
         Day00 d = new Day00();
-        String input = FileUtils.readFile("input.txt");
+        String input = FileUtils.readFile("day00/input.txt");
         Answers a = d.solve(input);
         System.out.println(a);
     }
