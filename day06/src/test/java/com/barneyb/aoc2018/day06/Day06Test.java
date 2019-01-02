@@ -33,11 +33,11 @@ public class Day06Test {
 
     @Test
     public void parse() {
-        assertArrayEquals(EXAMPLE_POINTS, Day06.parse(EXAMPLE_INPUT));
+        assertArrayEquals(EXAMPLE_POINTS, Plotter.parse(EXAMPLE_INPUT).points());
     }
 
     @Test
     public void partTwo() {
-        assertEquals(16, Day06.partTwo(EXAMPLE_POINTS, 32));
+        assertEquals(16, new Plotter(EXAMPLE_POINTS).regionWithin(32));
     }
 }

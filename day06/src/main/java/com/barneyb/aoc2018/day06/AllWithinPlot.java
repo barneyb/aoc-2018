@@ -2,12 +2,12 @@ package com.barneyb.aoc2018.day06;
 
 import com.barneyb.aoc2018.util.Point;
 
-public class AllWithinPlot {
+class AllWithinPlot {
 
     private int size;
 
-    public AllWithinPlot(Point[] points, int distanceCap) {
-        Point max = Day06.max(points);
+    public AllWithinPlot(Plotter plotter, int distanceCap) {
+        Point max = plotter.max();
         int width = max.x + 1;
         int height = max.y + 1;
         Point p;
@@ -17,7 +17,7 @@ public class AllWithinPlot {
             for (int y = 0; y < height; y++) {
                 p = new Point(x, y);
                 d = 0;
-                for (Point c : points) {
+                for (Point c : plotter.points()) {
                     d += p.md(c);
                     if (d >= distanceCap) {
                         continue pointLoop;

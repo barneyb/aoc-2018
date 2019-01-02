@@ -2,7 +2,7 @@ package com.barneyb.aoc2018.day06;
 
 import com.barneyb.aoc2018.util.*;
 
-public class ClosestPlot {
+class ClosestPlot {
 
     public static final int UNKNOWN = -2;
     public static final int CONFLICT = -1;
@@ -11,8 +11,9 @@ public class ClosestPlot {
     private final TreeSet<Point> seeds;
     private final int[] plot;
 
-    public ClosestPlot(Point[] points) {
-        Point max = Day06.max(points);
+    public ClosestPlot(Plotter plotter) {
+        Point[] points = plotter.points();
+        Point max = plotter.max();
         width = max.x + 1;
         height = max.y + 1;
         seeds = new TreeSet<>();
