@@ -59,21 +59,13 @@ class Log {
     }
 
     public int sleepiestMinuteGuard() {
-        Histogram<Integer> guardMinutes = new Histogram<>();
+        Histogram<GuardMinute> guardMinutes = new Histogram<>();
         for (Nap n : naps) {
             for (int i = n.getStart(), l = n.getEnd(); i < l; i++) {
-                guardMinutes.count(guardMinute(n.getGuardId(), i));
+                guardMinutes.count(new GuardMinute(n.getGuardId(), i));
             }
         }
-        return guardMinuteProduct(guardMinutes.mostFrequent());
-    }
-
-    static int guardMinuteProduct(int gm) {
-        return (gm >> 8) * (gm & 0xFF);
-    }
-
-    static int guardMinute(int guardId, int minute) {
-        return (guardId << 8) + minute;
+        return guardMinutes.mostFrequent().product();
     }
 
     int sleepiestMinute(int guardId) {

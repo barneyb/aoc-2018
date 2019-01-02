@@ -29,19 +29,4 @@ public class LogTest {
         assertEquals(10, log.sleepiestGuard());
     }
 
-    @Test
-    public void guardMinute() {
-        assertEquals((25 << 8) + 59, Log.guardMinute(25, 59));
-    }
-
-    @Test
-    public void guardMinuteProduct() {
-        assertEquals(4455, Log.guardMinuteProduct((99 << 8) + 45));
-    }
-
-    @Test
-    public void guardMinuteChain() {
-        assertEquals(4455, Log.guardMinuteProduct(Log.guardMinute(99, 45)));
-    }
-
 }
