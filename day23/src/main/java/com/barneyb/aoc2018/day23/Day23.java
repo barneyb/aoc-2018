@@ -16,18 +16,9 @@ public class Day23 extends OneShotDay {
         System.out.println("Day 23 takes 45-50 seconds to solve...");
         Swarm swarm = Swarm.parse(input);
         return new Answers(
-                partOne(swarm)
+                swarm.inRangeOfStrongest()
                 , partTwo(swarm)
         );
-    }
-
-    static int partOne(Swarm swarm) {
-        Bot bot = swarm.strongest();
-        int count = 0;
-        for (Bot b : swarm.bots) {
-            if (bot.inRange(b)) count += 1;
-        }
-        return count;
     }
 
     static int partTwo(Swarm swarm) {

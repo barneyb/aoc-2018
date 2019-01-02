@@ -6,6 +6,8 @@ import com.barneyb.aoc2018.util.Vector;
 
 class Swarm {
 
+    private static final Point3D ORIGIN = new Point3D(0, 0, 0);
+
     static Swarm parse(String input) {
         String[] lines = input.trim().split("\n");
         Bot[] bots = new Bot[lines.length];
@@ -72,7 +74,16 @@ class Swarm {
         return bs;
     }
 
-    public int botCount() {
+    int botCount() {
         return bots.length;
+    }
+
+    int inRangeOfStrongest() {
+        Bot bot = strongest();
+        int count = 0;
+        for (Bot b : bots) {
+            if (bot.inRange(b)) count += 1;
+        }
+        return count;
     }
 }
