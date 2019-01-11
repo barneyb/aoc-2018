@@ -87,3 +87,27 @@ file wasn't provided for. Here's how it might look after the first day:
     Part Two: 14
     16 ms
     No input file 'day01/input.txt' for Day 1
+
+## Visualization
+
+Since there are a lot of "do complicated 2D stuff" problems, visualization is a
+powerful debugging tool. I opted to focus on `toString` implementations which
+matched the examples' output, as that very gracefully lead to building an
+initial test suite via copy and paste.
+
+But a number of problems warrant "investigative visualization", and spewing many
+hundreds of KB to the console isn't necessarily ideal. There are a few `VizXX`
+types which create a very simple Swing UI for visualizing the solver as it works
+through the input by presenting an "animation" of those String representations.
+Day 17, for example, required manual inspection of the visualization for me to
+figure out my final bug.
+
+Viewing a huge-ass string in a non-editable JTextArea, while functional, ain't
+very sexy. So I made a thin wrapper (github.com/barneyb/jpixelclient) around
+Josh's viewer (github.com/frankamp/go-pixel-server) to allow drawing
+OpenGL-animated scenes from the Java solvers. Quite a bit sexier, though mostly
+an academic exercise, since I've already got all 50 stars. Next year, however,
+it may prove quite useful. We'll see.
+
+The first conversation was Day 18, the "logging" one. You'll need to get a
+binary of both the pixel server and the adapter library in order to run it.
