@@ -87,26 +87,3 @@ file wasn't provided for. Here's how it might look after the first day:
     Part Two: 14
     16 ms
     No input file 'day01/input.txt' for Day 1
-
-## Adding a Solver
-
-The `start.sh` script (no Bash-free equivalent is provided) is the way to get
-started on a new day's solver:
-
-    $ ./start.sh
-    Usage: ./start.sh <day>
-    $ ./start.sh 1
-    ...
-    Day  0
-    Day  1
-    // Day  2
-    // Day  3
-    ...
-    // Day 25
-    Part One: 17
-    Part Two: 14
-
-It requires you to be on `master` with nothing staged and a mostly clean working
-dir. It'll create a new branch, module, and skeleton implementation (of Day 0),
-then exercise it. You'll be left on the new branch. Crack open
-`day01/src/main/java/com/barneyb/aoc2018/day01/Day01.java` and _go, go, GO!_
