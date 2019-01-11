@@ -3,9 +3,9 @@ package com.barneyb.aoc2018.day18;
 import com.barneyb.aoc2018.util.Histogram;
 import com.barneyb.aoc2018.util.Point;
 
-public class Map {
+class Map {
 
-    static Map parse(String input) {
+    public static Map parse(String input) {
         String[] lines = input.trim().split("\n");
         char[][] grid = new char[lines.length][];
         for (int i = 0; i < lines.length; i++) {
@@ -22,13 +22,29 @@ public class Map {
     private final int width, height;
     private int tickCount = 0;
 
-    Map(char[][] grid) {
+    public Map(char[][] grid) {
         this.grid = grid;
         this.width = grid[0].length;
         this.height = grid.length;
     }
 
-    void tick() {
+    public char curr(Point p) {
+        return curr(p.x, p.y);
+    }
+
+    public char curr(int x, int y) {
+        return grid[y][x];
+    }
+
+    public int width() {
+        return width;
+    }
+
+    public int height() {
+        return height;
+    }
+
+    public void tick() {
         char[][] next = new char[height][];
         for (int y = 0; y < height; y++) {
             char[] row = next[y] = new char[width];
@@ -40,14 +56,14 @@ public class Map {
         tickCount += 1;
     }
 
-    void tick(int steps) {
+    public void tick(int steps) {
         for (int i = 0; i < steps; i++) {
             tick();
         }
     }
 
-    char next(Point p) {
-        char c = grid[p.y][p.x];
+    public char next(Point p) {
+        char c = curr(p);
         Histogram<Character> h = buildHist(p);
         if (c == OPEN) {
             return h.get(TREES) >= 3 ? TREES : OPEN;
@@ -58,7 +74,7 @@ public class Map {
         }
     }
 
-    Histogram<Character> buildHist(Point p) {
+    public Histogram<Character> buildHist(Point p) {
         Histogram<Character> h = new Histogram<>();
         for (int y = p.y - 1; y <= p.y + 1; y++) {
             if (y < 0) continue;
@@ -67,25 +83,25 @@ public class Map {
                 if (x < 0) continue;
                 if (x >= width) continue;
                 if (x == p.x && y == p.y) continue;
-                h.count(grid[y][x]);
+                h.count(curr(x, y));
             }
         }
         return h;
     }
 
-    int resourceValue() {
+    public int resourceValue() {
         int treeCount = 0;
         int yardCount = 0;
         for (int y = 0; y < height; y++) {
             for (int x = 0; x < width; x++) {
-                if (grid[y][x] == TREES) treeCount += 1;
-                if (grid[y][x] == LUMBERYARD) yardCount += 1;
+                if (curr(x, y) == TREES) treeCount += 1;
+                if (curr(x, y) == LUMBERYARD) yardCount += 1;
             }
         }
         return treeCount * yardCount;
     }
 
-    int tickCount() {
+    public int tickCount() {
         return tickCount;
     }
 
