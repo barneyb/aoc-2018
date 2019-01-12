@@ -5,10 +5,14 @@ import com.barneyb.aoc2018.util.Point;
 import com.barneyb.aoc2018.util.Queue;
 import com.barneyb.aoc2018.util.TreeSet;
 
+import java.util.function.Consumer;
+
 class Engine {
 
     private final Map map;
     private int rounds;
+
+    Consumer<Search> searchMonitor;
 
     Engine(Map map) {
         this.map = map;
@@ -50,7 +54,7 @@ class Engine {
         // if no open points, return
         if (candidatePoints.isEmpty()) return;
         // find the target to move towards
-        Point targetPoint = getClosestPoint( u.location(), candidatePoints);
+        Point targetPoint = getClosestPoint(u.location(), candidatePoints);
         // if no reachable points, return
         if (targetPoint == null) return;
         assert map.isOpen(targetPoint);
@@ -78,12 +82,46 @@ class Engine {
         }
     }
 
+    static class Search {
+        final Point start;
+        final TreeSet<Point> targets;
+        final Point result;
+        final int maxDistance;
+        private final int[][] grid;
+
+        private Search(Point start, TreeSet<Point> targets, Point result, int maxDistance, int[][] grid) {
+            this.start = start;
+            this.targets = targets;
+            this.result = result;
+            this.maxDistance = maxDistance;
+            this.grid = grid;
+        }
+
+        public boolean isSuccess() {
+            return result != null;
+        }
+
+        public boolean isReached(int x, int y) {
+            return distance(x, y) != 0;
+        }
+
+        public int distance(int x, int y) {
+            return grid[y][x];
+        }
+
+        public float scale(int x, int y) {
+            return 1f * distance(x, y) / (maxDistance + 1);
+        }
+    }
+
     private Point getClosestPoint(Point start, TreeSet<Point> candidates) {
         int[][] g = map.gridToPaint();
         Queue<Paint> paintQueue = new Queue<>();
         paintQueue.enqueue(new Paint(start, 0));
+        int lastStep = -1;
         while (! paintQueue.isEmpty()) {
             Paint p = paintQueue.dequeue();
+            lastStep = p.n;
             if (candidates.contains(p.point)) {
                 // we found one, need to empty the queue of all other paints
                 // with the same number. Dir order is insufficient at enqueue
@@ -97,6 +135,9 @@ class Engine {
                     if (! candidates.contains(c.point)) continue;
                     if (c.point.compareTo(best) < 0) best = c.point;
                 }
+                if (searchMonitor != null) searchMonitor.accept(new Search(
+                        start, candidates, best, p.n, g
+                ));
                 return best;
             }
             for (Point q : getOpenAdjacent(p.point)) {
@@ -106,6 +147,9 @@ class Engine {
                 }
             }
         }
+        if (searchMonitor != null) searchMonitor.accept(new Search(
+                start, candidates, null, lastStep, g
+        ));
         return null; // none are reachable, i guess?
     }
 

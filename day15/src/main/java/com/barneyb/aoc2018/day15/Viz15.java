@@ -15,6 +15,9 @@ public class Viz15 {
     static final Color C_WALL = Color.DARK_GRAY;
     static final Color C_ELF = new Color(32, 162, 0);
     static final Color C_GOBLIN = new Color(186, 108, 102);
+    static final Color C_START = new Color(83, 83, 255);
+    static final Color C_MAX_STEPS = Color.WHITE;
+    static final Color C_RESULT = new Color(255, 170, 0);
 
     private final Scene scene;
     private final int width;
@@ -34,6 +37,23 @@ public class Viz15 {
         }
         scene = new Scene(cavern.asFrame(pitch));
         Engine e = new Engine(map);
+        e.searchMonitor = s -> {
+            Raster r = drawUnits(map);
+            r.dot(awt(s.start), C_START.darker());
+            for (int x = 0; x < width; x++) {
+                for (int y = 0; y < height; y++) {
+                    if (s.isReached(x, y)) {
+                        Color c = scale(s.scale(x, y), C_START, C_MAX_STEPS);
+                        r.dot(x, y, c);
+                    }
+                }
+            }
+            if (s.isSuccess()) r.dot(awt(s.result), C_RESULT);
+            scene.addFrame(r.asFrame(pitch));
+        };
+        scene.addFrame(drawUnits(map).asFrame(pitch));
+        e.doRound();
+        e.searchMonitor = null;
         do {
             scene.addFrame(drawUnits(map).asFrame(pitch));
         } while (e.doRound());
