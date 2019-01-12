@@ -4,9 +4,11 @@ import com.barneyb.aoc2018.util.Point;
 
 class Unit implements Comparable<Unit> {
 
+    public static final int FULL_HEALTH = 200;
+
     private final char label;
     private Point loc;
-    private int hitPoints = 200;
+    private int hitPoints = FULL_HEALTH;
     private int attack = 3;
 
     Unit(char label, Point loc) {
@@ -28,6 +30,10 @@ class Unit implements Comparable<Unit> {
 
     int hitPoints() {
         return hitPoints;
+    }
+
+    float health() {
+        return 1f * hitPoints / FULL_HEALTH;
     }
 
     Point location() {

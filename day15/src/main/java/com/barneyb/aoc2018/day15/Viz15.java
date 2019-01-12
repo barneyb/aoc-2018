@@ -33,11 +33,29 @@ public class Viz15 {
             }
         }
         scene = new Scene(cavern.asFrame(pitch));
+        Engine e = new Engine(map);
+        do {
+            scene.addFrame(drawUnits(map).asFrame(pitch));
+        } while (e.doRound());
+        // victory!
+        scene.addFrame(drawUnits(map).asFrame(pitch));
+    }
+
+    private Raster drawUnits(Map map) {
         Raster units = new Raster();
         for (Unit u : map.survivors()) {
-            units.dot(awt(u.location()), u.isElf() ? C_ELF : C_GOBLIN);
+            Color c = scale(u.health(), C_FLOOR, u.isElf() ? C_ELF : C_GOBLIN);
+            units.dot(awt(u.location()), c);
         }
-        scene.addFrame(units.asFrame(pitch));
+        return units;
+    }
+
+    private Color scale(float factor, Color zero, Color one) {
+        return new Color(
+                (int) (zero.getRed() - (zero.getRed() - one.getRed()) * factor),
+                (int) (zero.getGreen() - (zero.getGreen() - one.getGreen()) * factor),
+                (int) (zero.getBlue() - (zero.getBlue() - one.getBlue()) * factor)
+        );
     }
 
     public void view() {
