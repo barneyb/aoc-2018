@@ -28,10 +28,7 @@ class Engine {
         for (Unit u : map.survivors()) {
             if (! u.alive()) continue; // killed earlier this round?
             if (map.isOver()) return false; // nothing to target
-            Queue<Unit> enemies = new Queue<>();
-            for (Unit ce : map.survivors()) {
-                if (u.isGoblin() != ce.isGoblin()) enemies.enqueue(ce);
-            }
+            Iterable<Unit> enemies = map.enemiesOf(u);
             doMove(u, enemies);
             if (performAttacks) {
                 doAttack(u, enemies);

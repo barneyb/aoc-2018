@@ -137,6 +137,14 @@ class Map {
         return units;
     }
 
+    Iterable<Unit> enemiesOf(Unit unit) {
+        Queue<Unit> enemies = new Queue<>();
+        for (Unit ce : survivors()) {
+            if (unit.isGoblin() != ce.isGoblin()) enemies.enqueue(ce);
+        }
+        return enemies;
+    }
+
     @Override
     public String toString() {
         return toString(false);
