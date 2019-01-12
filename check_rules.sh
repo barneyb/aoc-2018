@@ -22,6 +22,7 @@ find . -name "*.java" \
     | egrep -v 'java\.util\.function.*' \
     | egrep -v '/viz/.*\.java:' \
     | egrep -v '/Viz[0-9]+\.java:' \
+    | egrep -v '/VizUtils\.java:' \
     > ${TEMP_FILE} \
     || true # `grep` exits non-zero if nothing is found
 
