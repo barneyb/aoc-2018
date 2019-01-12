@@ -11,7 +11,7 @@ public class Viz18 {
 
     static final Color C_OPEN = Color.LIGHT_GRAY;
     static final Color C_TREES = Color.GREEN;
-    static final Color C_LUMBERYARD = Color.DARK_GRAY;
+    static final Color C_LUMBERYARD = Color.GRAY;
 
     private final Scene scene;
     private final int width;
@@ -51,11 +51,11 @@ public class Viz18 {
         Frame f = new Frame();
         f.addElement(new Element(color(C_LUMBERYARD)));
         for (Region r : lumberyards) {
-            f.addElement(new Element(r));
+            f.addRegion(r);
         }
         f.addElement(new Element(color(C_TREES)));
         for (Region r : trees) {
-            f.addElement(new Element(r));
+            f.addRegion(r);
         }
         return f;
     }
