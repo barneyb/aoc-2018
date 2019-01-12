@@ -5,15 +5,97 @@ import com.barneyb.jpixelclient.raw.Frame;
 import com.barneyb.jpixelclient.raw.Region;
 
 import java.awt.*;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
 
 public class Raster {
 
-    private java.util.Map<Point, Color> data = new LinkedHashMap<>();
-    private java.util.Map<Rectangle, Color> rects = new LinkedHashMap<>();
+    private static abstract class Paint {
+        static final int SOLID = 0;
+
+        final Color color;
+        final int thickness;
+
+        Paint(Color color, int thickness) {
+            this.color = color;
+            this.thickness = thickness;
+        }
+
+        abstract Paint translate(Point p);
+
+        abstract Region toRegion(int pitch);
+
+        abstract Rectangle getBounds();
+    }
+
+    private static class DotPaint extends Paint {
+
+        final Point p;
+
+        DotPaint(Point p, Color color) {
+            super(color, 0);
+            this.p = p;
+        }
+
+        @Override
+        Paint translate(Point by) {
+            return new DotPaint(new Point(
+                    p.x + by.x,
+                    p.y + by.y
+            ), color);
+        }
+
+        @Override
+        Region toRegion(int pitch) {
+            return Region.rect(
+                    p.x * pitch,
+                    p.y * pitch,
+                    pitch,
+                    pitch);
+        }
+
+        @Override
+        Rectangle getBounds() {
+            return new Rectangle(p.x, p.y, 1, 1);
+        }
+    }
+
+    private static class RectPaint extends Paint {
+
+        final Rectangle r;
+
+        RectPaint(Rectangle r, Color color, int thickness) {
+            super(color, thickness);
+            this.r = r;
+        }
+
+        @Override
+        Paint translate(Point by) {
+            return new RectPaint(new Rectangle(
+                    r.x + by.x,
+                    r.y + by.y,
+                    r.width,
+                    r.height
+            ), color, thickness);
+        }
+
+        @Override
+        Region toRegion(int pitch) {
+            return Region.rect(new Rectangle(
+                    r.x * pitch,
+                    r.y * pitch,
+                    r.width * pitch,
+                    r.height * pitch));
+        }
+
+        @Override
+        Rectangle getBounds() {
+            return r;
+        }
+
+    }
+
+    private List<Paint> paints = new LinkedList<>();
     private int minX = Integer.MAX_VALUE;
     private int maxX = Integer.MIN_VALUE;
     private int minY = Integer.MAX_VALUE;
@@ -24,11 +106,19 @@ public class Raster {
     }
 
     public void dot(Point p, Color c) {
-        data.put(p, c);
-        if (p.x < minX) minX = p.x;
-        if (p.x > maxX) maxX = p.x;
-        if (p.y < minY) minY = p.y;
-        if (p.y > maxY) maxY = p.y;
+        paints.add(new DotPaint(p, c));
+        updateBounds(p.x, p.y, p.x, p.y);
+    }
+
+    private void updateBounds(Rectangle b) {
+        updateBounds(b.x, b.y, b.x + b.width, b.y + b.height);
+    }
+
+    private void updateBounds(int x1, int y1, int x2, int y2) {
+        if (x1 < minX) minX = x1;
+        if (x2 > maxX) maxX = x2;
+        if (y1 < minY) minY = y1;
+        if (y2 > maxY) maxY = y2;
     }
 
     public Point min() {
@@ -53,7 +143,12 @@ public class Raster {
     }
 
     public void rect(Rectangle r, Color c) {
-        rects.put(r, c);
+        rect(r, c, 1);
+    }
+
+    public void rect(Rectangle r, Color c, int strokeWidth) {
+        paints.add(new RectPaint(r, c, strokeWidth));
+        updateBounds(r);
     }
 
     public void paste(Raster raster) {
@@ -61,14 +156,11 @@ public class Raster {
     }
 
     public void paste(Raster raster, Point at) {
-        raster.data.forEach((p, c) -> dot(new Point(
-                p.x + at.x,
-                p.y + at.y), c));
-        raster.rects.forEach((r, c) -> rect(new Rectangle(
-                r.x + at.x,
-                r.y + at.y,
-                r.width,
-                r.height), c));
+        raster.paints.forEach(p -> {
+            p = p.translate(at);
+            paints.add(p);
+            updateBounds(p.getBounds());
+        });
     }
 
     public Frame asFrame(int pitch) {
@@ -76,36 +168,24 @@ public class Raster {
     }
 
     public Frame asFrame(Point origin, int pitch) {
-        // group by color first...
-        HashMap<Color, List<Point>> colors = new HashMap<>();
-        for (Point p : data.keySet()) {
-            Color c = data.get(p);
-            if (! colors.containsKey(c)) {
-                colors.put(c, new LinkedList<>());
-            }
-            colors.get(c).add(p);
-        }
-        // now dot!
+        origin = new Point(
+                -origin.x,
+                -origin.y
+        );
         Frame f = new Frame();
-        for (Color c : colors.keySet()) {
-            f.addCommand(Command.color(c));
-            for (Point p : colors.get(c)) {
-                f.addRegion(Region.rect(
-                        (p.x - origin.x) * pitch,
-                        (p.y - origin.y) * pitch,
-                        pitch,
-                        pitch));
+        Color lastColor = null;
+        int lastThickness = -1;
+        for (Paint p : paints) {
+            p = p.translate(origin);
+            if (p.color != lastColor) {
+                f.addCommand(Command.color(p.color));
+                lastColor = p.color;
             }
-        }
-        for (Rectangle r : rects.keySet()) {
-            f.addCommand(Command.color(rects.get(r)));
-            f.addCommand(Command.thickness(1));
-            Rectangle nr = new Rectangle(
-                    r.x - origin.x,
-                    r.y - origin.y,
-                    r.width,
-                    r.height);
-            f.addRegion(Region.rect(nr));
+            if (p.thickness != lastThickness) {
+                f.addCommand(Command.thickness(p.thickness));
+                lastThickness = p.thickness;
+            }
+            f.addRegion(p.toRegion(pitch));
         }
         return f;
     }
