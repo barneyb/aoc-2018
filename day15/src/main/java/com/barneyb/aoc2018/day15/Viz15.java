@@ -8,6 +8,7 @@ import com.barneyb.jpixelclient.raw.SceneView;
 import java.awt.*;
 
 import static com.barneyb.aoc2018.util.VizUtils.awt;
+import static com.barneyb.jpixelclient.ColorUtils.scale;
 
 public class Viz15 {
 
@@ -68,14 +69,6 @@ public class Viz15 {
             units.dot(awt(u.location()), c);
         }
         return units;
-    }
-
-    private Color scale(float factor, Color zero, Color one) {
-        return new Color(
-                (int) (zero.getRed() - (zero.getRed() - one.getRed()) * factor),
-                (int) (zero.getGreen() - (zero.getGreen() - one.getGreen()) * factor),
-                (int) (zero.getBlue() - (zero.getBlue() - one.getBlue()) * factor)
-        );
     }
 
     public void view() {
