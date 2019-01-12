@@ -28,7 +28,8 @@ public class Viz23 {
         Dimension d = xy.dimension();
         xy.paste(xz, new Point(0, d.height + 10));
         xy.paste(zy, new Point(d.width + 10, 0));
-        scene.addFrame(xy.asFrame(xy.min(), 1));
+        d = xy.dimension();
+        scene.addFrame(xy.asFrame(xy.min(), 1000 / Math.max(d.width, d.height)));
     }
 
     private void view() {
