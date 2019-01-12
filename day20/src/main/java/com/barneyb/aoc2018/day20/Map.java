@@ -11,14 +11,22 @@ class Map {
         return new Map(new CharDigest(input.substring(1, input.length() - 1).toCharArray()));
     }
 
-    private TreeSet<Point> doors;
-    private BST<Point, Integer> distances;
-    private Point farthestPoint;
+    private final TreeSet<Point> doors;
+    private final Bounds bounds;
+    private final BST<Point, Integer> distances;
+    private final Point farthestPoint;
 
     Map(CharDigest re) {
         this.doors = new TreeSet<>();
         Point start = new Point(0, 0);
         findDoors(re, start);
+
+        Bounds b = new Bounds(start, start);
+        for (Point p : doors) {
+            b = b.plus(p);
+        }
+        this.bounds = b;
+
         this.distances = distancesFrom(start);
         int maxD = 0;
         Point maxP = null;
@@ -30,6 +38,18 @@ class Map {
             }
         }
         farthestPoint = maxP;
+    }
+
+    public Point origin() {
+        return bounds.min();
+    }
+
+    public int width() {
+        return (int) bounds.width();
+    }
+
+    public int height() {
+        return (int) bounds.height();
     }
 
     private static class Paint {
@@ -101,6 +121,10 @@ class Map {
         }
     }
 
+    Iterable<Point> doors() {
+        return doors;
+    }
+
     private Dir dir(char c) {
         switch (c) {
             case 'N': return UP;
@@ -117,14 +141,10 @@ class Map {
     }
 
     public String toString(boolean withSpaces) {
-        Bounds b = new Bounds(new Point(0, 0), new Point(0, 0));
-        for (Point p : doors) {
-            b = b.plus(p);
-        }
-        int minX = b.min().x - 1;
-        int minY = b.min().y - 1;
-        int maxX = b.max().x + 1;
-        int maxY = b.max().y + 1;
+        int minX = bounds.min().x - 1;
+        int minY = bounds.min().y - 1;
+        int maxX = bounds.max().x + 1;
+        int maxY = bounds.max().y + 1;
         StringBuilder sb = new StringBuilder();
         for (int y = minY; y <= maxY; y++) {
             if (y > minY) sb.append('\n');
