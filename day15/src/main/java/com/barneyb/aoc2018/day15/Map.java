@@ -75,8 +75,32 @@ class Map {
         return g;
     }
 
+    public int width() {
+        return width;
+    }
+
+    public int height() {
+        return height;
+    }
+
     boolean isOpen(Point p) {
-        return grid[p.y][p.x] == SPACE;
+        return is(p, SPACE);
+    }
+
+    boolean isWall(Point p) {
+        return is(p, WALL);
+    }
+
+    boolean isWall(int x, int y) {
+        return is(x, y, WALL);
+    }
+
+    private boolean is(Point p, char type) {
+        return is(p.x, p.y, type);
+    }
+
+    private boolean is(int x, int y, char type) {
+        return grid[y][x] == type;
     }
 
     boolean isOver() {

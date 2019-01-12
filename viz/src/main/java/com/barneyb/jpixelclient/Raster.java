@@ -142,6 +142,10 @@ public class Raster {
         rect(new Rectangle(b.x - 1, b.y - 1, b.width + 2, b.height + 2), c);
     }
 
+    public void fill(Rectangle r, Color c) {
+        rect(r, c, Paint.SOLID);
+    }
+
     public void rect(Rectangle r, Color c) {
         rect(r, c, 1);
     }

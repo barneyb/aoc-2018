@@ -21,5 +21,10 @@
             <artifactId>utils</artifactId>
             <version>${project.version}</version>
         </dependency>
+        <dependency>
+            <groupId>com.barneyb.aoc-2018</groupId>
+            <artifactId>viz</artifactId>
+            <version>${project.version}</version>
+        </dependency>
     </dependencies>
 </project>
