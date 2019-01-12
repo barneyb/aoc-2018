@@ -12,15 +12,13 @@ class Map {
     }
 
     private TreeSet<Point> doors;
-    final Queue<String> states = new Queue<>();
     private BST<Point, Integer> distances;
     private Point farthestPoint;
 
     Map(CharDigest re) {
         this.doors = new TreeSet<>();
         Point start = new Point(0, 0);
-        states.enqueue(toString());
-        findDoors(re, doors, start);
+        findDoors(re, start);
         this.distances = distancesFrom(start);
         int maxD = 0;
         Point maxP = null;
@@ -85,12 +83,12 @@ class Map {
         return doors.contains(p);
     }
 
-    private void findDoors(CharDigest re, TreeSet<Point> doors, Point start) {
+    private void findDoors(CharDigest re, Point start) {
         Point p = start;
         while (re.hasNext()) {
             char c = re.next();
             if (c == '(') {
-                findDoors(re, doors, p);
+                findDoors(re, p);
             } else if (c == ')') {
                 return; // done with this subexpression
             } else if (c == '|') {
@@ -98,7 +96,6 @@ class Map {
             } else {
                 Dir d = dir(c);
                 doors.add(p.go(d));
-//                states.enqueue(toString());
                 p = p.go(d, 2);
             }
         }
