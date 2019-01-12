@@ -9,9 +9,9 @@ import java.awt.*;
 
 public class Viz18 {
 
-    static final Color C_OPEN = new Color(216, 216, 216);
-    static final Color C_TREES = Color.GREEN;
-    static final Color C_LUMBERYARD = Color.GRAY;
+    static final Color C_OPEN = new Color(193, 205, 32, 163);
+    static final Color C_TREES = new Color(64, 140, 44);
+    static final Color C_LUMBERYARD = new Color(150, 157, 174);
 
     private final Scene scene;
     private final int width;
