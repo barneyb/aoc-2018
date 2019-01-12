@@ -1,7 +1,7 @@
 package com.barneyb.aoc2018.day18;
 
-import com.barneyb.aoc2018.util.Bag;
 import com.barneyb.aoc2018.util.FileUtils;
+import com.barneyb.jpixelclient.Raster;
 import com.barneyb.jpixelclient.raw.Frame;
 import com.barneyb.jpixelclient.raw.*;
 
@@ -11,7 +11,7 @@ public class Viz18 {
 
     static final Color C_OPEN = new Color(193, 205, 32, 163);
     static final Color C_TREES = new Color(64, 140, 44);
-    static final Color C_LUMBERYARD = new Color(150, 157, 174);
+    static final Color C_LUMBERYARD = new Color(173, 182, 201);
 
     private final Scene scene;
     private final int width;
@@ -37,27 +37,16 @@ public class Viz18 {
     }
 
     private Frame toFrame(Map m) {
-        Bag<Region> lumberyards = new Bag<>();
-        Bag<Region> trees = new Bag<>();
+        Raster r = new Raster();
         for (int x = 0; x < width; x++) {
             for (int y = 0; y < height; y++) {
                 char c = m.curr(x, y);
                 if (c == Map.OPEN) continue;
-                Region r = Region.rect(x * pitch, y * pitch, pitch, pitch);
-                if (c == Map.LUMBERYARD) lumberyards.add(r);
-                else if (c == Map.TREES) trees.add(r);
+                if (c == Map.LUMBERYARD) r.dot(x, y, C_LUMBERYARD);
+                else if (c == Map.TREES) r.dot(x, y, C_TREES);
             }
         }
-        Frame f = new Frame();
-        f.addCommand(Command.color(C_LUMBERYARD));
-        for (Region r : lumberyards) {
-            f.addRegion(r);
-        }
-        f.addCommand(Command.color(C_TREES));
-        for (Region r : trees) {
-            f.addRegion(r);
-        }
-        return f;
+        return r.asFrame(pitch);
     }
 
     public static void main(String[] args) {

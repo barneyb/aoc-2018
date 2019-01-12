@@ -40,5 +40,6 @@
         <module>day00</module>
         <module>runner</module>
         <module>isa</module>
+        <module>viz</module>
     </modules>
 </project>
