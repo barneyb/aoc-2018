@@ -115,13 +115,6 @@ public class Day15 extends OneShotDay {
         return new Result(s.rounds(), m.survivors(), m.casualties());
     }
 
-    // part one
-    // 203931 is too high!
-    // 198855 is too high!
-    // part two
-    // 93666 is too high
-    // 95546 is too high
-
     public static void main(String[] args)  {
         Day15 d = new Day15();
         String input = FileUtils.readFile("day15/input.txt");
