@@ -9,7 +9,7 @@ import java.awt.*;
 
 public class Viz18 {
 
-    static final Color C_OPEN = Color.LIGHT_GRAY;
+    static final Color C_OPEN = new Color(216, 216, 216);
     static final Color C_TREES = Color.GREEN;
     static final Color C_LUMBERYARD = Color.GRAY;
 
@@ -23,7 +23,7 @@ public class Viz18 {
         height = map.height();
         pitch = 1000 / Math.max(width, height);
         scene = new Scene(new Frame(
-                color(C_OPEN),
+                Command.color(C_OPEN),
                 Region.rect(0, 0, pitch * width, pitch * height)));
         scene.addFrame(toFrame(map));
         for (int i = 0; i < 300; i++) {
@@ -49,20 +49,15 @@ public class Viz18 {
             }
         }
         Frame f = new Frame();
-        f.addElement(new Element(color(C_LUMBERYARD)));
+        f.addCommand(Command.color(C_LUMBERYARD));
         for (Region r : lumberyards) {
             f.addRegion(r);
         }
-        f.addElement(new Element(color(C_TREES)));
+        f.addCommand(Command.color(C_TREES));
         for (Region r : trees) {
             f.addRegion(r);
         }
         return f;
-    }
-
-    private Command color(Color color) {
-        float[] comp = color.getColorComponents(null);
-        return Command.color(comp[0], comp[1], comp[2]);
     }
 
     public static void main(String[] args) {
