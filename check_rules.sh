@@ -11,7 +11,7 @@ cd `dirname $0`
 # `java.lang` package. `java.util.Comparator` is also allowed as the peer of
 # the `java.lang.Comparable` interface.
 #
-# Swing and AWT are allowed in VizNN classes.
+# The `viz` module an `VizNN` types are exempted from all checks.
 find . -name "*.java" \
     | grep -v '/test/' \
     | xargs grep 'import' \
@@ -20,7 +20,8 @@ find . -name "*.java" \
     | egrep -v 'java\.util\.Iterator' \
     | egrep -v 'java\.util\.Comparator' \
     | egrep -v 'java\.util\.function.*' \
-    | egrep -v '/Viz[0-9]+\.java.*(java.awt|javax.swing).*;' \
+    | egrep -v '/viz/.*\.java:' \
+    | egrep -v '/Viz[0-9]+\.java:' \
     > ${TEMP_FILE} \
     || true # `grep` exits non-zero if nothing is found
 
