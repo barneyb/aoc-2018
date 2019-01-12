@@ -6,6 +6,8 @@ import com.barneyb.jpixelclient.raw.Frame;
 import com.barneyb.jpixelclient.raw.*;
 
 import java.awt.*;
+import java.util.Collection;
+import java.util.LinkedList;
 
 public class Viz18 {
 
@@ -37,15 +39,19 @@ public class Viz18 {
     }
 
     private Frame toFrame(Map m) {
-        Raster r = new Raster();
+        Collection<Point> yards = new LinkedList<>();
+        Collection<Point> trees = new LinkedList<>();
         for (int x = 0; x < width; x++) {
             for (int y = 0; y < height; y++) {
                 char c = m.curr(x, y);
                 if (c == Map.OPEN) continue;
-                if (c == Map.LUMBERYARD) r.dot(x, y, C_LUMBERYARD);
-                else if (c == Map.TREES) r.dot(x, y, C_TREES);
+                if (c == Map.LUMBERYARD) yards.add(new Point(x, y));
+                else if (c == Map.TREES) trees.add(new Point(x, y));
             }
         }
+        Raster r = new Raster();
+        for (Point p : yards) r.dot(p, C_LUMBERYARD);
+        for (Point p : trees) r.dot(p, C_TREES);
         return r.asFrame(pitch);
     }
 
