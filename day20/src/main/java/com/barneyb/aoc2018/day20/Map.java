@@ -125,6 +125,10 @@ class Map {
         return doors;
     }
 
+    Iterable<Point> rooms() {
+        return distances.keys();
+    }
+
     private Dir dir(char c) {
         switch (c) {
             case 'N': return UP;
